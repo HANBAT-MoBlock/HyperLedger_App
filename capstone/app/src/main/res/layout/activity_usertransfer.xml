@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/sender"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="sender"/>
+        <EditText
+            android:id="@+id/receiver"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="receiver"/>
+        <EditText
+            android:id="@+id/coin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="coin"/>
+        <EditText
+            android:id="@+id/amount"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="amount"/>
+
+        <EditText
+            android:id="@+id/result"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="결과"/>
+
+        <Button
+            android:id="@+id/confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="전송"/>
+
+    </LinearLayout>
+
+</LinearLayout>

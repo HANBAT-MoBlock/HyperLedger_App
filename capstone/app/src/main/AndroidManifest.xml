@@ -21,7 +21,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UserGetAsset.userGetAssetActivity" />
+
+        <activity android:name=".UserService.userGetAssetActivity" />
+        <activity android:name=".UserService.userCreateActivity"/>
+        <activity android:name=".UserService.userTradeActivity"/>
+        <activity android:name=".UserService.userTransferActivity"/>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET"/>

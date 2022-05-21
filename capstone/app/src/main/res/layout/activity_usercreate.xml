@@ -10,6 +10,23 @@
         android:orientation="vertical">
 
         <EditText
+            android:id="@+id/studentId"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="studentId"/>
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="password"/>
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="name"/>
+
+        <TextView
             android:id="@+id/result"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -19,7 +36,7 @@
             android:id="@+id/confirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="조회"/>
+            android:text="생성"/>
 
     </LinearLayout>
 

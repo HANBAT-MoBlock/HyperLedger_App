@@ -1,4 +1,4 @@
-package com.capstone.capstone.UserGetAsset;
+package com.capstone.capstone.UserService;
 
 import static android.content.ContentValues.TAG;
 
@@ -11,7 +11,8 @@ import android.widget.EditText;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.capstone.capstone.API.UserGetAssetApi;
+import com.capstone.capstone.API.UserApi;
+import com.capstone.capstone.DTO.UserCreateDTO;
 import com.capstone.capstone.DTO.UserGetAssetDTO;
 import com.capstone.capstone.R;
 
@@ -20,49 +21,46 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.Header;
 
+public class userCreateActivity extends AppCompatActivity {
 
-public class userGetAssetActivity extends AppCompatActivity {
-
-    EditText studentId, resultText;
+    EditText studentId, password, name, resultText;
     Button confirm;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_usergetasset);
-        setTitle("유저 조회");
+        setContentView(R.layout.activity_usercreate);
 
         studentId = (EditText) findViewById(R.id.studentId);
-        resultText = (EditText) findViewById(R.id.result);
-        confirm = (Button) findViewById(R.id.confirm);
+        password = (EditText) findViewById(R.id.password);
+        name = (EditText) findViewById(R.id.name);
 
-        confirm.setOnClickListener(new View.OnClickListener() {
+        studentId.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getAssetService();
+                createUser(studentId.getText().toString(), password.getText().toString(), name.getText().toString());
             }
         });
+
     }
 
-    public void getAssetService(){
+    public void createUser(String studentId, String password, String name){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://192.168.123.110:8080/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        UserGetAssetApi service = retrofit.create(UserGetAssetApi.class);
+        UserApi service = retrofit.create(UserApi.class);
 
-        String Au = getString(R.string.au);
+        Call<UserCreateDTO> call = service.join(studentId, password, name);
 
-        Call<UserGetAssetDTO> call = service.getAsset(Au);
-
-        call.enqueue(new Callback<UserGetAssetDTO>() {
+        call.enqueue(new Callback<UserCreateDTO>() {
             @Override
-            public void onResponse(Call<UserGetAssetDTO> call, Response<UserGetAssetDTO> response) {
+            public void onResponse(Call<UserCreateDTO> call, Response<UserCreateDTO> response) {
                 if(response.isSuccessful()){
-                    UserGetAssetDTO result = response.body();
+                    UserCreateDTO result = response.body();
                     resultText.setText(result.toString());
                     Log.d(TAG, "onResponse: 성공, 결과 \n" + result.toString());
                 }else{
@@ -71,10 +69,9 @@ public class userGetAssetActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<UserGetAssetDTO> call, Throwable t) {
+            public void onFailure(Call<UserCreateDTO> call, Throwable t) {
                 Log.d(TAG,"onFailure" + t.getMessage());
             }
         });
     }
-
 }
