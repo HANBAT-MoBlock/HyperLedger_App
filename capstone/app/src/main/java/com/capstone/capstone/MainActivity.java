@@ -8,7 +8,7 @@ import android.widget.Button;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.capstone.capstone.UserGetAsset.userGetAsset;
+import com.capstone.capstone.UserGetAsset.userGetAssetActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         btnUserGetAsset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, userGetAsset.class);
+                Intent intent = new Intent(MainActivity.this, userGetAssetActivity.class);
                 startActivity(intent);
             }
         });
