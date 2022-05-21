@@ -26,7 +26,7 @@ public class userGetAssetActivity extends AppCompatActivity {
 
     EditText resultText;
     Button confirm;
-    String Au = "Bearer eyJ0eXAiOiJBQ0NFU1NfVE9LRU4iLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2IiwiaWF0IjoxNjUzMTM0ODg4LCJleHAiOjE2NTMxMzg0ODgsInJvbGUiOiJST0xFX1VTRVIifQ.cdbxiRRo0l3gItz8jYm6E_6_-1vQ-YS0wwc2olPviV4";
+    String Au = getString(R.string.au);
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">capstone</string>
-    <string name="au">Bearer eyJ0eXAiOiJBQ0NFU1NfVE9LRU4iLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1IiwiaWF0IjoxNjUzMTMxMDYyLCJleHAiOjE2NTMxMzQ2NjIsInJvbGUiOiJST0xFX1VTRVIifQ.ZUzqUXOfVkukkFfsXMKbi4iSTWZXjvs8KdQhAVBm3B4</string>
+    <string name="au">Bearer eyJ0eXAiOiJBQ0NFU1NfVE9LRU4iLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2IiwiaWF0IjoxNjUzMTM0ODg4LCJleHAiOjE2NTMxMzg0ODgsInJvbGUiOiJST0xFX1VTRVIifQ.cdbxiRRo0l3gItz8jYm6E_6_-1vQ-YS0wwc2olPviV4</string>
 </resources>
