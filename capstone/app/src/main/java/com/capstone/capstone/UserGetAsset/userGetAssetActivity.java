@@ -20,6 +20,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Header;
 
 
 public class userGetAssetActivity extends AppCompatActivity {
@@ -47,13 +48,15 @@ public class userGetAssetActivity extends AppCompatActivity {
 
     public void getAssetService(){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.123.110/user")
+                .baseUrl("http://192.168.123.110:8080/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         UserGetAssetApi service = retrofit.create(UserGetAssetApi.class);
 
-        Call<UserGetAssetDTO> call = service.getAsset("Bearer eyJ0eXAiOiJBQ0NFU1NfVE9LRU4iLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiaWF0IjoxNjUzMTI0NTAyLCJleHAiOjE2NTMxMjgxMDIsInJvbGUiOiJST0xFX1VTRVIifQ.7Sl5SU6191U1ZR-toqg-vUCykRwtpOcu6wxjCMN-dDA");
+        String Au = getString(R.string.au);
+
+        Call<UserGetAssetDTO> call = service.getAsset(Au);
 
         call.enqueue(new Callback<UserGetAssetDTO>() {
             @Override
