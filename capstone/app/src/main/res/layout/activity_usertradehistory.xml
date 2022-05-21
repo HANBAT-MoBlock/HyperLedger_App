@@ -10,13 +10,13 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/result"
+            android:id="@+id/userTradeResult"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="결과"/>
 
         <Button
-            android:id="@+id/confirm"
+            android:id="@+id/userTradeConfirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="조회"/>

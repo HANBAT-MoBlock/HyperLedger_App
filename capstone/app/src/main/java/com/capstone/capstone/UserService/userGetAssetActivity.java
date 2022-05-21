@@ -24,9 +24,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class userGetAssetActivity extends AppCompatActivity {
 
-    EditText auField, resultText;
+    EditText resultText;
     Button confirm;
-    String Au = getString(R.string.au);
+    String Au = "Bearer eyJ0eXAiOiJBQ0NFU1NfVE9LRU4iLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2IiwiaWF0IjoxNjUzMTM0ODg4LCJleHAiOjE2NTMxMzg0ODgsInJvbGUiOiJST0xFX1VTRVIifQ.cdbxiRRo0l3gItz8jYm6E_6_-1vQ-YS0wwc2olPviV4";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,11 +34,8 @@ public class userGetAssetActivity extends AppCompatActivity {
         setContentView(R.layout.activity_usergetasset);
         setTitle("유저 조회");
 
-        auField = (EditText) findViewById(R.id.studentId);
-        resultText = (EditText) findViewById(R.id.result);
-        confirm = (Button) findViewById(R.id.confirm);
-
-        auField.setText(Au);
+        resultText = (EditText) findViewById(R.id.userGetAssetResult);
+        confirm = (Button) findViewById(R.id.userGetAssetConfirm);
 
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override

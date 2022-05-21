@@ -10,13 +10,13 @@
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/result"
+            android:id="@+id/userGetAssetResult"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="결과"/>
 
         <Button
-            android:id="@+id/confirm"
+            android:id="@+id/userGetAssetConfirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="조회"/>
