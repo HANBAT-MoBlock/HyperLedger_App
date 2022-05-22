@@ -7,8 +7,12 @@ package com.capstone.capstone.DTO;
     .ZUzqUXOfVkukkFfsXMKbi4iSTWZXjvs8KdQhAVBm3B4
 }
  */
-public class UserCreateDTO {
+public class UserLoginDTO {
     private String accessToken;
+
+    public String getAccessToken() {
+        return accessToken;
+    }
 
     @Override
     public String toString() {

@@ -10,7 +10,10 @@
         <entry key="..\:/Users/CYC/Documents/github/HyperledgerFabic-app/capstone/app/src/main/res/layout/activity_usertransfer.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/CYC/Documents/github/android/capstone/app/src/main/res/layout/activity_main.xml" value="0.16590678824721378" />
         <entry key="..\:/Users/CYC/Documents/github/android/capstone/app/src/main/res/layout/activity_usergetasset.xml" value="0.36614583333333334" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.2635416666666667" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.2635416666666667" />
         <entry key="app/src/main/res/layout/activity_usergetasset.xml" value="0.3269927536231884" />
+        <entry key="app/src/main/res/layout/activity_usertransfer.xml" value="0.2635416666666667" />
         <entry key="app/src/main/res/xml/network_security_config.xml" value="0.17083333333333334" />
       </map>
     </option>

@@ -10,12 +10,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.capstone.capstone.UserService.userCreateActivity;
 import com.capstone.capstone.UserService.userGetAssetActivity;
+import com.capstone.capstone.UserService.userLoginActivity;
+import com.capstone.capstone.UserService.userQrActivity;
 import com.capstone.capstone.UserService.userTradeActivity;
 import com.capstone.capstone.UserService.userTransferActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btnUserGetAsset, btnUserCreate, btnUserTradeHistory, btnUserTransfer;
+    Button btnUserGetAsset, btnUserCreate, btnUserTradeHistory, btnUserTransfer, btnUserLogin, btnUserQr;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -27,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
         btnUserCreate = (Button) findViewById(R.id.btnUserCreate);
         btnUserTransfer = (Button) findViewById(R.id.btnUserTransfer);
         btnUserTradeHistory = (Button) findViewById(R.id.btnUserTradeHistory);
+        btnUserLogin = (Button) findViewById(R.id.btnUserLogin);
+        btnUserQr = (Button) findViewById(R.id.btnQR);
 
         btnUserGetAsset.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +60,22 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, userTradeActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnUserLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, userLoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnUserQr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, userQrActivity.class);
                 startActivity(intent);
             }
         });
