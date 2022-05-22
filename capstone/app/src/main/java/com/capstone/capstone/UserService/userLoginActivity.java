@@ -44,17 +44,13 @@ public class userLoginActivity extends AppCompatActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserLoginRequestDTO userLoginRequestDTO = new UserLoginRequestDTO(
-                        Long.parseLong(loginId.getText().toString()),
-                        loginPassword.getText().toString()
-                );
-                userLoginService(userLoginRequestDTO);
+                userLoginService(Long.parseLong(loginId.getText().toString()), loginPassword.getText().toString());
             }
         });
 
     }
 
-    public void userLoginService(UserLoginRequestDTO userLoginRequestDTO){
+    public void userLoginService(Long studentId, String password){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.localhost))
                 .addConverterFactory(GsonConverterFactory.create())
@@ -62,7 +58,9 @@ public class userLoginActivity extends AppCompatActivity {
 
         UserApi service = retrofit.create(UserApi.class);
 
-        Call<UserLoginDTO> call = service.login(userLoginRequestDTO);
+
+        Call<UserLoginDTO> call = service.login(studentId, password);
+        System.out.println("password = " + password);
 
         call.enqueue(new Callback<UserLoginDTO>() {
             @Override

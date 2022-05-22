@@ -10,6 +10,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface UserApi {
 
@@ -20,5 +21,8 @@ public interface UserApi {
     Call<UserLoginDTO> join(@Body UserCreateBodyDTO userCreateBodyDTO);
 
     @GET("/login")
-    Call<UserLoginDTO> login(@Body UserLoginRequestDTO userLoginRequestDTO);
+    Call<UserLoginDTO> login(
+            @Query("studentId") Long studentId,
+            @Query("password") String Password
+    );
 }

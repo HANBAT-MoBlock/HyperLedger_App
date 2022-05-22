@@ -26,6 +26,8 @@
         <activity android:name=".UserService.userCreateActivity"/>
         <activity android:name=".UserService.userTradeActivity"/>
         <activity android:name=".UserService.userTransferActivity"/>
+        <activity android:name=".UserService.userLoginActivity"/>
+        <activity android:name=".UserService.userQrActivity"/>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET"/>
