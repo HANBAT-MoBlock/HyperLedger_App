@@ -10,7 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Capstone"
         android:usesCleartextTraffic="true"
-        android:networkSecurityConfig="@xml/network_security_config">
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:hardwareAccelerated="true">
 
         <activity android:name=".MainActivity"
             android:exported="true"
@@ -27,7 +28,7 @@
         <activity android:name=".UserService.userTradeActivity"/>
         <activity android:name=".UserService.userTransferActivity"/>
         <activity android:name=".UserService.userLoginActivity"/>
-        <activity android:name=".UserService.userQrActivity"/>
+        <activity android:name=".UserService.userQrCreateActivity"/>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET"/>

@@ -31,11 +31,25 @@
             android:layout_height="match_parent"
             android:hint="결과"/>
 
-        <Button
-            android:id="@+id/userTransferConfirm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="전송"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/userTransferReadQr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="QR 코드 읽기"/>
+
+
+            <Button
+                android:id="@+id/userTransferConfirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="200dp"
+                android:text="전송" />
+        </LinearLayout>
+
 
     </LinearLayout>
 

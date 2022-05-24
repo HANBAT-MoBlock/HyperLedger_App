@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.capstone.capstone.UserService.userCreateActivity;
 import com.capstone.capstone.UserService.userGetAssetActivity;
 import com.capstone.capstone.UserService.userLoginActivity;
-import com.capstone.capstone.UserService.userQrActivity;
+import com.capstone.capstone.UserService.userQrCreateActivity;
 import com.capstone.capstone.UserService.userTradeActivity;
 import com.capstone.capstone.UserService.userTransferActivity;
 
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         btnUserQr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, userQrActivity.class);
+                Intent intent = new Intent(MainActivity.this, userQrCreateActivity.class);
                 startActivity(intent);
             }
         });

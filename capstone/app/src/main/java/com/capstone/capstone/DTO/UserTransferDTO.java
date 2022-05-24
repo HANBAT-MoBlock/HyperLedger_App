@@ -3,6 +3,7 @@ package com.capstone.capstone.DTO;
 import java.time.LocalDateTime;
 
 public class UserTransferDTO {
+    
     private Long senderStudentId;
 
     private Long receiverStudentIdOrPhoneNumber;

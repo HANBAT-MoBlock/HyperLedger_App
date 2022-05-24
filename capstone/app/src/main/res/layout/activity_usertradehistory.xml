@@ -9,6 +9,12 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <EditText
+            android:id="@+id/userTradePage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="페이지" />
+
         <TextView
             android:id="@+id/userTradeResult"
             android:layout_width="match_parent"
