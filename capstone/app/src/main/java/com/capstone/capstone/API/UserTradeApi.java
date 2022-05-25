@@ -18,7 +18,7 @@ public interface UserTradeApi {
     @POST("/trade")
     Call<UserTransferDTO> transfer(
             @Header("Authorization") String Authorization,
-            @Query("page") UserTransferRequestDTO userTransferRequestDTO
+            @Body UserTransferRequestDTO userTransferRequestDTO
     );
 
     @GET("/trade")
