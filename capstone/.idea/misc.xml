@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../../../layout/custom_preview.xml" value="0.11991254624957955" />
         <entry key="..\:/Users/CYC/Documents/github/HyperledgerFabic-app/capstone/app/src/main/res/layout/activity_main.xml" value="0.22447916666666667" />
         <entry key="..\:/Users/CYC/Documents/github/HyperledgerFabic-app/capstone/app/src/main/res/layout/activity_usercreate.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/CYC/Documents/github/HyperledgerFabic-app/capstone/app/src/main/res/layout/activity_usergetasset.xml" value="0.36614583333333334" />
@@ -10,13 +11,18 @@
         <entry key="..\:/Users/CYC/Documents/github/HyperledgerFabic-app/capstone/app/src/main/res/layout/activity_usertransfer.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/CYC/Documents/github/android/capstone/app/src/main/res/layout/activity_main.xml" value="0.16590678824721378" />
         <entry key="..\:/Users/CYC/Documents/github/android/capstone/app/src/main/res/layout/activity_usergetasset.xml" value="0.36614583333333334" />
+        <entry key="app/src/main/res/drawable/shape.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.2635416666666667" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2635416666666667" />
         <entry key="app/src/main/res/layout/activity_mainlogin.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_mainsign.xml" value="0.17083333333333334" />
         <entry key="app/src/main/res/layout/activity_usercreate.xml" value="0.1640625" />
         <entry key="app/src/main/res/layout/activity_usergetasset.xml" value="0.3269927536231884" />
+        <entry key="app/src/main/res/layout/activity_usertradehistory.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_usertransfer.xml" value="0.2635416666666667" />
+        <entry key="app/src/main/res/layout/border.xml" value="0.3342391304347826" />
+        <entry key="app/src/main/res/layout/item_loading.xml" value="0.1661600810536981" />
+        <entry key="app/src/main/res/layout/recycler_view_tradehistory.xml" value="0.25" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1995" />
         <entry key="app/src/main/res/xml/network_security_config.xml" value="0.17083333333333334" />
       </map>

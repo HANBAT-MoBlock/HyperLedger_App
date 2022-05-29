@@ -4,9 +4,9 @@ import java.time.LocalDateTime;
 
 public class UserTradeResponseDTO {
 
-    private Long sender;
+    private Long senderStudentId;
 
-    private Long receiver;
+    private Long receiverStudentIdOrPhoneNumber;
 
     private String coinName;
 
@@ -17,11 +17,31 @@ public class UserTradeResponseDTO {
     @Override
     public String toString() {
         return "UserTradeResponseDTO{" +
-                "sender=" + sender +
-                ", receiver=" + receiver +
+                "sender=" + senderStudentId +
+                ", receiver=" + receiverStudentIdOrPhoneNumber +
                 ", coinName='" + coinName + '\'' +
                 ", amount=" + amount +
                 ", dateCreated='" + dateCreated + '\'' +
                 '}';
+    }
+
+    public Long getSender() {
+        return senderStudentId;
+    }
+
+    public Long getReceiver() {
+        return receiverStudentIdOrPhoneNumber;
+    }
+
+    public String getCoinName() {
+        return coinName;
+    }
+
+    public Long getAmount() {
+        return amount;
+    }
+
+    public String getDateCreated() {
+        return dateCreated;
     }
 }

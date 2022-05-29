@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">capstone</string>
-    <string name="localhost">http://10.0.2.2:8080/</string>
+    <string name="localhost">http://3.39.152.103:8080/</string>
 </resources>

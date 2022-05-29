@@ -15,11 +15,14 @@
             android:layout_height="wrap_content"
             android:hint="페이지" />
 
-        <TextView
-            android:id="@+id/userTradeResult"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/TradeRecycler"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="결과"/>
+            android:layout_height="500dp"
+            android:orientation="vertical">
+
+
+        </androidx.recyclerview.widget.RecyclerView>
 
         <Button
             android:id="@+id/userTradeConfirm"
