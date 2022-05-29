@@ -20,19 +20,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.051" />
 
-    <Button
-        android:id="@+id/btnUserCreate"
-        android:layout_width="125dp"
-        android:layout_height="125dp"
-        android:backgroundTint="@color/white"
-        android:text="회원가입"
-        android:background="@color/black"
-        android:textColor="@color/black"
-        android:textSize="17dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnUserTransfer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/btnUserGetAsset"
-        app:layout_constraintTop_toBottomOf="@id/Logo" />
 
     <Button
         android:id="@+id/btnUserGetAsset"
@@ -44,7 +31,7 @@
         android:textColor="@color/black"
         android:textSize="17dp"
         app:layout_constraintBottom_toTopOf="@+id/btnUserTradeHistory"
-        app:layout_constraintEnd_toStartOf="@+id/btnUserCreate"
+        app:layout_constraintEnd_toStartOf="@+id/btnUserTransfer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/Logo" />
 
@@ -52,15 +39,15 @@
         android:id="@+id/btnUserTransfer"
         android:layout_width="125dp"
         android:layout_height="125dp"
-        android:text="코인 전송"
-        android:textSize="17dp"
         android:background="@color/black"
         android:backgroundTint="@color/white"
+        android:text="코인 전송"
         android:textColor="@color/black"
+        android:textSize="17dp"
         app:layout_constraintBottom_toTopOf="@+id/btnQR"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/btnUserTradeHistory"
-        app:layout_constraintTop_toBottomOf="@id/btnUserCreate" />
+        app:layout_constraintStart_toEndOf="@id/btnUserGetAsset"
+        app:layout_constraintTop_toBottomOf="@+id/Logo" />
 
     <Button
         android:id="@+id/btnUserTradeHistory"
@@ -71,24 +58,11 @@
         android:text="최근 기록"
         android:textColor="@color/black"
         android:textSize="17dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnUserLogin"
-        app:layout_constraintEnd_toStartOf="@+id/btnUserTransfer"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnUserGetAsset" />
-
-    <Button
-        android:id="@+id/btnUserLogin"
-        android:layout_width="125dp"
-        android:layout_height="125dp"
-        android:background="@color/black"
-        android:backgroundTint="@color/white"
-        android:text="로그인"
-        android:textColor="@color/black"
-        android:textSize="17dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnQR"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnUserTradeHistory"/>
+        app:layout_constraintTop_toBottomOf="@id/btnUserGetAsset" />
+
 
     <Button
         android:id="@+id/btnQR"
@@ -101,7 +75,8 @@
         android:textSize="17dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnUserLogin"
-        app:layout_constraintTop_toBottomOf="@+id/btnUserTransfer"/>
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/btnUserTradeHistory"
+        app:layout_constraintTop_toBottomOf="@+id/btnUserTransfer" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

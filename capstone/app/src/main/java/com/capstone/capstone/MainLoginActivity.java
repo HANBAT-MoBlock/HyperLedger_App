@@ -1,13 +1,14 @@
-package com.capstone.capstone.UserService;
+package com.capstone.capstone;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,8 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.capstone.capstone.API.UserApi;
 import com.capstone.capstone.DTO.JwtToken;
 import com.capstone.capstone.DTO.UserLoginDTO;
-import com.capstone.capstone.DTO.UserLoginRequestDTO;
-import com.capstone.capstone.R;
+import com.capstone.capstone.UserService.userCreateActivity;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -24,30 +24,43 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class userLoginActivity extends AppCompatActivity {
+public class MainLoginActivity extends AppCompatActivity {
 
-    EditText loginId, loginPassword;
-    TextView resultText;
-    Button confirm;
+    EditText id, password;
+    Button signIn, signUp;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        setTitle("Login");
+        setContentView(R.layout.activity_mainsign);
 
-        loginId = (EditText) findViewById(R.id.userLoginId);
-        loginPassword = (EditText) findViewById(R.id.userLoginPassword);
-        resultText = (TextView) findViewById(R.id.userLoginResult);
-        confirm = (Button) findViewById(R.id.userLoginConfirm);
+        id = (EditText) findViewById(R.id.signId);
+        password = (EditText) findViewById(R.id.signPassword);
+        signIn = (Button) findViewById(R.id.signIn);
+        signUp = (Button) findViewById(R.id.signUp);
 
-        confirm.setOnClickListener(new View.OnClickListener() {
+        signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userLoginService(Long.parseLong(loginId.getText().toString()), loginPassword.getText().toString());
+                    userLoginService(Long.parseLong(id.getText().toString()), password.getText().toString());
+                if(JwtToken.getJwt() != null){
+                    Toast.makeText(getApplicationContext(), "로그인에 성공했습니다.", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(MainLoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(getApplicationContext(), "로그인에 실패했습니다.", Toast.LENGTH_LONG).show();
+                }
+
             }
         });
 
+        signUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainLoginActivity.this, userCreateActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     public void userLoginService(Long studentId, String password){
@@ -58,7 +71,6 @@ public class userLoginActivity extends AppCompatActivity {
 
         UserApi service = retrofit.create(UserApi.class);
 
-
         Call<UserLoginDTO> call = service.login(studentId, password);
         System.out.println("password = " + password);
 
@@ -67,7 +79,6 @@ public class userLoginActivity extends AppCompatActivity {
             public void onResponse(Call<UserLoginDTO> call, Response<UserLoginDTO> response) {
                 if(response.isSuccessful()){
                     UserLoginDTO result = response.body();
-                    resultText.setText(result.toString());
                     JwtToken.setToken(result.getAccessToken());
                     Log.d(TAG, "onResponse: 성공, 결과 \n" + result.toString());
                 }else{
