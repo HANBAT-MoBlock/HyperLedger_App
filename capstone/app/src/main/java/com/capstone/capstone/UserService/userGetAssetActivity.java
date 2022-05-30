@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,7 +27,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class userGetAssetActivity extends AppCompatActivity {
 
-    EditText resultText;
+    TextView resultText;
     Button confirm;
 
     @Override
@@ -34,7 +36,7 @@ public class userGetAssetActivity extends AppCompatActivity {
         setContentView(R.layout.activity_usergetasset);
         setTitle("유저 조회");
 
-        resultText = (EditText) findViewById(R.id.userGetAssetResult);
+        resultText = (TextView) findViewById(R.id.userGetAssetResult);
         confirm = (Button) findViewById(R.id.userGetAssetConfirm);
 
         confirm.setOnClickListener(new View.OnClickListener() {
@@ -56,12 +58,17 @@ public class userGetAssetActivity extends AppCompatActivity {
         System.out.println("jwtToken = " + JwtToken.getJwt());
         Call<UserGetAssetDTO> call = service.getAsset(JwtToken.getJwt());
 
+        Toast toast = Toast.makeText(getApplicationContext(), "자산 정보를 불러오는 중...", Toast.LENGTH_LONG);
+        toast.show();
+
         call.enqueue(new Callback<UserGetAssetDTO>() {
             @Override
             public void onResponse(Call<UserGetAssetDTO> call, Response<UserGetAssetDTO> response) {
                 if(response.isSuccessful()){
                     UserGetAssetDTO result = response.body();
                     resultText.setText(result.toString());
+                    toast.cancel();
+                    Toast.makeText(getApplicationContext(), "완료", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "onResponse: 성공, 결과 \n" + result.toString());
                 }else{
                     Log.d(TAG, "onResponse: 실패");

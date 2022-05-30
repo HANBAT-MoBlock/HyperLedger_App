@@ -9,11 +9,13 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <EditText
+        <TextView
             android:id="@+id/userGetAssetResult"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="결과"/>
+            android:text="결과"
+            android:textColor="@color/black"
+            android:textSize="20dp"/>
 
         <Button
             android:id="@+id/userGetAssetConfirm"

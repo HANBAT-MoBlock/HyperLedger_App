@@ -9,11 +9,12 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/userTradePage"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="페이지" />
+            android:text="전체 전송 기록"
+            android:textColor="@color/black"
+            android:textSize="20dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/TradeRecycler"
@@ -23,12 +24,6 @@
 
 
         </androidx.recyclerview.widget.RecyclerView>
-
-        <Button
-            android:id="@+id/userTradeConfirm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="조회"/>
 
     </LinearLayout>
 

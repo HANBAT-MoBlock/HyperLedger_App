@@ -44,42 +44,22 @@ public class userTradeActivity extends AppCompatActivity {
     private int page = 1;
     boolean isLoading = false;
 
-    ArrayList<String> allList = new ArrayList<>();
-    ArrayList<String> list = new ArrayList<>();
-
     ArrayList<PaintTitle> myDataset = new ArrayList<>();
 
-    Button confirm;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_usertradehistory);
 
-        confirm = (Button) findViewById(R.id.userTradeConfirm);
-
         mRecyclerView = (RecyclerView) findViewById(R.id.TradeRecycler);
-
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        //populateData();
-        Toast.makeText(getApplicationContext(), "불러오는중...", Toast.LENGTH_LONG).show();
-        //initAdapter();
+        populateData();
+        initAdapter();
         initScrollListener();
-
-
-        confirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getUserTradeHistory(page);
-            }
-        });
-
     }
 
     private void populateData() {
         getUserTradeHistory(page);
-        page++;
     }
 
     private void initAdapter() {
@@ -116,21 +96,14 @@ public class userTradeActivity extends AppCompatActivity {
         myDataset.add(null);
         mAdapter.notifyItemInserted(myDataset.size() - 1);
 
+        System.out.println("myDataset.size()1 = " + (myDataset.size() - 1));
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                System.out.println("page = " + page);
-                myDataset.remove(myDataset.size() - 1);
-                System.out.println("myDataset.size() = " + myDataset.size());
-                int scrollPosition = myDataset.size();
-                mAdapter.notifyItemRemoved(scrollPosition);
-                int currentSize = scrollPosition;
-                System.out.println("scrollPosition = " + scrollPosition);
-                int nextLimit = currentSize + 20;
-                System.out.println("nextLimit = " + nextLimit);
+                System.out.println("myDataset.size()2 = " + (myDataset.size() - 1));
+
                 getUserTradeHistory(page);
-                mAdapter.notifyDataSetChanged();
                 isLoading = false;
             }
         }, 2000);
@@ -146,11 +119,18 @@ public class userTradeActivity extends AppCompatActivity {
 
         System.out.println("jwtToken = " + JwtToken.getJwt());
         Call<List<UserTradeResponseDTO>> call = service.trade(JwtToken.getJwt(), pageInit);
+        Toast loadingToast = Toast.makeText(getApplicationContext(), "기록을 불러오는 중...", Toast.LENGTH_SHORT);
+        loadingToast.show();
 
         call.enqueue(new Callback<List<UserTradeResponseDTO>>() {
             @Override
             public void onResponse(Call<List<UserTradeResponseDTO>> call, Response<List<UserTradeResponseDTO>> response) {
                 if(response.isSuccessful()){
+                    System.out.println(page + "------");
+                    if(page > 1){
+                        myDataset.remove(myDataset.size() - 1);
+                        mAdapter.notifyItemRemoved(myDataset.size());
+                    }
                     List<UserTradeResponseDTO> result = response.body();
                     for (UserTradeResponseDTO userTradeResponseDTO : result) {
                         myDataset.add(new PaintTitle
@@ -161,11 +141,15 @@ public class userTradeActivity extends AppCompatActivity {
                                 )
                         );
                     }
-                    if(page==1){
-                        mAdapter = new Adapter(myDataset);
-                        mRecyclerView.setAdapter(mAdapter);
-                    }
+                    mAdapter.notifyDataSetChanged();
                     page++;
+                    System.out.println("page: " + page);
+                    loadingToast.cancel();
+                    if(result.toString() == "[]"){
+                        Toast.makeText(getApplicationContext(), "더 이상 기록이 없습니다.", Toast.LENGTH_SHORT).show();
+                    } else{
+                        Toast.makeText(getApplicationContext(), "완료", Toast.LENGTH_SHORT).show();
+                    }
                     Log.d(TAG, "onResponse: 성공, 결과 \n" + result.toString());
                 }else{
                     Log.d(TAG, "onResponse: 실패");

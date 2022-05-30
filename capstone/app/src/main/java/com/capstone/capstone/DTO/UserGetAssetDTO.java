@@ -27,13 +27,12 @@ public class UserGetAssetDTO {
 
     @Override
     public String toString() {
-        return "UserGetAssetDTO{" +
-                "studentId=" + studentId +
-                ", owner='" + owner + '\'' +
-                ", coin=" + coin +
-                ", sender='" + sender + '\'' +
-                ", receiver='" + receiver + '\'' +
-                ", amount=" + amount +
-                '}';
+        return "자산정보 \n" +
+                "학번 = " + studentId + "\n" +
+                "이름 = " + owner + "\n" +
+                "보유 코인 = " + coin + "\n" +
+                "송신자 = " + sender + "\n" +
+                "수신자 = " + receiver + "\n" +
+                "전송양 = " + amount;
     }
 }

@@ -42,15 +42,7 @@ public class MainLoginActivity extends AppCompatActivity {
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    userLoginService(Long.parseLong(id.getText().toString()), password.getText().toString());
-                if(JwtToken.getJwt() != null){
-                    Toast.makeText(getApplicationContext(), "로그인에 성공했습니다.", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(MainLoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                }else{
-                    Toast.makeText(getApplicationContext(), "로그인에 실패했습니다.", Toast.LENGTH_LONG).show();
-                }
-
+                userLoginService(Long.parseLong(id.getText().toString()), password.getText().toString());
             }
         });
 
@@ -80,15 +72,22 @@ public class MainLoginActivity extends AppCompatActivity {
                 if(response.isSuccessful()){
                     UserLoginDTO result = response.body();
                     JwtToken.setToken(result.getAccessToken());
+
+                    Intent intent = new Intent(MainLoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    Toast.makeText(getApplicationContext(), "로그인에 성공했습니다.", Toast.LENGTH_SHORT).show();
+
                     Log.d(TAG, "onResponse: 성공, 결과 \n" + result.toString());
                 }else{
                     Log.d(TAG, "onResponse: 실패");
+                    Toast.makeText(getApplicationContext(), "로그인에 실패했습니다.", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<UserLoginDTO> call, Throwable t) {
                 Log.d(TAG,"onFailure" + t.getMessage());
+                Toast.makeText(getApplicationContext(), "서버와 연결에 실패했습니다.", Toast.LENGTH_SHORT).show();
             }
         });
     }
