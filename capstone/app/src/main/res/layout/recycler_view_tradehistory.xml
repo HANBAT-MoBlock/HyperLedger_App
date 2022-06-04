@@ -4,30 +4,63 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp">
+    android:layout_margin="5dp"
+    android:background="@drawable/shape">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/trade_Time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="15dp"
+            android:layout_margin="5dp"
+            android:text="전송 시각"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/trade_studentId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_margin="5dp"
+            android:textSize="15dp"
+            android:text="학번 "/>
+        <TextView
+            android:id="@+id/trade_studentName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_margin="5dp"
+            android:textSize="15dp"
+            android:text="이름 "/>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/shape">
-        <TextView
-            android:id="@+id/tradeHistorySenderId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="15dp"
-            android:text="Sender"
-            android:singleLine="true"
-            android:layout_margin="5dp" />
-        <TextView
-            android:id="@+id/tradeHistoryReceiverId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15dp"
-            android:text="Receiver"
-            android:textColor="@color/black"
-            android:layout_margin="5dp"/>
+        android:gravity="right"
+        android:orientation="vertical">
         <TextView
             android:id="@+id/tradeHistoryCoinName"
             android:text="CoinName"
@@ -42,13 +75,6 @@
             android:layout_height="wrap_content"
             android:textSize="15dp"
             android:text="Amount"
-            android:textColor="@color/black"
-            android:layout_margin="5dp"/>
-        <TextView
-            android:id="@+id/tradeHistoryTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Time"
             android:textColor="@color/black"
             android:layout_margin="5dp"/>
     </LinearLayout>

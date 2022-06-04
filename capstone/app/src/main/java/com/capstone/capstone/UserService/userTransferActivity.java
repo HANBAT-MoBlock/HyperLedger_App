@@ -95,7 +95,7 @@ public class userTransferActivity extends AppCompatActivity {
             public void onResponse(Call<UserTransferDTO> call, Response<UserTransferDTO> response) {
                 if(response.isSuccessful()){
                     UserTransferDTO result = response.body();
-                    resultText.setText(result.toString());
+                    resultText.setText("전송을 완료했습니다.");
                     Log.d(TAG, "onResponse: 성공, 결과 \n" + result.toString());
                 }else{
                     Log.d(TAG, "onResponse: 실패");

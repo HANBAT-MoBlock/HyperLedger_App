@@ -2,6 +2,7 @@ package com.capstone.capstone.TradeRecycler;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,15 +60,15 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     private class ItemViewHolder extends RecyclerView.ViewHolder {
-        private TextView sender, receiver, coinName, amount, time;
+        private TextView Id, Name, coinName, amount, time;
 
         public  ItemViewHolder(@NonNull View itemView){
             super(itemView);
-            sender = itemView.findViewById(R.id.tradeHistorySenderId);
-            receiver = itemView.findViewById(R.id.tradeHistoryReceiverId);
+            Id = itemView.findViewById(R.id.trade_studentId);
+            Name = itemView.findViewById(R.id.trade_studentName);
             coinName = itemView.findViewById(R.id.tradeHistoryCoinName);
             amount = itemView.findViewById(R.id.tradeHistoryAmount);
-            time = itemView.findViewById(R.id.tradeHistoryTime);
+            time = itemView.findViewById(R.id.trade_Time);
         }
 
     }
@@ -85,10 +86,15 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private void populateItemRows(ItemViewHolder viewHolder, int position){
         PaintTitle item = mDataset.get(position);
-        viewHolder.sender.setText(item.sender);
-        viewHolder.receiver.setText(item.receiver);
+        viewHolder.Id.setText(item.Id);
+        viewHolder.Name.setText(item.Name);
         viewHolder.coinName.setText(item.coinName);
         viewHolder.amount.setText(item.amount);
         viewHolder.time.setText(item.time);
+        if(Integer.parseInt( viewHolder.amount.getText().toString() ) > 0){
+            viewHolder.amount.setTextColor(0xff0000ff);
+        }else{
+            viewHolder.amount.setTextColor(0xffff0000);
+        }
     }
 }

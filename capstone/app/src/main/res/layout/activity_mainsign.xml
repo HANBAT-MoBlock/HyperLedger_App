@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="156dp"
-        android:src="@mipmap/ic_launcher"
+        android:src="@drawable/hanbat_logo"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -20,36 +20,55 @@
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:layout_marginBottom="32dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="80dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:layout_editor_absoluteX="0dp">
 
-        <EditText
-            android:id="@+id/signId"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape"
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/signPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/signId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:hint="ID"
+                android:background="@null"/>
+
+            <EditText
+                android:id="@+id/signPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:hint="PASSWORD"
+                android:background="@null"/>
+        </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <Button
-                android:id="@+id/signIn"
-                android:text="로그인"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
 
             <Button
                 android:id="@+id/signUp"
                 android:text="회원가입"
+                android:layout_marginRight="15dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_shape"/>
+
+            <Button
+                android:id="@+id/signIn"
+                android:text="로그인"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_shape"/>
 
         </LinearLayout>
 

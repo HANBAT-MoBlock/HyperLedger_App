@@ -11,14 +11,14 @@ import com.capstone.capstone.R;
 
 public class ViewHolder extends RecyclerView.ViewHolder {
 
-    TextView sender, receiver, coinName, amount, time;
+    TextView Id, Name, coinName, amount, time;
 
     public  ViewHolder(View itemView){
         super(itemView);
-        sender = (TextView) itemView.findViewById(R.id.tradeHistorySenderId);
-        receiver = (TextView) itemView.findViewById(R.id.tradeHistoryReceiverId);
+        Id = (TextView) itemView.findViewById(R.id.trade_studentId);
+        Name = (TextView) itemView.findViewById(R.id.trade_studentName);
         coinName = (TextView) itemView.findViewById(R.id.tradeHistoryCoinName);
         amount = (TextView) itemView.findViewById(R.id.tradeHistoryAmount);
-        time = (TextView) itemView.findViewById(R.id.tradeHistoryTime);
+        time = (TextView) itemView.findViewById(R.id.trade_Time);
     }
 }

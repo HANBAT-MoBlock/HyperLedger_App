@@ -18,6 +18,8 @@ import com.capstone.capstone.DTO.JwtToken;
 import com.capstone.capstone.DTO.UserGetAssetDTO;
 import com.capstone.capstone.R;
 
+import java.util.HashMap;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,8 +29,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class userGetAssetActivity extends AppCompatActivity {
 
-    TextView resultText;
-    Button confirm;
+    TextView resultText, coinName, amount;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,14 +38,10 @@ public class userGetAssetActivity extends AppCompatActivity {
         setTitle("유저 조회");
 
         resultText = (TextView) findViewById(R.id.userGetAssetResult);
-        confirm = (Button) findViewById(R.id.userGetAssetConfirm);
+        coinName = (TextView) findViewById(R.id.getAsset_coinName);
+        amount = (TextView) findViewById(R.id.getAsset_amount);
 
-        confirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getAssetService();
-            }
-        });
+        getAssetService();
     }
 
     public void getAssetService(){
@@ -58,6 +55,9 @@ public class userGetAssetActivity extends AppCompatActivity {
         System.out.println("jwtToken = " + JwtToken.getJwt());
         Call<UserGetAssetDTO> call = service.getAsset(JwtToken.getJwt());
 
+        StringBuilder coinNameList = new StringBuilder();
+        StringBuilder coinAmountList = new StringBuilder();
+
         Toast toast = Toast.makeText(getApplicationContext(), "자산 정보를 불러오는 중...", Toast.LENGTH_LONG);
         toast.show();
 
@@ -66,7 +66,16 @@ public class userGetAssetActivity extends AppCompatActivity {
             public void onResponse(Call<UserGetAssetDTO> call, Response<UserGetAssetDTO> response) {
                 if(response.isSuccessful()){
                     UserGetAssetDTO result = response.body();
-                    resultText.setText(result.toString());
+                    resultText.setText(result.getOwner());
+                    for (String key : result.getCoin().keySet()) {
+                        System.out.println("key = " + key);
+                        coinNameList.append(key + "\n");
+                        coinAmountList.append(result.getCoin().get(key) + "\n");
+                    }
+                    System.out.println("coinNameList = " + coinNameList);
+                    System.out.println("coinAmountList = " + coinAmountList);
+                    coinName.setText(coinNameList);
+                    amount.setText(coinAmountList);
                     toast.cancel();
                     Toast.makeText(getApplicationContext(), "완료", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "onResponse: 성공, 결과 \n" + result.toString());

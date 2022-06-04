@@ -68,7 +68,7 @@ public class userCreateActivity extends AppCompatActivity {
                 if(response.isSuccessful()){
                     System.out.println("response.body(); = " + response.body().toString());
                     UserLoginDTO result = response.body();
-                    resultText.setText(result.toString());
+                    resultText.setText("회원가입에 성공했습니다.");
                     JwtToken.setToken(result.getAccessToken());
                     Log.d(TAG, "onResponse: 성공, 결과 \n" + result.toString());
                 }else{

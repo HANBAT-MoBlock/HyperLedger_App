@@ -7,54 +7,38 @@
     android:background="@color/white"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/Logo"
-        android:layout_width="276dp"
-        android:layout_height="108dp"
-        android:text="메인화면"
-        android:textSize="@android:dimen/app_icon_size"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.051" />
-
 
     <Button
         android:id="@+id/btnUserGetAsset"
         android:layout_width="125dp"
         android:layout_height="125dp"
-        android:background="@color/black"
-        android:backgroundTint="@color/white"
+        android:background="@drawable/btn_shape"
         android:text="유저조회"
         android:textColor="@color/black"
         android:textSize="17dp"
         app:layout_constraintBottom_toTopOf="@+id/btnUserTradeHistory"
         app:layout_constraintEnd_toStartOf="@+id/btnUserTransfer"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/Logo" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnUserTransfer"
         android:layout_width="125dp"
         android:layout_height="125dp"
-        android:background="@color/black"
-        android:backgroundTint="@color/white"
+        android:background="@drawable/btn_shape"
         android:text="코인 전송"
         android:textColor="@color/black"
         android:textSize="17dp"
         app:layout_constraintBottom_toTopOf="@+id/btnQR"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/btnUserGetAsset"
-        app:layout_constraintTop_toBottomOf="@+id/Logo" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnUserTradeHistory"
         android:layout_width="125dp"
         android:layout_height="125dp"
-        android:background="@color/black"
-        android:backgroundTint="@color/white"
+        android:background="@drawable/btn_shape"
         android:text="최근 기록"
         android:textColor="@color/black"
         android:textSize="17dp"
@@ -68,8 +52,7 @@
         android:id="@+id/btnQR"
         android:layout_width="125dp"
         android:layout_height="125dp"
-        android:background="@color/black"
-        android:backgroundTint="@color/white"
+        android:background="@drawable/btn_shape"
         android:text="QR"
         android:textColor="@color/black"
         android:textSize="17dp"

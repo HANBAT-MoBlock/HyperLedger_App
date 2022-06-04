@@ -26,6 +26,9 @@ import com.capstone.capstone.R;
 import com.capstone.capstone.TradeRecycler.Adapter;
 import com.capstone.capstone.TradeRecycler.PaintTitle;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +48,6 @@ public class userTradeActivity extends AppCompatActivity {
     boolean isLoading = false;
 
     ArrayList<PaintTitle> myDataset = new ArrayList<>();
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -133,13 +135,32 @@ public class userTradeActivity extends AppCompatActivity {
                     }
                     List<UserTradeResponseDTO> result = response.body();
                     for (UserTradeResponseDTO userTradeResponseDTO : result) {
-                        myDataset.add(new PaintTitle
-                                (
-                                        userTradeResponseDTO.getSender().toString(), userTradeResponseDTO.getReceiver().toString(),
-                                        userTradeResponseDTO.getCoinName(), userTradeResponseDTO.getAmount().toString(),
-                                        userTradeResponseDTO.getDateCreated()
-                                )
-                        );
+
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+                        LocalDateTime dateTime = LocalDateTime.parse(userTradeResponseDTO.getDateCreated(), formatter);
+                        String yyMd = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                        
+                        if(JwtToken.getId() == userTradeResponseDTO.getSenderStudentId().toString()){
+                            System.out.println("dateTime = " + dateTime);
+                            myDataset.add(new PaintTitle
+                                    (
+                                            userTradeResponseDTO.getReceiverStudentIdOrPhoneNumber().toString(), userTradeResponseDTO.getReceiverName(),
+                                            userTradeResponseDTO.getCoinName(), userTradeResponseDTO.getAmount().toString(),
+                                            yyMd + "\n" + dateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
+                                    )
+                            );
+                            System.out.println(dateTime);
+                        }else{
+                            myDataset.add(new PaintTitle
+                                    (
+                                            userTradeResponseDTO.getSenderStudentId().toString(), userTradeResponseDTO.getSenderName(),
+                                            userTradeResponseDTO.getCoinName(), userTradeResponseDTO.getAmount().toString(),
+                                            yyMd + "\n" + dateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
+                                    )
+                            );
+
+                        }
+
                     }
                     mAdapter.notifyDataSetChanged();
                     page++;

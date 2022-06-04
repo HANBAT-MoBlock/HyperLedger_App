@@ -23,6 +23,54 @@ public class UserGetAssetDTO {
 
     private String receiver;
 
+    public Long getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(Long studentId) {
+        this.studentId = studentId;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public HashMap<String, String> getCoin() {
+        return coin;
+    }
+
+    public void setCoin(HashMap<String, String> coin) {
+        this.coin = coin;
+    }
+
+    public String getSender() {
+        return sender;
+    }
+
+    public void setSender(String sender) {
+        this.sender = sender;
+    }
+
+    public String getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
+    }
+
+    public Long getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Long amount) {
+        this.amount = amount;
+    }
+
     private Long amount;
 
     @Override
@@ -30,9 +78,6 @@ public class UserGetAssetDTO {
         return "자산정보 \n" +
                 "학번 = " + studentId + "\n" +
                 "이름 = " + owner + "\n" +
-                "보유 코인 = " + coin + "\n" +
-                "송신자 = " + sender + "\n" +
-                "수신자 = " + receiver + "\n" +
-                "전송양 = " + amount;
+                "보유 코인 = " + coin;
     }
 }

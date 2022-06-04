@@ -33,6 +33,7 @@ public class MainLoginActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainsign);
+        setTitle("");
 
         id = (EditText) findViewById(R.id.signId);
         password = (EditText) findViewById(R.id.signPassword);
@@ -72,6 +73,7 @@ public class MainLoginActivity extends AppCompatActivity {
                 if(response.isSuccessful()){
                     UserLoginDTO result = response.body();
                     JwtToken.setToken(result.getAccessToken());
+                    JwtToken.setId(id.getText().toString());
 
                     Intent intent = new Intent(MainLoginActivity.this, MainActivity.class);
                     startActivity(intent);

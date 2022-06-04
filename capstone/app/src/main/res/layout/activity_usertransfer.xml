@@ -5,6 +5,9 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:layout_marginTop="100dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -13,22 +16,24 @@
             android:id="@+id/receiver"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="receiver"/>
+            android:hint="누구한테 보낼건가요?"/>
         <EditText
             android:id="@+id/coin"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="coin"/>
+            android:hint="보낼 코인을 입력해주세요."/>
         <EditText
             android:id="@+id/amount"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="amount"/>
+            android:hint="얼마나 보낼건가요?"/>
 
         <TextView
             android:id="@+id/userTransferResult"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:textSize="20dp"
             android:hint="결과"/>
 
         <LinearLayout
@@ -39,6 +44,8 @@
                 android:id="@+id/userTransferReadQr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/btn_shape"
+                android:textColor="@color/black"
                 android:text="QR 코드 읽기"/>
 
 
@@ -47,6 +54,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="200dp"
+                android:background="@drawable/btn_shape"
+                android:textColor="@color/black"
                 android:text="전송" />
         </LinearLayout>
 
