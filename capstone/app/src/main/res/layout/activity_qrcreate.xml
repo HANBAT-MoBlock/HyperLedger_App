@@ -7,6 +7,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:orientation="vertical">
 
         <EditText
@@ -25,10 +28,13 @@
             android:layout_height="wrap_content"
             android:hint="받을 양"/>
         <Button
+            android:layout_marginTop="30dp"
             android:id="@+id/QrCreate"
-            android:layout_width="wrap_content"
+            android:background="@drawable/btn_shape"
+            android:textColor="@color/black"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:hint="QR 코드 생성"/>
+            android:text="QR 코드 생성"/>
 
     </LinearLayout>
 

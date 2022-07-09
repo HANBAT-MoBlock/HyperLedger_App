@@ -24,6 +24,7 @@ import com.capstone.capstone.DTO.UserTransferDTO;
 import com.capstone.capstone.DTO.UserTransferRequestDTO;
 import com.capstone.capstone.R;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -39,7 +40,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class userTransferActivity extends AppCompatActivity {
 
     EditText receiver, coin, amount;
-    TextView resultText;
     Button confirm, qrRead;
 
 
@@ -52,7 +52,6 @@ public class userTransferActivity extends AppCompatActivity {
         receiver = (EditText) findViewById(R.id.receiver);
         coin = (EditText) findViewById(R.id.coin);
         amount = (EditText) findViewById(R.id.amount);
-        resultText = (TextView) findViewById(R.id.userTransferResult);
         confirm = (Button) findViewById(R.id.userTransferConfirm);
         qrRead = (Button) findViewById(R.id.userTransferReadQr);
 
@@ -64,7 +63,7 @@ public class userTransferActivity extends AppCompatActivity {
                         coin.getText().toString(),
                         Long.parseLong(amount.getText().toString())
                 );
-                coinTransferService(JwtToken.getJwt(), userTransferRequestDTO);
+                coinTransferService(v, JwtToken.getJwt(), userTransferRequestDTO);
             }
         });
 
@@ -80,7 +79,10 @@ public class userTransferActivity extends AppCompatActivity {
 
     }
 
-    public void coinTransferService(String jwt, UserTransferRequestDTO userTransferRequestDTO){
+    public void coinTransferService(View v, String jwt, UserTransferRequestDTO userTransferRequestDTO){
+        Snackbar snackbar = Snackbar.make(v, "전송중...", 10000000);
+        snackbar.show();
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.localhost))
                 .addConverterFactory(GsonConverterFactory.create())
@@ -95,15 +97,20 @@ public class userTransferActivity extends AppCompatActivity {
             public void onResponse(Call<UserTransferDTO> call, Response<UserTransferDTO> response) {
                 if(response.isSuccessful()){
                     UserTransferDTO result = response.body();
-                    resultText.setText("전송을 완료했습니다.");
+                    snackbar.dismiss();
+                    Snackbar.make(v, "전송 완료했습니다.", 2000).show();
                     Log.d(TAG, "onResponse: 성공, 결과 \n" + result.toString());
                 }else{
+                    snackbar.dismiss();
+                    Snackbar.make(v, "전송에 살패했습니다.", 2000).show();
                     Log.d(TAG, "onResponse: 실패");
                 }
             }
 
             @Override
             public void onFailure(Call<UserTransferDTO> call, Throwable t) {
+                snackbar.dismiss();
+                Snackbar.make(v, "서버 연결에 실패했습니다.", 2000).show();
                 Log.d(TAG,"onFailure" + t.getMessage());
             }
         });

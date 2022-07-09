@@ -139,14 +139,16 @@ public class userTradeActivity extends AppCompatActivity {
                         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
                         LocalDateTime dateTime = LocalDateTime.parse(userTradeResponseDTO.getDateCreated(), formatter);
                         String yyMd = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                        
-                        if(JwtToken.getId() == userTradeResponseDTO.getSenderStudentId().toString()){
+
+                        System.out.println("JwtToken.getId() = " + JwtToken.getId());
+                        System.out.println("userTradeResponseDTO = " + userTradeResponseDTO.getSenderStudentId().toString());
+                        if(JwtToken.getId().equals(userTradeResponseDTO.getSenderStudentId().toString())){
                             System.out.println("dateTime = " + dateTime);
                             myDataset.add(new PaintTitle
                                     (
                                             userTradeResponseDTO.getReceiverStudentIdOrPhoneNumber().toString(), userTradeResponseDTO.getReceiverName(),
-                                            userTradeResponseDTO.getCoinName(), userTradeResponseDTO.getAmount().toString(),
-                                            yyMd + "\n" + dateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
+                                            userTradeResponseDTO.getCoinName(), "-" + userTradeResponseDTO.getAmount().toString(),
+                                            yyMd, dateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
                                     )
                             );
                             System.out.println(dateTime);
@@ -155,7 +157,7 @@ public class userTradeActivity extends AppCompatActivity {
                                     (
                                             userTradeResponseDTO.getSenderStudentId().toString(), userTradeResponseDTO.getSenderName(),
                                             userTradeResponseDTO.getCoinName(), userTradeResponseDTO.getAmount().toString(),
-                                            yyMd + "\n" + dateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
+                                            yyMd, dateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
                                     )
                             );
 

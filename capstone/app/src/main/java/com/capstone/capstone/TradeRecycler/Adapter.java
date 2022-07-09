@@ -60,7 +60,7 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     private class ItemViewHolder extends RecyclerView.ViewHolder {
-        private TextView Id, Name, coinName, amount, time;
+        private TextView Id, Name, coinName, amount, time, hour;
 
         public  ItemViewHolder(@NonNull View itemView){
             super(itemView);
@@ -69,6 +69,7 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             coinName = itemView.findViewById(R.id.tradeHistoryCoinName);
             amount = itemView.findViewById(R.id.tradeHistoryAmount);
             time = itemView.findViewById(R.id.trade_Time);
+            hour = itemView.findViewById(R.id.trade_hour);
         }
 
     }
@@ -91,6 +92,7 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         viewHolder.coinName.setText(item.coinName);
         viewHolder.amount.setText(item.amount);
         viewHolder.time.setText(item.time);
+        viewHolder.hour.setText(item.hour);
         if(Integer.parseInt( viewHolder.amount.getText().toString() ) > 0){
             viewHolder.amount.setTextColor(0xff0000ff);
         }else{

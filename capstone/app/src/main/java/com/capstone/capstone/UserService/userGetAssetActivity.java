@@ -2,11 +2,11 @@ package com.capstone.capstone.UserService;
 
 import static android.content.ContentValues.TAG;
 
+import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.TestLooperManager;
+import android.text.Html;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,8 +18,6 @@ import com.capstone.capstone.DTO.JwtToken;
 import com.capstone.capstone.DTO.UserGetAssetDTO;
 import com.capstone.capstone.R;
 
-import java.util.HashMap;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -29,7 +27,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class userGetAssetActivity extends AppCompatActivity {
 
-    TextView resultText, coinName, amount;
+    TextView studentId, coinName, amount, studentName;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,9 +35,10 @@ public class userGetAssetActivity extends AppCompatActivity {
         setContentView(R.layout.activity_usergetasset);
         setTitle("유저 조회");
 
-        resultText = (TextView) findViewById(R.id.userGetAssetResult);
+        studentId = (TextView) findViewById(R.id.userGetAssetStudentId);
         coinName = (TextView) findViewById(R.id.getAsset_coinName);
         amount = (TextView) findViewById(R.id.getAsset_amount);
+        studentName = (TextView) findViewById(R.id.userGetAssetName);
 
         getAssetService();
     }
@@ -66,7 +65,9 @@ public class userGetAssetActivity extends AppCompatActivity {
             public void onResponse(Call<UserGetAssetDTO> call, Response<UserGetAssetDTO> response) {
                 if(response.isSuccessful()){
                     UserGetAssetDTO result = response.body();
-                    resultText.setText(result.getOwner());
+                    studentId.setText(result.getStudentId().toString());
+                    studentId.setPaintFlags(studentId.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                    studentName.setText(result.getOwner());
                     for (String key : result.getCoin().keySet()) {
                         System.out.println("key = " + key);
                         coinNameList.append(key + "\n");

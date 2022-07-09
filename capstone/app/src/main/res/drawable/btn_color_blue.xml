@@ -2,7 +2,7 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle" android:padding = "10dp">
     <!-- 버튼 색깔 -->
-    <solid android:color="#E7EFFC"/>
+    <solid android:color="#4880ED"/>
     <!-- 네 귀퉁이? 모양 -->
     <corners
         android:bottomLeftRadius="15dp"
