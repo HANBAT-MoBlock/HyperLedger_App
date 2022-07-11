@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">HyperLedgerVirtualMoneyProject</string>
+    <string name="title_home">Home</string>
+    <string name="title_transfer">transfer</string>
+    <string name="title_ShopList">ShopList</string>
+    <string name="title_Qr">Qr</string>
+    <string name="localhost">http://3.39.152.103:8080/</string>
+</resources>

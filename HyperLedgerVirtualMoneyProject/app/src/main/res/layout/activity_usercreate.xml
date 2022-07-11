@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/studentId"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="studentId"/>
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="password"/>
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="name"/>
+
+        <TextView
+            android:id="@+id/userCreateResult"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="결과"/>
+
+        <Button
+            android:id="@+id/userCreateConfirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="생성"/>
+
+    </LinearLayout>
+
+</LinearLayout>
