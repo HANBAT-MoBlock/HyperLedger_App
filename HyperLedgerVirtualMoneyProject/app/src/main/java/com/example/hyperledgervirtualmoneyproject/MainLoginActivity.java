@@ -32,7 +32,6 @@ public class MainLoginActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainsign);
-        setTitle("");
 
         id = (EditText) findViewById(R.id.signId);
         password = (EditText) findViewById(R.id.signPassword);
@@ -42,7 +41,9 @@ public class MainLoginActivity extends AppCompatActivity {
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userLoginService(Long.parseLong(id.getText().toString()), password.getText().toString());
+                Intent intent = new Intent(MainLoginActivity.this, MainActivity.class);
+                startActivity(intent);
+                //userLoginService(Long.parseLong(id.getText().toString()), password.getText().toString());
             }
         });
 

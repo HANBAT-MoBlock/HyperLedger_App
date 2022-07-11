@@ -4,6 +4,11 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../../../layout/custom_preview.xml" value="0.11991254624957955" />
+        <entry key="..\:/Users/CYC/Documents/GitHub/HyperledgerFabic-app/capstone/app/src/main/res/drawable/shape.xml" value="0.1475" />
+        <entry key="..\:/Users/CYC/Documents/GitHub/HyperledgerFabic-app/capstone/app/src/main/res/layout/activity_mainsign.xml" value="0.16388044579533942" />
+        <entry key="..\:/Users/CYC/Documents/GitHub/HyperledgerFabic-app/capstone/app/src/main/res/layout/activity_qrcreate.xml" value="0.16388044579533942" />
+        <entry key="..\:/Users/CYC/Documents/GitHub/HyperledgerFabic-app/capstone/app/src/main/res/layout/activity_usertradehistory.xml" value="0.16388044579533942" />
+        <entry key="..\:/Users/CYC/Documents/GitHub/HyperledgerFabic-app/capstone/app/src/main/res/layout/recycler_view_tradehistory.xml" value="0.16388044579533942" />
         <entry key="..\:/Users/CYC/Documents/github/HyperledgerFabic-app/capstone/app/src/main/res/layout/activity_main.xml" value="0.22447916666666667" />
         <entry key="..\:/Users/CYC/Documents/github/HyperledgerFabic-app/capstone/app/src/main/res/layout/activity_mainsign.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/CYC/Documents/github/HyperledgerFabic-app/capstone/app/src/main/res/layout/activity_usercreate.xml" value="0.36614583333333334" />
