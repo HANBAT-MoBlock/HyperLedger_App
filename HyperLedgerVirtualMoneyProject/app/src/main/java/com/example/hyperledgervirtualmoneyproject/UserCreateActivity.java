@@ -72,12 +72,14 @@ public class UserCreateActivity extends AppCompatActivity {
                     Log.d(TAG, "onResponse: 성공, 결과 \n" + result.toString());
                     finish();
                 }else{
+                    resultText.setText("회원가입에 실패했습니다.");
                     Log.d(TAG, "onResponse: 실패");
                 }
             }
 
             @Override
             public void onFailure(Call<UserLoginDTO> call, Throwable t) {
+                resultText.setText("서버 연결에 실패했습니다.");
                 Log.d(TAG,"onFailure" + t.getMessage());
             }
         });
