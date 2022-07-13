@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,15 +17,26 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hyperledgervirtualmoneyproject.API.UserApi;
+import com.example.hyperledgervirtualmoneyproject.API.UserTradeApi;
 import com.example.hyperledgervirtualmoneyproject.DTO.JwtToken;
 import com.example.hyperledgervirtualmoneyproject.DTO.UserGetAssetDTO;
+import com.example.hyperledgervirtualmoneyproject.DTO.UserTradeResponseDTO;
 import com.example.hyperledgervirtualmoneyproject.MainActivity;
 import com.example.hyperledgervirtualmoneyproject.MainLoginActivity;
 import com.example.hyperledgervirtualmoneyproject.R;
+import com.example.hyperledgervirtualmoneyproject.TradeRecycler.Adapter;
+import com.example.hyperledgervirtualmoneyproject.TradeRecycler.PaintTitle;
 import com.example.hyperledgervirtualmoneyproject.databinding.FragmentHomeBinding;
 import com.example.hyperledgervirtualmoneyproject.ui.transfer.userTradeActivity;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,9 +47,18 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
+    private static final String TAG = "HomeFragment";
 
     TextView coinName, amount;
     Button btnTradeListShow;
+
+
+    RecyclerView mRecyclerView;
+    RecyclerView.Adapter mAdapter;
+    private int page = 1;
+    boolean isLoading = false;
+    ArrayList<PaintTitle> myDataset = new ArrayList<>();
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -49,8 +70,12 @@ public class HomeFragment extends Fragment {
 
         coinName = (TextView) root.findViewById(R.id.home_coinName);
         amount = (TextView) root.findViewById(R.id.home_amount);
+        mRecyclerView = (RecyclerView) root.findViewById(R.id.home_tradeList);
 
         getAssetService();
+
+        populateData();
+        initAdapter();
 
         btnTradeListShow = (Button) root.findViewById(R.id.home_tradeButton);
         btnTradeListShow.setOnClickListener(new View.OnClickListener() {
@@ -113,6 +138,96 @@ public class HomeFragment extends Fragment {
             @Override
             public void onFailure(Call<UserGetAssetDTO> call, Throwable t) {
                 Toast.makeText(getContext(), "서버 연결 실패", Toast.LENGTH_SHORT).show();
+                Log.d(TAG,"onFailure" + t.getMessage());
+            }
+        });
+    }
+
+    private void populateData() {
+        getUserTradeHistory(page);
+    }
+
+    private void initAdapter() {
+        mAdapter = new Adapter(myDataset);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(layoutManager);
+    }
+
+    public void getUserTradeHistory(int pageInit){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(getString(R.string.localhost))
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        UserTradeApi service = retrofit.create(UserTradeApi.class);
+
+        System.out.println("jwtToken = " + JwtToken.getJwt());
+        Call<List<UserTradeResponseDTO>> call = service.trade(JwtToken.getJwt(), pageInit);
+        Toast loadingToast = Toast.makeText(getContext(), "기록을 불러오는 중...", Toast.LENGTH_SHORT);
+        loadingToast.show();
+
+        call.enqueue(new Callback<List<UserTradeResponseDTO>>() {
+            @Override
+            public void onResponse(Call<List<UserTradeResponseDTO>> call, Response<List<UserTradeResponseDTO>> response) {
+                if(response.isSuccessful()){
+                    System.out.println(page + "------");
+                    List<UserTradeResponseDTO> result = response.body();
+                    for (UserTradeResponseDTO userTradeResponseDTO : result) {
+
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+                        LocalDateTime dateTime = LocalDateTime.parse(userTradeResponseDTO.getDateCreated(), formatter);
+                        String yyMd = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+                        System.out.println("JwtToken.getId() = " + JwtToken.getId());
+                        System.out.println("userTradeResponseDTO = " + userTradeResponseDTO.getSenderStudentId().toString());
+                        if(JwtToken.getId().equals(userTradeResponseDTO.getSenderStudentId().toString())){
+                            System.out.println("dateTime = " + dateTime);
+                            myDataset.add(new PaintTitle
+                                    (
+                                            userTradeResponseDTO.getReceiverStudentIdOrPhoneNumber().toString(), userTradeResponseDTO.getReceiverName(),
+                                            userTradeResponseDTO.getCoinName(), "-" + userTradeResponseDTO.getAmount().toString(),
+                                            yyMd, dateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
+                                    )
+                            );
+                            System.out.println(dateTime);
+                        }else{
+                            myDataset.add(new PaintTitle
+                                    (
+                                            userTradeResponseDTO.getSenderStudentId().toString(), userTradeResponseDTO.getSenderName(),
+                                            userTradeResponseDTO.getCoinName(), userTradeResponseDTO.getAmount().toString(),
+                                            yyMd, dateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
+                                    )
+                            );
+
+                        }
+
+                    }
+                    mAdapter.notifyDataSetChanged();
+                    System.out.println("page: " + page);
+                    loadingToast.cancel();
+                    if(result.toString() == "[]"){
+                        Toast.makeText(getContext(), "더 이상 기록이 없습니다.", Toast.LENGTH_SHORT).show();
+
+                        //test용 더미 기록
+                        myDataset.add(new PaintTitle
+                                (
+                                        "studentId", "senderName",
+                                        "coin", "1000",
+                                        "yyMd", "HH:MM"
+                                )
+                        );
+                    } else{
+                        Toast.makeText(getContext(), "완료", Toast.LENGTH_SHORT).show();
+                    }
+                    Log.d(TAG, "onResponse: 성공, 결과 \n" + result.toString());
+                }else{
+                    Log.d(TAG, "onResponse: 실패");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<UserTradeResponseDTO>> call, Throwable t) {
                 Log.d(TAG,"onFailure" + t.getMessage());
             }
         });
