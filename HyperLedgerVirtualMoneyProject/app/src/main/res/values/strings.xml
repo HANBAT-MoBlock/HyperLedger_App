@@ -4,6 +4,7 @@
     <string name="title_transfer">Transfer</string>
     <string name="title_ShopList">ShopList</string>
     <string name="title_Qr">Qr</string>
+    <string name="title_User">UserInfo</string>
     <string name="localhost">http://3.39.152.103:8080/</string>
     <string name="localhost2">http://192.168.219.34:8080/</string>
 </resources>

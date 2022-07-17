@@ -9,8 +9,10 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 public interface UserApi {
 
@@ -24,5 +26,11 @@ public interface UserApi {
     Call<UserLoginDTO> login(
             @Query("studentId") Long studentId,
             @Query("password") String Password
+    );
+
+    @PATCH("/user")
+    Call<Void> changePassword(
+            @Header("Authorization") String authorization,
+            @Query("newPassword") String newPassword
     );
 }

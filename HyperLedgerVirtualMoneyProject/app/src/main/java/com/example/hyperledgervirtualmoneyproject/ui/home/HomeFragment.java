@@ -56,7 +56,6 @@ public class HomeFragment extends Fragment {
     RecyclerView mRecyclerView;
     RecyclerView.Adapter mAdapter;
     private int page = 1;
-    boolean isLoading = false;
     ArrayList<PaintTitle> myDataset = new ArrayList<>();
 
 

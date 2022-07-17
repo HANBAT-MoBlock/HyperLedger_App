@@ -21,4 +21,9 @@
         android:icon="@drawable/ic_baseline_qr_code_24"
         android:title="@string/title_Qr" />
 
+    <item
+        android:id="@+id/navigation_userinfo"
+        android:icon="@drawable/ic_baseline_assignment_ind_24"
+        android:title="@string/title_User" />
+
 </menu>

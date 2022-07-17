@@ -46,15 +46,10 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-
 public class TransferFragment extends Fragment {
 
     EditText receiver, coin, amount;
     Button confirm, qrRead;
-
-    RecyclerView mRecyclerView;
-    RecyclerView.Adapter mAdapter;
-    ArrayList<PaintTitle> myDataset = new ArrayList<>();
 
     private FragmentTransferBinding binding;
 
