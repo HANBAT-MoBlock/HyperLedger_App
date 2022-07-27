@@ -2,8 +2,10 @@ package com.example.hyperledgervirtualmoneyproject.ui.user;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Paint;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +28,9 @@ import com.example.hyperledgervirtualmoneyproject.R;
 import com.example.hyperledgervirtualmoneyproject.databinding.FragmentUserBinding;
 import com.example.hyperledgervirtualmoneyproject.ui.transfer.userTradeActivity;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,6 +43,7 @@ public class UserFragment extends Fragment {
     private FragmentUserBinding binding;
     private Button logout, passwordChange;
     private TextView studentId, studentName;
+    ProgressDialog customProgressDialog;
 
     private static final String TAG = "UserFragment";
 
@@ -53,6 +59,25 @@ public class UserFragment extends Fragment {
         passwordChange = (Button) root.findViewById(R.id.user_passwordChange);
 
         getAssetService();
+        customProgressDialog = new ProgressDialog(getContext());
+        //로딩창을 투명하게
+        customProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        customProgressDialog.setCancelable(false);
+        customProgressDialog.show();
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                TimerTask task = new TimerTask() {
+                    @Override
+                    public void run() {
+                        customProgressDialog.cancel();
+                    }
+                };
+                Timer timer = new Timer();
+                timer.schedule(task, 3000);
+            }
+        });
+        thread.start();
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override

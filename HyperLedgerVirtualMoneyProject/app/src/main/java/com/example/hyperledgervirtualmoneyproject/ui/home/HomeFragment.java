@@ -2,8 +2,10 @@ package com.example.hyperledgervirtualmoneyproject.ui.home;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Paint;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -37,6 +39,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -57,7 +61,7 @@ public class HomeFragment extends Fragment {
     RecyclerView.Adapter mAdapter;
     private int page = 1;
     ArrayList<PaintTitle> myDataset = new ArrayList<>();
-
+    ProgressDialog customProgressDialog;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -75,6 +79,27 @@ public class HomeFragment extends Fragment {
 
         populateData();
         initAdapter();
+
+        customProgressDialog = new ProgressDialog(getContext());
+        //로딩창을 투명하게
+        customProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        customProgressDialog.setCancelable(false);
+        customProgressDialog.show();
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                TimerTask task = new TimerTask() {
+                    @Override
+                    public void run() {
+                        customProgressDialog.cancel();
+                    }
+                };
+                Timer timer = new Timer();
+                timer.schedule(task, 3000);
+            }
+        });
+        thread.start();
+
 
         btnTradeListShow = (Button) root.findViewById(R.id.home_tradeButton);
         btnTradeListShow.setOnClickListener(new View.OnClickListener() {
