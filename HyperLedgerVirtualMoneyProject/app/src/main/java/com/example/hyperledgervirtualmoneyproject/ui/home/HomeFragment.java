@@ -1,13 +1,8 @@
 package com.example.hyperledgervirtualmoneyproject.ui.home;
 
-import static android.content.ContentValues.TAG;
-
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,8 +22,7 @@ import com.example.hyperledgervirtualmoneyproject.API.UserTradeApi;
 import com.example.hyperledgervirtualmoneyproject.DTO.JwtToken;
 import com.example.hyperledgervirtualmoneyproject.DTO.UserGetAssetDTO;
 import com.example.hyperledgervirtualmoneyproject.DTO.UserTradeResponseDTO;
-import com.example.hyperledgervirtualmoneyproject.MainActivity;
-import com.example.hyperledgervirtualmoneyproject.MainLoginActivity;
+import com.example.hyperledgervirtualmoneyproject.LoadingDialog;
 import com.example.hyperledgervirtualmoneyproject.R;
 import com.example.hyperledgervirtualmoneyproject.TradeRecycler.Adapter;
 import com.example.hyperledgervirtualmoneyproject.TradeRecycler.PaintTitle;
@@ -61,7 +55,7 @@ public class HomeFragment extends Fragment {
     RecyclerView.Adapter mAdapter;
     private int page = 1;
     ArrayList<PaintTitle> myDataset = new ArrayList<>();
-    ProgressDialog customProgressDialog;
+    LoadingDialog customProgressDialog;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -80,7 +74,7 @@ public class HomeFragment extends Fragment {
         populateData();
         initAdapter();
 
-        customProgressDialog = new ProgressDialog(getContext());
+        customProgressDialog = new LoadingDialog(getContext());
         //로딩창을 투명하게
         customProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         customProgressDialog.setCancelable(false);

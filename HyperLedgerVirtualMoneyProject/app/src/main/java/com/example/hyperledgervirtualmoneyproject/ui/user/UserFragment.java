@@ -22,6 +22,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.hyperledgervirtualmoneyproject.API.UserApi;
 import com.example.hyperledgervirtualmoneyproject.DTO.JwtToken;
 import com.example.hyperledgervirtualmoneyproject.DTO.UserGetAssetDTO;
+import com.example.hyperledgervirtualmoneyproject.LoadingDialog;
 import com.example.hyperledgervirtualmoneyproject.MainActivity;
 import com.example.hyperledgervirtualmoneyproject.MainLoginActivity;
 import com.example.hyperledgervirtualmoneyproject.R;
@@ -43,7 +44,7 @@ public class UserFragment extends Fragment {
     private FragmentUserBinding binding;
     private Button logout, passwordChange;
     private TextView studentId, studentName;
-    ProgressDialog customProgressDialog;
+    LoadingDialog customProgressDialog;
 
     private static final String TAG = "UserFragment";
 
@@ -59,7 +60,7 @@ public class UserFragment extends Fragment {
         passwordChange = (Button) root.findViewById(R.id.user_passwordChange);
 
         getAssetService();
-        customProgressDialog = new ProgressDialog(getContext());
+        customProgressDialog = new LoadingDialog(getContext());
         //로딩창을 투명하게
         customProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         customProgressDialog.setCancelable(false);

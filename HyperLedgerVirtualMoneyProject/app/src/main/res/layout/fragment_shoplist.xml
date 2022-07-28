@@ -7,7 +7,7 @@
     tools:context=".ui.shopList.ShopListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/shopList_shopLst"
+        android:id="@+id/shopList_recycler"
         android:layout_width="373dp"
         android:layout_height="392dp"
         android:layout_margin="10dp"
