@@ -1,5 +1,6 @@
 package com.example.hyperledgervirtualmoneyproject.ui.shopList;
 
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -7,6 +8,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EdgeEffect;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,6 +28,8 @@ import com.example.hyperledgervirtualmoneyproject.R;
 import com.example.hyperledgervirtualmoneyproject.ShopListRecycler.ShopListAdapter;
 import com.example.hyperledgervirtualmoneyproject.ShopListRecycler.ShopListPaintTitle;
 import com.example.hyperledgervirtualmoneyproject.databinding.FragmentShoplistBinding;
+import com.example.hyperledgervirtualmoneyproject.shopimgtest;
+import com.example.hyperledgervirtualmoneyproject.ui.transfer.userTradeActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +57,9 @@ public class ShopListFragment extends Fragment {
 
     ArrayList<ShopListPaintTitle> myDataset = new ArrayList<>();
 
+    Button btnSearch;
+    EditText etSearch;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         ShopListViewModel notificationsViewModel =
@@ -60,6 +69,8 @@ public class ShopListFragment extends Fragment {
         View root = binding.getRoot();
 
         mRecyclerView = (RecyclerView) root.findViewById(R.id.shopList_recycler);
+        btnSearch = (Button) root.findViewById(R.id.shopListSearchBtn);
+        etSearch = (EditText) root.findViewById(R.id.shopListSearchText);
 
         populateData();
         initAdapter();
@@ -84,6 +95,14 @@ public class ShopListFragment extends Fragment {
             }
         });
         thread.start();
+
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), shopimgtest.class);
+                startActivity(intent);
+            }
+        });
 
         return root;
     }
