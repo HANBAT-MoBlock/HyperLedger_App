@@ -55,4 +55,7 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-core:2.9.7'
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.9.7'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.7'
+
+    //비동기 처리 위한 RxJava
+    implementation "io.reactivex.rxjava3:rxjava:3.1.5"
 }

@@ -21,6 +21,7 @@ import com.example.hyperledgervirtualmoneyproject.API.UserApi;
 import com.example.hyperledgervirtualmoneyproject.API.UserTradeApi;
 import com.example.hyperledgervirtualmoneyproject.DTO.JwtToken;
 import com.example.hyperledgervirtualmoneyproject.DTO.UserGetAssetDTO;
+import com.example.hyperledgervirtualmoneyproject.DTO.UserTradeHistoryResponseDTO;
 import com.example.hyperledgervirtualmoneyproject.DTO.UserTradeResponseDTO;
 import com.example.hyperledgervirtualmoneyproject.LoadingDialog;
 import com.example.hyperledgervirtualmoneyproject.R;
@@ -181,17 +182,18 @@ public class HomeFragment extends Fragment {
         UserTradeApi service = retrofit.create(UserTradeApi.class);
 
         System.out.println("jwtToken = " + JwtToken.getJwt());
-        Call<List<UserTradeResponseDTO>> call = service.trade(JwtToken.getJwt(), pageInit);
+        Call<UserTradeHistoryResponseDTO> call = service.trade(JwtToken.getJwt(), pageInit);
         Toast loadingToast = Toast.makeText(getContext(), "기록을 불러오는 중...", Toast.LENGTH_SHORT);
         loadingToast.show();
 
-        call.enqueue(new Callback<List<UserTradeResponseDTO>>() {
+        call.enqueue(new Callback<UserTradeHistoryResponseDTO>() {
             @Override
-            public void onResponse(Call<List<UserTradeResponseDTO>> call, Response<List<UserTradeResponseDTO>> response) {
+            public void onResponse(Call<UserTradeHistoryResponseDTO> call, Response<UserTradeHistoryResponseDTO> response) {
                 if(response.isSuccessful()){
                     System.out.println(page + "------");
-                    List<UserTradeResponseDTO> result = response.body();
-                    for (UserTradeResponseDTO userTradeResponseDTO : result) {
+                    UserTradeHistoryResponseDTO result = response.body();
+                    List<UserTradeResponseDTO> tradeResponseList = result.getTransferResponseList();
+                    for (UserTradeResponseDTO userTradeResponseDTO : tradeResponseList) {
 
                         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
                         LocalDateTime dateTime = LocalDateTime.parse(userTradeResponseDTO.getDateCreated(), formatter);
@@ -245,7 +247,7 @@ public class HomeFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<UserTradeResponseDTO>> call, Throwable t) {
+            public void onFailure(Call<UserTradeHistoryResponseDTO> call, Throwable t) {
                 Log.d(TAG,"onFailure" + t.getMessage());
             }
         });

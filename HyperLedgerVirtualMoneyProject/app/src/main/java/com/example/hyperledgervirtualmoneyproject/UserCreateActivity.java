@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -65,9 +66,12 @@ public class UserCreateActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (shop.isChecked()) {
-                    createUser(studentId.getText().toString(), password.getText().toString(), name.getText().toString(), "ROLE_SHOP");
+                    createUser(studentId.getText().toString(), password.getText().toString(), name.getText().toString(), "ROLE_STOREMANAGER");
                 } else if(user.isChecked()){
                     createUser(studentId.getText().toString(), password.getText().toString(), name.getText().toString(), "ROLE_STUDENT");
+                }
+                else if(!user.isChecked() && !shop.isChecked()){
+                    Toast.makeText(getApplicationContext(), "역할을 체크해 주세요", Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -2,11 +2,11 @@ package com.example.hyperledgervirtualmoneyproject.DTO;
 
 public class UserTransferDTO {
 
-    private Long senderStudentId;
+    private Long senderIdentifier;
 
     private String senderName;
 
-    private Long receiverStudentIdOrPhoneNumber;
+    private Long receiverIdentifier;
 
     private String receiverName;
 
@@ -19,8 +19,8 @@ public class UserTransferDTO {
     @Override
     public String toString() {
         return "UserTransferDTO{" +
-                "senderStudentId=" + senderStudentId +
-                ", receiverStudentIdOrPhoneNumber=" + receiverStudentIdOrPhoneNumber +
+                "senderStudentId=" + senderName +
+                ", receiverStudentIdOrPhoneNumber=" + receiverIdentifier +
                 ", coinName='" + coinName + '\'' +
                 ", amount=" + amount +
                 ", dateCreated=" + dateCreated +

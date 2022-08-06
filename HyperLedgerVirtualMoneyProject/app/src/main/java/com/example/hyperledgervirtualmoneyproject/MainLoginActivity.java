@@ -41,9 +41,9 @@ public class MainLoginActivity extends AppCompatActivity {
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainLoginActivity.this, MainActivity.class);
-                startActivity(intent);
-                //userLoginService(id.getText().toString(), password.getText().toString());
+                //Intent intent = new Intent(MainLoginActivity.this, MainActivity.class);
+                //startActivity(intent);
+                userLoginService(id.getText().toString(), password.getText().toString());
             }
         });
 

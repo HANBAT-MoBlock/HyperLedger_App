@@ -1,6 +1,7 @@
 package com.example.hyperledgervirtualmoneyproject.API;
 
 
+import com.example.hyperledgervirtualmoneyproject.DTO.UserTradeHistoryResponseDTO;
 import com.example.hyperledgervirtualmoneyproject.DTO.UserTradeResponseDTO;
 import com.example.hyperledgervirtualmoneyproject.DTO.UserTransferDTO;
 import com.example.hyperledgervirtualmoneyproject.DTO.UserTransferRequestDTO;
@@ -23,7 +24,7 @@ public interface UserTradeApi {
     );
 
     @GET("/trade")
-    Call<List<UserTradeResponseDTO>>trade(
+    Call<UserTradeHistoryResponseDTO>trade(
             @Header("Authorization") String Authorization,
             @Query("page") int page
     );

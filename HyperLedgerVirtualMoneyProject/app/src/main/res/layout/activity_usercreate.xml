@@ -2,11 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    app:passwordToggleEnabled="true">
+
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/layout_shape"
+        android:elevation="20dp"
+        android:layout_margin="20dp"
         android:orientation="vertical">
 
         <EditText
@@ -19,6 +30,7 @@
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:inputType="textPassword"
             android:hint="password"/>
 
         <EditText
@@ -27,16 +39,23 @@
             android:layout_height="match_parent"
             android:hint="name"/>
 
-        <CheckBox
-            android:id="@+id/userCreateRoleCheckUser"
-            android:text="사용자"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <CheckBox
-            android:id="@+id/userCreateRoleCheckShop"
-            android:text="가맹점주"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content">
+
+            <CheckBox
+                android:id="@+id/userCreateRoleCheckUser"
+                android:text="사용자"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <CheckBox
+                android:id="@+id/userCreateRoleCheckShop"
+                android:text="가맹점주"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/userCreateResult"
@@ -51,5 +70,10 @@
             android:text="생성"/>
 
     </LinearLayout>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
 </LinearLayout>

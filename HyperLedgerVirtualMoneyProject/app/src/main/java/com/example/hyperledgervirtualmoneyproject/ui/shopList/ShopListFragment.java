@@ -1,6 +1,6 @@
 package com.example.hyperledgervirtualmoneyproject.ui.shopList;
 
-import android.graphics.Paint;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -13,26 +13,22 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hyperledgervirtualmoneyproject.API.ShopListApi;
-import com.example.hyperledgervirtualmoneyproject.API.UserApi;
-import com.example.hyperledgervirtualmoneyproject.API.UserTradeApi;
 import com.example.hyperledgervirtualmoneyproject.DTO.JwtToken;
-import com.example.hyperledgervirtualmoneyproject.DTO.UserGetAssetDTO;
 import com.example.hyperledgervirtualmoneyproject.DTO.UserShopListDTO;
-import com.example.hyperledgervirtualmoneyproject.DTO.UserTradeResponseDTO;
+import com.example.hyperledgervirtualmoneyproject.DTO.UserShopListResponseDTO;
+import com.example.hyperledgervirtualmoneyproject.LoadingDialog;
 import com.example.hyperledgervirtualmoneyproject.R;
 import com.example.hyperledgervirtualmoneyproject.ShopListRecycler.ShopListAdapter;
 import com.example.hyperledgervirtualmoneyproject.ShopListRecycler.ShopListPaintTitle;
-import com.example.hyperledgervirtualmoneyproject.TradeRecycler.PaintTitle;
 import com.example.hyperledgervirtualmoneyproject.databinding.FragmentShoplistBinding;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -51,6 +47,7 @@ public class ShopListFragment extends Fragment {
 
     private int page = 1;
     boolean isLoading = false;
+    LoadingDialog customProgressDialog;
 
     ArrayList<ShopListPaintTitle> myDataset = new ArrayList<>();
 
@@ -63,16 +60,30 @@ public class ShopListFragment extends Fragment {
         View root = binding.getRoot();
 
         mRecyclerView = (RecyclerView) root.findViewById(R.id.shopList_recycler);
+
         populateData();
         initAdapter();
         initScrollListener();
 
-        myDataset.add(new ShopListPaintTitle
-                (
-                        "이름", "번호", "주소"
-                )
-        );
-
+        customProgressDialog = new LoadingDialog(getContext());
+        //로딩창을 투명하게
+        customProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        customProgressDialog.setCancelable(false);
+        customProgressDialog.show();
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                TimerTask task = new TimerTask() {
+                    @Override
+                    public void run() {
+                        customProgressDialog.cancel();
+                    }
+                };
+                Timer timer = new Timer();
+                timer.schedule(task, 3000);
+            }
+        });
+        thread.start();
 
         return root;
     }
@@ -99,7 +110,8 @@ public class ShopListFragment extends Fragment {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                //LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                GridLayoutManager layoutManager = (GridLayoutManager) recyclerView.getLayoutManager();
 
                 if(!isLoading) {
                     if(layoutManager != null && layoutManager.findLastCompletelyVisibleItemPosition() == myDataset.size() - 1){
@@ -137,22 +149,23 @@ public class ShopListFragment extends Fragment {
         ShopListApi service = retrofit.create(ShopListApi.class);
 
         System.out.println("jwtToken = " + JwtToken.getJwt());
-        Call<List<UserShopListDTO>> call = service.getStoreList(JwtToken.getJwt(), pageInit);
+        Call<UserShopListResponseDTO> call = service.getStoreList(JwtToken.getJwt(), pageInit);
 
         Toast loadingToast = Toast.makeText(getContext(), "가맹점 리스트를 불러오는 중...", Toast.LENGTH_SHORT);
         loadingToast.show();
 
-        call.enqueue(new Callback<List<UserShopListDTO>>() {
+        call.enqueue(new Callback<UserShopListResponseDTO>() {
             @Override
-            public void onResponse(Call<List<UserShopListDTO>> call, Response<List<UserShopListDTO>> response) {
+            public void onResponse(Call<UserShopListResponseDTO> call, Response<UserShopListResponseDTO> response) {
                 if(response.isSuccessful()){
                     System.out.println(page + "------");
                     if(page > 1){
                         myDataset.remove(myDataset.size() - 1);
                         mAdapter.notifyItemRemoved(myDataset.size());
                     }
-                    List<UserShopListDTO> result = response.body();
-                    for (UserShopListDTO userShopListDTO : result) {
+                    UserShopListResponseDTO result = response.body();
+                    List<UserShopListDTO> storeResponseList = result.getStoreResponseList();
+                    for (UserShopListDTO userShopListDTO : storeResponseList) {
 
                         System.out.println("JwtToken.getId() = " + JwtToken.getId());
                         System.out.println("userShopListDTO = " + userShopListDTO.getName());
@@ -178,7 +191,7 @@ public class ShopListFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<UserShopListDTO>> call, Throwable t) {
+            public void onFailure(Call<UserShopListResponseDTO> call, Throwable t) {
                 Log.d(TAG,"onFailure" + t.getMessage());
             }
         });

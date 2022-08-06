@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hyperledgervirtualmoneyproject.API.UserTradeApi;
 import com.example.hyperledgervirtualmoneyproject.DTO.JwtToken;
+import com.example.hyperledgervirtualmoneyproject.DTO.UserTradeHistoryResponseDTO;
 import com.example.hyperledgervirtualmoneyproject.DTO.UserTradeResponseDTO;
 import com.example.hyperledgervirtualmoneyproject.LoadingDialog;
 import com.example.hyperledgervirtualmoneyproject.R;
@@ -113,7 +114,7 @@ public class userTradeActivity extends AppCompatActivity {
 
     private void loadMore(){
         myDataset.add(null);
-        mAdapter.notifyItemInserted(myDataset.size() - 1);
+        //mAdapter.notifyItemInserted(myDataset.size() - 1);
 
         System.out.println("myDataset.size()1 = " + (myDataset.size() - 1));
         Handler handler = new Handler();
@@ -121,14 +122,13 @@ public class userTradeActivity extends AppCompatActivity {
             @Override
             public void run() {
                 System.out.println("myDataset.size()2 = " + (myDataset.size() - 1));
-
                 getUserTradeHistory(page);
                 isLoading = false;
             }
         }, 2000);
     }
 
-    public void getUserTradeHistory(int pageInit){
+    public void getUserTradeHistory(int pageInit) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.localhost))
                 .addConverterFactory(GsonConverterFactory.create())
@@ -137,21 +137,22 @@ public class userTradeActivity extends AppCompatActivity {
         UserTradeApi service = retrofit.create(UserTradeApi.class);
 
         System.out.println("jwtToken = " + JwtToken.getJwt());
-        Call<List<UserTradeResponseDTO>> call = service.trade(JwtToken.getJwt(), pageInit);
+        Call<UserTradeHistoryResponseDTO> call = service.trade(JwtToken.getJwt(), pageInit);
         Toast loadingToast = Toast.makeText(getApplicationContext(), "기록을 불러오는 중...", Toast.LENGTH_SHORT);
         loadingToast.show();
 
-        call.enqueue(new Callback<List<UserTradeResponseDTO>>() {
+        call.enqueue(new Callback<UserTradeHistoryResponseDTO>() {
             @Override
-            public void onResponse(Call<List<UserTradeResponseDTO>> call, Response<List<UserTradeResponseDTO>> response) {
+            public void onResponse(Call<UserTradeHistoryResponseDTO> call, Response<UserTradeHistoryResponseDTO> response) {
                 if(response.isSuccessful()){
                     System.out.println(page + "------");
                     if(page > 1){
                         myDataset.remove(myDataset.size() - 1);
                         mAdapter.notifyItemRemoved(myDataset.size());
                     }
-                    List<UserTradeResponseDTO> result = response.body();
-                    for (UserTradeResponseDTO userTradeResponseDTO : result) {
+                    UserTradeHistoryResponseDTO result = response.body();
+                    List<UserTradeResponseDTO> tradeResponseList = result.getTransferResponseList();
+                    for (UserTradeResponseDTO userTradeResponseDTO : tradeResponseList) {
 
                         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
                         LocalDateTime dateTime = LocalDateTime.parse(userTradeResponseDTO.getDateCreated(), formatter);
@@ -159,6 +160,7 @@ public class userTradeActivity extends AppCompatActivity {
 
                         System.out.println("JwtToken.getId() = " + JwtToken.getId());
                         System.out.println("userTradeResponseDTO = " + userTradeResponseDTO.getSenderIdentifier().toString());
+
                         if(JwtToken.getId().equals(userTradeResponseDTO.getSenderIdentifier().toString())){
                             System.out.println("dateTime = " + dateTime);
                             myDataset.add(new PaintTitle
@@ -197,7 +199,7 @@ public class userTradeActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<UserTradeResponseDTO>> call, Throwable t) {
+            public void onFailure(Call<UserTradeHistoryResponseDTO> call, Throwable t) {
                 Log.d(TAG,"onFailure" + t.getMessage());
             }
         });

@@ -6,17 +6,46 @@
     android:layout_height="match_parent"
     tools:context=".ui.shopList.ShopListFragment">
 
+    <LinearLayout
+        android:id="@+id/shopSearchBar"
+        android:background="@drawable/layout_shape"
+        android:elevation="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="20dp">
+
+        <EditText
+            android:id="@+id/shopListSearchText"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:hint="검색창" />
+
+        <Button
+            android:id="@+id/shopListSearchBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_shape"
+            android:textColor="#4881F2"
+            android:text="검색" />
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/shopList_recycler"
         android:layout_width="373dp"
-        android:layout_height="392dp"
-        android:layout_margin="10dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="500dp"
+        android:layout_margin="20dp"
         android:orientation="vertical"
+        android:background="@drawable/layout_shape"
+        android:elevation="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.578"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/shopSearchBar"
+        app:layout_constraintVertical_bias="0.088">
 
     </androidx.recyclerview.widget.RecyclerView>
 
