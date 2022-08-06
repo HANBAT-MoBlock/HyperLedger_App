@@ -71,7 +71,7 @@ public class TransferFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 UserTransferRequestDTO userTransferRequestDTO = new UserTransferRequestDTO(
-                        Long.parseLong(receiver.getText().toString()),
+                        receiver.getText().toString(),
                         coin.getText().toString(),
                         Long.parseLong(amount.getText().toString())
                 );

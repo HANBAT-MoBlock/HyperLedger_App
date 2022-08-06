@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 /*
 {
-    "studentId": 20171601,
+    "identifier": 20171601,
     "owner": "최영창",
     "coin": {},
     "sender": null,
@@ -13,22 +13,18 @@ import java.util.HashMap;
 }
  */
 public class UserGetAssetDTO {
-    private Long studentId;
+    private String identifier;
 
     private String owner;
 
     private HashMap<String, String> coin;
 
-    private String sender;
-
-    private String receiver;
-
-    public Long getStudentId() {
-        return studentId;
+    public String getIdentifier() {
+        return identifier;
     }
 
-    public void setStudentId(Long studentId) {
-        this.studentId = studentId;
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
 
     public String getOwner() {
@@ -47,36 +43,10 @@ public class UserGetAssetDTO {
         this.coin = coin;
     }
 
-    public String getSender() {
-        return sender;
-    }
-
-    public void setSender(String sender) {
-        this.sender = sender;
-    }
-
-    public String getReceiver() {
-        return receiver;
-    }
-
-    public void setReceiver(String receiver) {
-        this.receiver = receiver;
-    }
-
-    public Long getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Long amount) {
-        this.amount = amount;
-    }
-
-    private Long amount;
-
     @Override
     public String toString() {
         return "자산정보 \n" +
-                "학번 = " + studentId + "\n" +
+                "학번 = " + identifier + "\n" +
                 "이름 = " + owner + "\n" +
                 "보유 코인 = " + coin;
     }

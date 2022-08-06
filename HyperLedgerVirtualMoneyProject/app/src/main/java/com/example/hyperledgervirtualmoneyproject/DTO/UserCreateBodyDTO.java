@@ -1,13 +1,15 @@
 package com.example.hyperledgervirtualmoneyproject.DTO;
 
 public class UserCreateBodyDTO {
-    private String studentId;
+    private String identifier;
     private String password;
     private String name;
+    private String userRole;
 
-    public UserCreateBodyDTO(String studentId, String password, String name) {
-        this.studentId = studentId;
+    public UserCreateBodyDTO(String identifier, String password, String name, String userRole) {
+        this.identifier = identifier;
         this.password = password;
         this.name = name;
+        this.userRole = userRole;
     }
 }

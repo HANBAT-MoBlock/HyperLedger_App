@@ -24,8 +24,8 @@ public interface UserApi {
 
     @GET("/login")
     Call<UserLoginDTO> login(
-            @Query("studentId") Long studentId,
-            @Query("password") String Password
+            @Query("identifier") String identifier,
+            @Query("password") String password
     );
 
     @PATCH("/user")

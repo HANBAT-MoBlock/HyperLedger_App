@@ -198,12 +198,12 @@ public class HomeFragment extends Fragment {
                         String yyMd = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
                         System.out.println("JwtToken.getId() = " + JwtToken.getId());
-                        System.out.println("userTradeResponseDTO = " + userTradeResponseDTO.getSenderStudentId().toString());
-                        if(JwtToken.getId().equals(userTradeResponseDTO.getSenderStudentId().toString())){
+                        System.out.println("userTradeResponseDTO = " + userTradeResponseDTO.getSenderIdentifier().toString());
+                        if(JwtToken.getId().equals(userTradeResponseDTO.getSenderIdentifier().toString())){
                             System.out.println("dateTime = " + dateTime);
                             myDataset.add(new PaintTitle
                                     (
-                                            userTradeResponseDTO.getReceiverStudentIdOrPhoneNumber().toString(), userTradeResponseDTO.getReceiverName(),
+                                            userTradeResponseDTO.getReceiverIdentifier().toString(), userTradeResponseDTO.getReceiverName(),
                                             userTradeResponseDTO.getCoinName(), "-" + userTradeResponseDTO.getAmount().toString(),
                                             yyMd, dateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
                                     )
@@ -212,7 +212,7 @@ public class HomeFragment extends Fragment {
                         }else{
                             myDataset.add(new PaintTitle
                                     (
-                                            userTradeResponseDTO.getSenderStudentId().toString(), userTradeResponseDTO.getSenderName(),
+                                            userTradeResponseDTO.getSenderIdentifier().toString(), userTradeResponseDTO.getSenderName(),
                                             userTradeResponseDTO.getCoinName(), userTradeResponseDTO.getAmount().toString(),
                                             yyMd, dateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
                                     )

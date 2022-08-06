@@ -1,7 +1,9 @@
 package com.example.hyperledgervirtualmoneyproject.ui.shopList;
 
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,14 +16,33 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.hyperledgervirtualmoneyproject.API.ShopListApi;
+import com.example.hyperledgervirtualmoneyproject.API.UserApi;
+import com.example.hyperledgervirtualmoneyproject.API.UserTradeApi;
+import com.example.hyperledgervirtualmoneyproject.DTO.JwtToken;
+import com.example.hyperledgervirtualmoneyproject.DTO.UserGetAssetDTO;
+import com.example.hyperledgervirtualmoneyproject.DTO.UserShopListDTO;
+import com.example.hyperledgervirtualmoneyproject.DTO.UserTradeResponseDTO;
 import com.example.hyperledgervirtualmoneyproject.R;
 import com.example.hyperledgervirtualmoneyproject.ShopListRecycler.ShopListAdapter;
 import com.example.hyperledgervirtualmoneyproject.ShopListRecycler.ShopListPaintTitle;
+import com.example.hyperledgervirtualmoneyproject.TradeRecycler.PaintTitle;
 import com.example.hyperledgervirtualmoneyproject.databinding.FragmentShoplistBinding;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ShopListFragment extends Fragment {
+
+    private static final String TAG = "ShopListFragment";
 
     private FragmentShoplistBinding binding;
 
@@ -48,22 +69,16 @@ public class ShopListFragment extends Fragment {
 
         myDataset.add(new ShopListPaintTitle
                 (
-                        "가게", "전화번호",
-                        "주소"
+                        "이름", "번호", "주소"
                 )
         );
-        myDataset.add(new ShopListPaintTitle
-                (
-                        "가게", "전화번호",
-                        "주소"
-                )
-        );
+
 
         return root;
     }
 
     private void populateData() {
-        //getUserTradeHistory(page);
+        getShopList(page);
     }
 
     private void initAdapter() {
@@ -107,11 +122,66 @@ public class ShopListFragment extends Fragment {
             @Override
             public void run() {
                 System.out.println("myDataset.size()2 = " + (myDataset.size() - 1));
-
-                //getUserTradeHistory(page);
+                getShopList(page);
                 isLoading = false;
             }
         }, 2000);
+    }
+
+    public void getShopList(int pageInit){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(getString(R.string.localhost))
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ShopListApi service = retrofit.create(ShopListApi.class);
+
+        System.out.println("jwtToken = " + JwtToken.getJwt());
+        Call<List<UserShopListDTO>> call = service.getStoreList(JwtToken.getJwt(), pageInit);
+
+        Toast loadingToast = Toast.makeText(getContext(), "가맹점 리스트를 불러오는 중...", Toast.LENGTH_SHORT);
+        loadingToast.show();
+
+        call.enqueue(new Callback<List<UserShopListDTO>>() {
+            @Override
+            public void onResponse(Call<List<UserShopListDTO>> call, Response<List<UserShopListDTO>> response) {
+                if(response.isSuccessful()){
+                    System.out.println(page + "------");
+                    if(page > 1){
+                        myDataset.remove(myDataset.size() - 1);
+                        mAdapter.notifyItemRemoved(myDataset.size());
+                    }
+                    List<UserShopListDTO> result = response.body();
+                    for (UserShopListDTO userShopListDTO : result) {
+
+                        System.out.println("JwtToken.getId() = " + JwtToken.getId());
+                        System.out.println("userShopListDTO = " + userShopListDTO.getName());
+                        myDataset.add(new ShopListPaintTitle
+                                (
+                                        userShopListDTO.getName(), userShopListDTO.getPhoneNumber(), userShopListDTO.getAddress()
+                                )
+                        );
+                    }
+                    mAdapter.notifyDataSetChanged();
+                    page++;
+                    System.out.println("page: " + page);
+                    loadingToast.cancel();
+                    if(result.toString() == "[]"){
+                        Toast.makeText(getContext(), "더 이상 기록이 없습니다.", Toast.LENGTH_SHORT).show();
+                    } else{
+                        Toast.makeText(getContext(), "완료", Toast.LENGTH_SHORT).show();
+                    }
+                    Log.d(TAG, "onResponse: 성공, 결과 \n" + result.toString());
+                }else{
+                    Log.d(TAG, "onResponse: 실패");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<UserShopListDTO>> call, Throwable t) {
+                Log.d(TAG,"onFailure" + t.getMessage());
+            }
+        });
     }
 
 

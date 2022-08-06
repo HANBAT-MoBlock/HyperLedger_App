@@ -13,18 +13,30 @@
             android:id="@+id/studentId"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="studentId"/>
+            android:hint="identifier"/>
 
         <EditText
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="password"/>
+
         <EditText
             android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="name"/>
+
+        <CheckBox
+            android:id="@+id/userCreateRoleCheckUser"
+            android:text="사용자"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <CheckBox
+            android:id="@+id/userCreateRoleCheckShop"
+            android:text="가맹점주"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/userCreateResult"

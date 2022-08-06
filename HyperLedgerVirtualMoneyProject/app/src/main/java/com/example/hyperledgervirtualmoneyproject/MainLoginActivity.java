@@ -43,7 +43,7 @@ public class MainLoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainLoginActivity.this, MainActivity.class);
                 startActivity(intent);
-                //userLoginService(Long.parseLong(id.getText().toString()), password.getText().toString());
+                //userLoginService(id.getText().toString(), password.getText().toString());
             }
         });
 
@@ -56,7 +56,7 @@ public class MainLoginActivity extends AppCompatActivity {
         });
     }
 
-    public void userLoginService(Long studentId, String password){
+    public void userLoginService(String identifier, String password){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.localhost))
                 .addConverterFactory(GsonConverterFactory.create())
@@ -64,8 +64,8 @@ public class MainLoginActivity extends AppCompatActivity {
 
         UserApi service = retrofit.create(UserApi.class);
 
-        Call<UserLoginDTO> call = service.login(studentId, password);
-        System.out.println("studentId = " + studentId);
+        Call<UserLoginDTO> call = service.login(identifier, password);
+        System.out.println("identifier = " + identifier);
         System.out.println("password = " + password);
 
         call.enqueue(new Callback<UserLoginDTO>() {

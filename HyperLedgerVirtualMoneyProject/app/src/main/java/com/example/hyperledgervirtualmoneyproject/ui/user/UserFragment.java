@@ -56,6 +56,11 @@ public class UserFragment extends Fragment {
         binding = FragmentUserBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+
+        studentId = (TextView) root.findViewById(R.id.userInfoStudentId);
+        studentName = (TextView) root.findViewById(R.id.userInfoStudentName);
+
+
         logout = (Button) root.findViewById(R.id.user_logout);
         passwordChange = (Button) root.findViewById(R.id.user_passwordChange);
 
@@ -119,7 +124,7 @@ public class UserFragment extends Fragment {
             public void onResponse(Call<UserGetAssetDTO> call, Response<UserGetAssetDTO> response) {
                 if(response.isSuccessful()){
                     UserGetAssetDTO result = response.body();
-                    studentId.setText(result.getStudentId().toString());
+                    studentId.setText(result.getIdentifier());
                     studentId.setPaintFlags(studentId.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
                     studentName.setText(result.getOwner());
 

@@ -8,9 +8,12 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
+        android:background="#CCCCCC"
         android:layout_width="match_parent"
         android:layout_height="184dp"
-        android:layout_margin="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginRight="20dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,22 +45,27 @@
     </LinearLayout>
 
     <LinearLayout
+
+        android:background="#CCCCCC"
         android:layout_width="match_parent"
         android:layout_height="308dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.31"
+        app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="0.089"
-        android:orientation="vertical">
+        app:layout_constraintVertical_bias="0.187">
+
         <Button
             android:id="@+id/home_tradeButton"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:text="전체기록"/>
+            android:background="@drawable/btn_shape"
+            android:textColor="#4881F2"
+            android:text="전체기록" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/home_tradeList"

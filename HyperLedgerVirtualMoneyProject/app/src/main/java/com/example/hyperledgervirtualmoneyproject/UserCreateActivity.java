@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -28,6 +29,7 @@ public class UserCreateActivity extends AppCompatActivity {
     EditText studentId, password, name;
     TextView resultText;
     Button confirm;
+    CheckBox user, shop;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,17 +41,40 @@ public class UserCreateActivity extends AppCompatActivity {
         name = (EditText) findViewById(R.id.name);
         confirm = (Button) findViewById(R.id.userCreateConfirm);
         resultText = (TextView) findViewById(R.id.userCreateResult);
+        user = (CheckBox) findViewById(R.id.userCreateRoleCheckUser);
+        shop = (CheckBox) findViewById(R.id.userCreateRoleCheckShop);
+
+        user.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shop.setChecked(false);
+                user.setChecked(true);
+            }
+        });
+
+        shop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shop.setChecked(true);
+                user.setChecked(false);
+            }
+        });
+
 
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createUser(studentId.getText().toString(), password.getText().toString(), name.getText().toString());
+                if (shop.isChecked()) {
+                    createUser(studentId.getText().toString(), password.getText().toString(), name.getText().toString(), "ROLE_SHOP");
+                } else if(user.isChecked()){
+                    createUser(studentId.getText().toString(), password.getText().toString(), name.getText().toString(), "ROLE_STUDENT");
+                }
             }
         });
 
     }
 
-    public void createUser(String studentId, String password, String name){
+    public void createUser(String identifier, String password, String name, String role){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.localhost))
                 .addConverterFactory(GsonConverterFactory.create())
@@ -57,7 +82,7 @@ public class UserCreateActivity extends AppCompatActivity {
 
         UserApi service = retrofit.create(UserApi.class);
 
-        UserCreateBodyDTO userCreateBodyDTO = new UserCreateBodyDTO(studentId, password, name);
+        UserCreateBodyDTO userCreateBodyDTO = new UserCreateBodyDTO(identifier, password, name, role);
 
         Call<UserLoginDTO> call = service.join(userCreateBodyDTO);
 

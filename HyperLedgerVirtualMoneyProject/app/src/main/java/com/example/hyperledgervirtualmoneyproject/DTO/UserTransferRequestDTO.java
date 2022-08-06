@@ -1,14 +1,14 @@
 package com.example.hyperledgervirtualmoneyproject.DTO;
 
 public class UserTransferRequestDTO {
-    private Long receiverStudentIdOrPhoneNumber;
+    private String receiverIdentifier;
 
     private String coinName;
 
     private Long amount;
 
-    public UserTransferRequestDTO(Long receiverStudentIdOrPhoneNumber, String coinName, Long amount) {
-        this.receiverStudentIdOrPhoneNumber = receiverStudentIdOrPhoneNumber;
+    public UserTransferRequestDTO(String receiverIdentifier, String coinName, Long amount) {
+        this.receiverIdentifier = receiverIdentifier;
         this.coinName = coinName;
         this.amount = amount;
     }

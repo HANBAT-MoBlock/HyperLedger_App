@@ -1,5 +1,6 @@
 package com.example.hyperledgervirtualmoneyproject.ui.transfer;
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.hyperledgervirtualmoneyproject.API.UserTradeApi;
 import com.example.hyperledgervirtualmoneyproject.DTO.JwtToken;
 import com.example.hyperledgervirtualmoneyproject.DTO.UserTradeResponseDTO;
+import com.example.hyperledgervirtualmoneyproject.LoadingDialog;
 import com.example.hyperledgervirtualmoneyproject.R;
 import com.example.hyperledgervirtualmoneyproject.TradeRecycler.Adapter;
 import com.example.hyperledgervirtualmoneyproject.TradeRecycler.PaintTitle;
@@ -22,6 +24,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,6 +34,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class userTradeActivity extends AppCompatActivity {
+
+    LoadingDialog customProgressDialog;
 
     private static final String TAG = "userTradeActivity";
     RecyclerView mRecyclerView;
@@ -49,6 +55,26 @@ public class userTradeActivity extends AppCompatActivity {
         populateData();
         initAdapter();
         initScrollListener();
+
+        customProgressDialog = new LoadingDialog(userTradeActivity.this);
+        //로딩창을 투명하게
+        customProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        customProgressDialog.setCancelable(false);
+        customProgressDialog.show();
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                TimerTask task = new TimerTask() {
+                    @Override
+                    public void run() {
+                        customProgressDialog.cancel();
+                    }
+                };
+                Timer timer = new Timer();
+                timer.schedule(task, 3000);
+            }
+        });
+        thread.start();
     }
 
     private void populateData() {
@@ -132,12 +158,12 @@ public class userTradeActivity extends AppCompatActivity {
                         String yyMd = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
                         System.out.println("JwtToken.getId() = " + JwtToken.getId());
-                        System.out.println("userTradeResponseDTO = " + userTradeResponseDTO.getSenderStudentId().toString());
-                        if(JwtToken.getId().equals(userTradeResponseDTO.getSenderStudentId().toString())){
+                        System.out.println("userTradeResponseDTO = " + userTradeResponseDTO.getSenderIdentifier().toString());
+                        if(JwtToken.getId().equals(userTradeResponseDTO.getSenderIdentifier().toString())){
                             System.out.println("dateTime = " + dateTime);
                             myDataset.add(new PaintTitle
                                     (
-                                            userTradeResponseDTO.getReceiverStudentIdOrPhoneNumber().toString(), userTradeResponseDTO.getReceiverName(),
+                                            userTradeResponseDTO.getReceiverIdentifier().toString(), userTradeResponseDTO.getReceiverName(),
                                             userTradeResponseDTO.getCoinName(), "-" + userTradeResponseDTO.getAmount().toString(),
                                             yyMd, dateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
                                     )
@@ -146,7 +172,7 @@ public class userTradeActivity extends AppCompatActivity {
                         }else{
                             myDataset.add(new PaintTitle
                                     (
-                                            userTradeResponseDTO.getSenderStudentId().toString(), userTradeResponseDTO.getSenderName(),
+                                            userTradeResponseDTO.getSenderIdentifier().toString(), userTradeResponseDTO.getSenderName(),
                                             userTradeResponseDTO.getCoinName(), userTradeResponseDTO.getAmount().toString(),
                                             yyMd, dateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
                                     )

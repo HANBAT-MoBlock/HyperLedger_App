@@ -2,11 +2,11 @@ package com.example.hyperledgervirtualmoneyproject.DTO;
 
 public class UserTradeResponseDTO {
 
-    private Long senderStudentId;
+    private Long senderIdentifier;
 
     private String senderName;
 
-    private Long receiverStudentIdOrPhoneNumber;
+    private Long receiverIdentifier;
 
     private String receiverName;
 
@@ -19,8 +19,8 @@ public class UserTradeResponseDTO {
     @Override
     public String toString() {
         return "UserTradeResponseDTO{" +
-                "senderStudentId=" + senderStudentId +
-                ", receiverStudentIdOrPhoneNumber=" + receiverStudentIdOrPhoneNumber +
+                "senderStudentId=" + senderIdentifier +
+                ", receiverStudentIdOrPhoneNumber=" + receiverIdentifier +
                 ", senderName='" + senderName + '\'' +
                 ", receiverName='" + receiverName + '\'' +
                 ", coinName='" + coinName + '\'' +
@@ -29,20 +29,20 @@ public class UserTradeResponseDTO {
                 '}';
     }
 
-    public Long getSenderStudentId() {
-        return senderStudentId;
+    public Long getSenderIdentifier() {
+        return senderIdentifier;
     }
 
-    public void setSenderStudentId(Long senderStudentId) {
-        this.senderStudentId = senderStudentId;
+    public void setSenderIdentifier(Long senderIdentifier) {
+        this.senderIdentifier = senderIdentifier;
     }
 
-    public Long getReceiverStudentIdOrPhoneNumber() {
-        return receiverStudentIdOrPhoneNumber;
+    public Long getReceiverIdentifier() {
+        return receiverIdentifier;
     }
 
-    public void setReceiverStudentIdOrPhoneNumber(Long receiverStudentIdOrPhoneNumber) {
-        this.receiverStudentIdOrPhoneNumber = receiverStudentIdOrPhoneNumber;
+    public void setReceiverIdentifier(Long receiverIdentifier) {
+        this.receiverIdentifier = receiverIdentifier;
     }
 
     public String getSenderName() {
