@@ -205,11 +205,21 @@ public class ShopListFragment extends Fragment {
 
                         System.out.println("JwtToken.getId() = " + JwtToken.getId());
                         System.out.println("userShopListDTO = " + userShopListDTO.getName());
-                        myDataset.add(new ShopListPaintTitle
-                                (
-                                        bitmap, userShopListDTO.getName(), userShopListDTO.getPhoneNumber(), userShopListDTO.getAddress()
-                                )
-                        );
+                        if (bitmap == null) {
+                            myDataset.add(new ShopListPaintTitle
+                                    (
+                                            BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_baseline_qr_code_24), userShopListDTO.getName(),
+                                            userShopListDTO.getPhoneNumber(), userShopListDTO.getAddress()
+                                    )
+                            );
+                        } else {
+                            myDataset.add(new ShopListPaintTitle
+                                    (
+                                            bitmap, userShopListDTO.getName(), userShopListDTO.getPhoneNumber(), userShopListDTO.getAddress()
+                                    )
+                            );
+                        }
+
                     }
                     mAdapter.notifyDataSetChanged();
                     page++;
