@@ -83,6 +83,7 @@ public class ShopListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private void populateItemRows(ItemViewHolder viewHolder, int position){
         ShopListPaintTitle item = mDataset.get(position);
+        viewHolder.shopImg.setImageBitmap(item.img);
         viewHolder.name.setText(item.name);
         viewHolder.phoneNumber.setText(item.phoneNumber);
         viewHolder.address.setText(item.address);

@@ -1,7 +1,10 @@
 package com.example.hyperledgervirtualmoneyproject.ui.shopList;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -31,10 +34,12 @@ import com.example.hyperledgervirtualmoneyproject.databinding.FragmentShoplistBi
 import com.example.hyperledgervirtualmoneyproject.shopimgtest;
 import com.example.hyperledgervirtualmoneyproject.ui.transfer.userTradeActivity;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -186,11 +191,23 @@ public class ShopListFragment extends Fragment {
                     List<UserShopListDTO> storeResponseList = result.getStoreResponseList();
                     for (UserShopListDTO userShopListDTO : storeResponseList) {
 
+                        Call<byte[]> call2 = service.getStoreImage(JwtToken.getJwt(), userShopListDTO.getStoreImageFileName());
+                        byte[] bytes;
+                        Bitmap bitmap = null;
+                        try {
+                            bytes = new getImg().execute(call2).get();
+                            bitmap = BitmapFactory.decodeByteArray( bytes, 0, bytes.length );
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
                         System.out.println("JwtToken.getId() = " + JwtToken.getId());
                         System.out.println("userShopListDTO = " + userShopListDTO.getName());
                         myDataset.add(new ShopListPaintTitle
                                 (
-                                        userShopListDTO.getName(), userShopListDTO.getPhoneNumber(), userShopListDTO.getAddress()
+                                        bitmap, userShopListDTO.getName(), userShopListDTO.getPhoneNumber(), userShopListDTO.getAddress()
                                 )
                         );
                     }
@@ -214,6 +231,20 @@ public class ShopListFragment extends Fragment {
                 Log.d(TAG,"onFailure" + t.getMessage());
             }
         });
+    }
+
+    private class getImg extends AsyncTask<Call, Void, byte[]> {
+        @Override
+        protected byte[] doInBackground(Call... calls) {
+            try {
+                Call<byte[]> call = calls[0];
+                Response<byte[]> execute = call.execute();
+                return execute.body();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 
 
