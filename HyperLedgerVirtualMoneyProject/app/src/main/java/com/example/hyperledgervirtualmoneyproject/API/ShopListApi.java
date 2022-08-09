@@ -9,6 +9,8 @@ import com.example.hyperledgervirtualmoneyproject.DTO.UserShopListResponseDTO;
 import java.util.List;
 
 import io.reactivex.rxjava3.core.Single;
+import okhttp3.MultipartBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
@@ -29,7 +31,7 @@ public interface ShopListApi {
     );
 
     @GET("user/storeimage")
-    Call<byte[]> getStoreImage(
+    Call<ResponseBody> getStoreImage(
             @Header("Authorization") String Authorization,
             @Query("fileName") String fileName
     );

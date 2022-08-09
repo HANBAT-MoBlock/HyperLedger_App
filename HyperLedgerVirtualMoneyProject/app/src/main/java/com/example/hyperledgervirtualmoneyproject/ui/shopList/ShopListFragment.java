@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EdgeEffect;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -31,8 +30,6 @@ import com.example.hyperledgervirtualmoneyproject.R;
 import com.example.hyperledgervirtualmoneyproject.ShopListRecycler.ShopListAdapter;
 import com.example.hyperledgervirtualmoneyproject.ShopListRecycler.ShopListPaintTitle;
 import com.example.hyperledgervirtualmoneyproject.databinding.FragmentShoplistBinding;
-import com.example.hyperledgervirtualmoneyproject.shopimgtest;
-import com.example.hyperledgervirtualmoneyproject.ui.transfer.userTradeActivity;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,6 +38,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
+import okhttp3.MultipartBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -104,8 +103,6 @@ public class ShopListFragment extends Fragment {
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), shopimgtest.class);
-                startActivity(intent);
             }
         });
 
@@ -191,12 +188,14 @@ public class ShopListFragment extends Fragment {
                     List<UserShopListDTO> storeResponseList = result.getStoreResponseList();
                     for (UserShopListDTO userShopListDTO : storeResponseList) {
 
-                        Call<byte[]> call2 = service.getStoreImage(JwtToken.getJwt(), userShopListDTO.getStoreImageFileName());
-                        byte[] bytes;
+                        Call<ResponseBody> call2 = service.getStoreImage(JwtToken.getJwt(), userShopListDTO.getStoreImageFileName());
+
                         Bitmap bitmap = null;
                         try {
-                            bytes = new getImg().execute(call2).get();
-                            bitmap = BitmapFactory.decodeByteArray( bytes, 0, bytes.length );
+                            bitmap = new getImg().execute(call2).get();
+//                            if (bytes != null) {
+//                                bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length );
+//                            }
                         } catch (ExecutionException e) {
                             e.printStackTrace();
                         } catch (InterruptedException e) {
@@ -205,6 +204,7 @@ public class ShopListFragment extends Fragment {
 
                         System.out.println("JwtToken.getId() = " + JwtToken.getId());
                         System.out.println("userShopListDTO = " + userShopListDTO.getName());
+                        System.out.println("getStoreImageFileName = " + userShopListDTO.getStoreImageFileName());
                         if (bitmap == null) {
                             myDataset.add(new ShopListPaintTitle
                                     (
@@ -243,13 +243,15 @@ public class ShopListFragment extends Fragment {
         });
     }
 
-    private class getImg extends AsyncTask<Call, Void, byte[]> {
+    private class getImg extends AsyncTask<Call, Void, Bitmap> {
         @Override
-        protected byte[] doInBackground(Call... calls) {
+        protected Bitmap doInBackground(Call... calls) {
             try {
-                Call<byte[]> call = calls[0];
-                Response<byte[]> execute = call.execute();
-                return execute.body();
+                Call<ResponseBody> call = calls[0];
+                Response<ResponseBody> execute = call.execute();
+                Bitmap bitmap = BitmapFactory.decodeStream(execute.body().byteStream());
+
+                return bitmap;
             }catch (IOException e){
                 e.printStackTrace();
             }
