@@ -38,12 +38,15 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
+import io.reactivex.rxjava3.core.Scheduler;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ShopListFragment extends Fragment {
@@ -169,8 +172,11 @@ public class ShopListFragment extends Fragment {
 
         ShopListApi service = retrofit.create(ShopListApi.class);
 
+
         System.out.println("jwtToken = " + JwtToken.getJwt());
         Call<UserShopListResponseDTO> call = service.getStoreList(JwtToken.getJwt(), pageInit);
+
+
 
         Toast loadingToast = Toast.makeText(getContext(), "가맹점 리스트를 불러오는 중...", Toast.LENGTH_SHORT);
         loadingToast.show();

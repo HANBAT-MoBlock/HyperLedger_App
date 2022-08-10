@@ -8,11 +8,11 @@
 
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:background="@drawable/layout_shape"
-        android:elevation="20dp"
         android:layout_width="392dp"
         android:layout_height="225dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="92dp"
+        android:background="@drawable/layout_shape"
+        android:elevation="20dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.473"
