@@ -2,11 +2,11 @@ package com.example.hyperledgervirtualmoneyproject.DTO;
 
 public class UserTradeResponseDTO {
 
-    private Long senderIdentifier;
+    private String senderIdentifier;
 
     private String senderName;
 
-    private Long receiverIdentifier;
+    private String receiverIdentifier;
 
     private String receiverName;
 
@@ -29,19 +29,19 @@ public class UserTradeResponseDTO {
                 '}';
     }
 
-    public Long getSenderIdentifier() {
+    public String getSenderIdentifier() {
         return senderIdentifier;
     }
 
-    public void setSenderIdentifier(Long senderIdentifier) {
+    public void setSenderIdentifier(String senderIdentifier) {
         this.senderIdentifier = senderIdentifier;
     }
 
-    public Long getReceiverIdentifier() {
+    public String getReceiverIdentifier() {
         return receiverIdentifier;
     }
 
-    public void setReceiverIdentifier(Long receiverIdentifier) {
+    public void setReceiverIdentifier(String receiverIdentifier) {
         this.receiverIdentifier = receiverIdentifier;
     }
 

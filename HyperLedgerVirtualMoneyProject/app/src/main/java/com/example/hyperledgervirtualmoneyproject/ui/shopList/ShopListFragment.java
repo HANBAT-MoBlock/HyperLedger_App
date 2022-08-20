@@ -136,6 +136,7 @@ public class ShopListFragment extends Fragment {
     }
 
     private void initAdapter() {
+        Log.d(TAG, "initAdapter");
         mAdapter = new ShopListAdapter(myDataset);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setAdapter(mAdapter);
@@ -143,6 +144,7 @@ public class ShopListFragment extends Fragment {
     }
 
     private void initScrollListener(){
+        Log.d(TAG, "initScrollListener");
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -208,6 +210,7 @@ public class ShopListFragment extends Fragment {
                     if(storeResponseList.isEmpty()){
                         System.out.println("끝");
                     }else{
+                        System.out.println("실행됨");
                         for (UserShopListDTO userShopListDTO : storeResponseList) {
 
                             Call<ResponseBody> call2 = service.getStoreImage(JwtToken.getJwt(), userShopListDTO.getStoreImageFileName());

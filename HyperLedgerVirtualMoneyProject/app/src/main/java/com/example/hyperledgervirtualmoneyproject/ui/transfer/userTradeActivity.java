@@ -99,7 +99,6 @@ public class userTradeActivity extends AppCompatActivity {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-
                 LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
 
                 if(!isLoading) {
@@ -115,7 +114,7 @@ public class userTradeActivity extends AppCompatActivity {
 
     private void loadMore(){
         myDataset.add(null);
-        //mAdapter.notifyItemInserted(myDataset.size() - 1);
+        mAdapter.notifyItemInserted(myDataset.size() - 1);
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -136,6 +135,7 @@ public class userTradeActivity extends AppCompatActivity {
         UserTradeApi service = retrofit.create(UserTradeApi.class);
 
         System.out.println("jwtToken = " + JwtToken.getJwt());
+        Log.d(TAG, "pageInit: " + pageInit);
         Call<UserTradeHistoryResponseDTO> call = service.trade(JwtToken.getJwt(), pageInit);
         Toast loadingToast = Toast.makeText(getApplicationContext(), "기록을 불러오는 중...", Toast.LENGTH_SHORT);
         loadingToast.show();
@@ -198,7 +198,7 @@ public class userTradeActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<UserTradeHistoryResponseDTO> call, Throwable t) {
-                Log.d(TAG,"onFailure" + t.getMessage());
+                Log.d(TAG,"onFailure " + t.getMessage());
             }
         });
     }

@@ -6,8 +6,8 @@ import java.util.List;
 
 public class UserTradeHistoryResponseDTO {
 
-    Long totalPage;
     Long totalTradeNumber;
+    Long totalPage;
 
     List<UserTradeResponseDTO> transferResponseList;
 
