@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hyperledgervirtualmoneyproject.API.ShopListApi;
@@ -46,7 +47,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ShopListFragment extends Fragment {
@@ -118,10 +118,10 @@ public class ShopListFragment extends Fragment {
 
     private void initAdapter() {
         mAdapter = new ShopListAdapter(myDataset);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
-        //LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        //GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setLayoutManager(gridLayoutManager);
+        mRecyclerView.setLayoutManager(layoutManager);
     }
 
     private void initScrollListener(){
@@ -134,8 +134,8 @@ public class ShopListFragment extends Fragment {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                //LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                GridLayoutManager layoutManager = (GridLayoutManager) recyclerView.getLayoutManager();
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                //GridLayoutManager layoutManager = (GridLayoutManager) recyclerView.getLayoutManager();
 
                 if(!isLoading) {
                     if(layoutManager != null && layoutManager.findLastCompletelyVisibleItemPosition() == myDataset.size() - 1){
