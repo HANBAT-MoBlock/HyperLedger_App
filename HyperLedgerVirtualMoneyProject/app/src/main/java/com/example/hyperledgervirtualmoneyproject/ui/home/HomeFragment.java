@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,8 @@ import com.example.hyperledgervirtualmoneyproject.R;
 import com.example.hyperledgervirtualmoneyproject.TradeRecycler.Adapter;
 import com.example.hyperledgervirtualmoneyproject.TradeRecycler.PaintTitle;
 import com.example.hyperledgervirtualmoneyproject.databinding.FragmentHomeBinding;
+import com.example.hyperledgervirtualmoneyproject.ui.home.CoinListView.CoinData;
+import com.example.hyperledgervirtualmoneyproject.ui.home.CoinListView.CoinLIstAdapter;
 import com.example.hyperledgervirtualmoneyproject.ui.transfer.userTradeActivity;
 
 import java.time.LocalDateTime;
@@ -51,12 +54,14 @@ public class HomeFragment extends Fragment {
     TextView coinName, amount;
     Button btnTradeListShow;
 
-
     RecyclerView mRecyclerView;
     RecyclerView.Adapter mAdapter;
     private int page = 1;
     ArrayList<PaintTitle> myDataset = new ArrayList<>();
     LoadingDialog customProgressDialog;
+
+    ListView coinListView;
+    ArrayList<CoinData> movieDataList;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -69,6 +74,7 @@ public class HomeFragment extends Fragment {
         coinName = (TextView) root.findViewById(R.id.home_coinName);
         amount = (TextView) root.findViewById(R.id.home_amount);
         mRecyclerView = (RecyclerView) root.findViewById(R.id.home_tradeList);
+        coinListView = (ListView) root.findViewById(R.id.coinListView);
 
         getAssetService();
 
@@ -136,15 +142,17 @@ public class HomeFragment extends Fragment {
             public void onResponse(Call<UserGetAssetDTO> call, Response<UserGetAssetDTO> response) {
                 if(response.isSuccessful()){
                     UserGetAssetDTO result = response.body();
+
+                    movieDataList = new ArrayList<CoinData>();
+
                     for (String key : result.getCoin().keySet()) {
-                        System.out.println("key = " + key);
-                        coinNameList.append(key + "\n");
-                        coinAmountList.append(result.getCoin().get(key) + "\n");
+                        movieDataList.add(new CoinData(key,result.getCoin().get(key)));
                     }
-                    System.out.println("coinNameList = " + coinNameList);
-                    System.out.println("coinAmountList = " + coinAmountList);
-                    coinName.setText(coinNameList);
-                    amount.setText(coinAmountList);
+
+                    final CoinLIstAdapter myAdapter = new CoinLIstAdapter(getContext(), movieDataList);
+
+                    coinListView.setAdapter(myAdapter);
+
                     toast.cancel();
                     Toast.makeText(getContext(), "완료", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "onResponse: 성공, 결과 \n" + result.toString());
