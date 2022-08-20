@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.hyperledgervirtualmoneyproject.R;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class ShopListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
@@ -20,6 +22,16 @@ public class ShopListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private final int VIEW_TYPE_LOADING = 1;
 
     private ArrayList<ShopListPaintTitle> mDataset;
+
+    public interface OnItemClickListener{
+        void onItemClicked(int position, String data);
+    }
+
+    private OnItemClickListener itemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        itemClickListener =listener;
+    }
 
     public ShopListAdapter(ArrayList<ShopListPaintTitle> myDataset) {
         mDataset = myDataset;
@@ -30,10 +42,34 @@ public class ShopListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
         if(viewType == VIEW_TYPE_ITEM){
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_shoplist, parent, false);
-            return new ItemViewHolder(v);
+            ItemViewHolder itemViewHolder = new ItemViewHolder(v);
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String data = "";
+                    int position = itemViewHolder.getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        data = itemViewHolder.getAddress().toString();
+                    }
+                    itemClickListener.onItemClicked(position, data);
+                }
+            });
+            return itemViewHolder;
         } else {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_loading, parent, false);
-            return new LoadingViewHolder(v);
+            ItemViewHolder itemViewHolder = new ItemViewHolder(v);
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String data = "";
+                    int position = itemViewHolder.getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        data = itemViewHolder.getAddress().toString();
+                    }
+                    itemClickListener.onItemClicked(position, data);
+                }
+            });
+            return itemViewHolder;
         }
     }
 
@@ -56,7 +92,7 @@ public class ShopListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return mDataset.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
     }
 
-    static class ItemViewHolder extends RecyclerView.ViewHolder {
+    public static class ItemViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView shopImg;
         private TextView name, phoneNumber, address;
@@ -67,6 +103,10 @@ public class ShopListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             name = (TextView) itemView.findViewById(R.id.shopName);
             phoneNumber = (TextView) itemView.findViewById(R.id.shopPhoneNumber);
             address = (TextView) itemView.findViewById(R.id.shopAddress);
+        }
+
+        public String getAddress() {
+            return address.getText().toString();
         }
     }
 

@@ -99,6 +99,7 @@ public class userTradeActivity extends AppCompatActivity {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+
                 LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
 
                 if(!isLoading) {
@@ -116,12 +117,10 @@ public class userTradeActivity extends AppCompatActivity {
         myDataset.add(null);
         //mAdapter.notifyItemInserted(myDataset.size() - 1);
 
-        System.out.println("myDataset.size()1 = " + (myDataset.size() - 1));
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                System.out.println("myDataset.size()2 = " + (myDataset.size() - 1));
                 getUserTradeHistory(page);
                 isLoading = false;
             }
@@ -145,7 +144,7 @@ public class userTradeActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<UserTradeHistoryResponseDTO> call, Response<UserTradeHistoryResponseDTO> response) {
                 if(response.isSuccessful()){
-                    System.out.println(page + "------");
+                    System.out.println(page + "----------");
                     if(page > 1){
                         myDataset.remove(myDataset.size() - 1);
                         mAdapter.notifyItemRemoved(myDataset.size());
@@ -185,7 +184,6 @@ public class userTradeActivity extends AppCompatActivity {
                     }
                     mAdapter.notifyDataSetChanged();
                     page++;
-                    System.out.println("page: " + page);
                     loadingToast.cancel();
                     if(result.toString() == "[]"){
                         Toast.makeText(getApplicationContext(), "더 이상 기록이 없습니다.", Toast.LENGTH_SHORT).show();

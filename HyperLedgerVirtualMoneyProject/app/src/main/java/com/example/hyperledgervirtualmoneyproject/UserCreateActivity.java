@@ -45,7 +45,8 @@ public class UserCreateActivity extends AppCompatActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createUser(studentId.getText().toString(), password.getText().toString(), name.getText().toString(), "ROLE_STUDENT");            }
+                createUser(studentId.getText().toString(), password.getText().toString(), name.getText().toString(), "ROLE_STUDENT");
+            }
         });
 
     }

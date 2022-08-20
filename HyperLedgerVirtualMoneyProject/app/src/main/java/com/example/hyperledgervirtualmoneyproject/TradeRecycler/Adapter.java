@@ -19,7 +19,6 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
 
-
     private ArrayList<PaintTitle> mDataset;
 
     public  Adapter(ArrayList<PaintTitle> myDataset) {

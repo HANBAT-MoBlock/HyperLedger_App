@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -33,6 +34,7 @@ import com.example.hyperledgervirtualmoneyproject.ShopListRecycler.ShopListPaint
 import com.example.hyperledgervirtualmoneyproject.databinding.FragmentShoplistBinding;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -56,10 +58,11 @@ public class ShopListFragment extends Fragment {
     private FragmentShoplistBinding binding;
 
     RecyclerView mRecyclerView;
-    RecyclerView.Adapter mAdapter;
+    ShopListAdapter mAdapter;
 
     private int page = 1;
     boolean isLoading = false;
+
     LoadingDialog customProgressDialog;
 
     ArrayList<ShopListPaintTitle> myDataset = new ArrayList<>();
@@ -88,6 +91,7 @@ public class ShopListFragment extends Fragment {
         customProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         customProgressDialog.setCancelable(false);
         customProgressDialog.show();
+
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -106,10 +110,25 @@ public class ShopListFragment extends Fragment {
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+            }
+        });
+
+        mAdapter.setOnItemClickListener(new ShopListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClicked(int position, String data) {
+                Toast.makeText(getContext(), data, Toast.LENGTH_SHORT).show();
+                Web(data);
             }
         });
 
         return root;
+    }
+
+    public void Web(String param){
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW);
+        browserIntent.setData(Uri.parse("https://naver.me/x50GB74V"));
+        startActivity(browserIntent);
     }
 
     private void populateData() {
@@ -118,7 +137,6 @@ public class ShopListFragment extends Fragment {
 
     private void initAdapter() {
         mAdapter = new ShopListAdapter(myDataset);
-        //GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -135,7 +153,6 @@ public class ShopListFragment extends Fragment {
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                //GridLayoutManager layoutManager = (GridLayoutManager) recyclerView.getLayoutManager();
 
                 if(!isLoading) {
                     if(layoutManager != null && layoutManager.findLastCompletelyVisibleItemPosition() == myDataset.size() - 1){
@@ -152,12 +169,10 @@ public class ShopListFragment extends Fragment {
         myDataset.add(null);
         mAdapter.notifyItemInserted(myDataset.size() - 1);
 
-        System.out.println("myDataset.size()1 = " + (myDataset.size() - 1));
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                System.out.println("myDataset.size()2 = " + (myDataset.size() - 1));
                 getShopList(page);
                 isLoading = false;
             }
@@ -172,11 +187,8 @@ public class ShopListFragment extends Fragment {
 
         ShopListApi service = retrofit.create(ShopListApi.class);
 
-
         System.out.println("jwtToken = " + JwtToken.getJwt());
         Call<UserShopListResponseDTO> call = service.getStoreList(JwtToken.getJwt(), pageInit);
-
-
 
         Toast loadingToast = Toast.makeText(getContext(), "가맹점 리스트를 불러오는 중...", Toast.LENGTH_SHORT);
         loadingToast.show();
@@ -192,50 +204,44 @@ public class ShopListFragment extends Fragment {
                     }
                     UserShopListResponseDTO result = response.body();
                     List<UserShopListDTO> storeResponseList = result.getStoreResponseList();
-                    for (UserShopListDTO userShopListDTO : storeResponseList) {
+                    System.out.println("storeResponseList = " + storeResponseList);
+                    if(storeResponseList.isEmpty()){
+                        System.out.println("끝");
+                    }else{
+                        for (UserShopListDTO userShopListDTO : storeResponseList) {
 
-                        Call<ResponseBody> call2 = service.getStoreImage(JwtToken.getJwt(), userShopListDTO.getStoreImageFileName());
+                            Call<ResponseBody> call2 = service.getStoreImage(JwtToken.getJwt(), userShopListDTO.getStoreImageFileName());
 
-                        Bitmap bitmap = null;
-                        try {
-                            bitmap = new getImg().execute(call2).get();
+                            Bitmap bitmap = null;
+                            try {
+                                bitmap = new getImg().execute(call2).get();
 //                            if (bytes != null) {
 //                                bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length );
 //                            }
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                            } catch (ExecutionException e) {
+                                e.printStackTrace();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            if (bitmap == null) {
+                                myDataset.add(new ShopListPaintTitle
+                                        (
+                                                BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_baseline_qr_code_24), userShopListDTO.getName(),
+                                                userShopListDTO.getPhoneNumber(), userShopListDTO.getAddress()
+                                        )
+                                );
+                            } else {
+                                myDataset.add(new ShopListPaintTitle
+                                        (
+                                                bitmap, userShopListDTO.getName(), userShopListDTO.getPhoneNumber(), userShopListDTO.getAddress()
+                                        )
+                                );
+                            }
                         }
-
-                        System.out.println("JwtToken.getId() = " + JwtToken.getId());
-                        System.out.println("userShopListDTO = " + userShopListDTO.getName());
-                        System.out.println("getStoreImageFileName = " + userShopListDTO.getStoreImageFileName());
-                        if (bitmap == null) {
-                            myDataset.add(new ShopListPaintTitle
-                                    (
-                                            BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_baseline_qr_code_24), userShopListDTO.getName(),
-                                            userShopListDTO.getPhoneNumber(), userShopListDTO.getAddress()
-                                    )
-                            );
-                        } else {
-                            myDataset.add(new ShopListPaintTitle
-                                    (
-                                            bitmap, userShopListDTO.getName(), userShopListDTO.getPhoneNumber(), userShopListDTO.getAddress()
-                                    )
-                            );
-                        }
-
                     }
                     mAdapter.notifyDataSetChanged();
                     page++;
-                    System.out.println("page: " + page);
                     loadingToast.cancel();
-                    if(result.toString() == "[]"){
-                        Toast.makeText(getContext(), "더 이상 기록이 없습니다.", Toast.LENGTH_SHORT).show();
-                    } else{
-                        Toast.makeText(getContext(), "완료", Toast.LENGTH_SHORT).show();
-                    }
                     Log.d(TAG, "onResponse: 성공, 결과 \n" + result.toString());
                 }else{
                     Log.d(TAG, "onResponse: 실패");
