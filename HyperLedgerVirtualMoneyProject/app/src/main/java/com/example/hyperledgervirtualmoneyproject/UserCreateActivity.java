@@ -30,7 +30,6 @@ public class UserCreateActivity extends AppCompatActivity {
     EditText studentId, password, name;
     TextView resultText;
     Button confirm;
-    CheckBox user, shop;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,38 +41,11 @@ public class UserCreateActivity extends AppCompatActivity {
         name = (EditText) findViewById(R.id.name);
         confirm = (Button) findViewById(R.id.userCreateConfirm);
         resultText = (TextView) findViewById(R.id.userCreateResult);
-        user = (CheckBox) findViewById(R.id.userCreateRoleCheckUser);
-        shop = (CheckBox) findViewById(R.id.userCreateRoleCheckShop);
-
-        user.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                shop.setChecked(false);
-                user.setChecked(true);
-            }
-        });
-
-        shop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                shop.setChecked(true);
-                user.setChecked(false);
-            }
-        });
-
 
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (shop.isChecked()) {
-                    createUser(studentId.getText().toString(), password.getText().toString(), name.getText().toString(), "ROLE_STOREMANAGER");
-                } else if(user.isChecked()){
-                    createUser(studentId.getText().toString(), password.getText().toString(), name.getText().toString(), "ROLE_STUDENT");
-                }
-                else if(!user.isChecked() && !shop.isChecked()){
-                    Toast.makeText(getApplicationContext(), "역할을 체크해 주세요", Toast.LENGTH_SHORT).show();
-                }
-            }
+                createUser(studentId.getText().toString(), password.getText().toString(), name.getText().toString(), "ROLE_STUDENT");            }
         });
 
     }
