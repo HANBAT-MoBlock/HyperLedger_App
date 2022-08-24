@@ -68,11 +68,13 @@ public class userTradeActivity extends AppCompatActivity {
                 TimerTask task = new TimerTask() {
                     @Override
                     public void run() {
-                        customProgressDialog.cancel();
+                        if (customProgressDialog.isShowing()) {
+                            customProgressDialog.cancel();
+                        }
                     }
                 };
                 Timer timer = new Timer();
-                timer.schedule(task, 3000);
+                timer.schedule(task, 10000);
             }
         });
         thread.start();
@@ -191,6 +193,7 @@ public class userTradeActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "완료", Toast.LENGTH_SHORT).show();
                     }
                     Log.d(TAG, "onResponse: 성공, 결과 \n" + result.toString());
+                    customProgressDialog.cancel();
                 }else{
                     Log.d(TAG, "onResponse: 실패");
                 }

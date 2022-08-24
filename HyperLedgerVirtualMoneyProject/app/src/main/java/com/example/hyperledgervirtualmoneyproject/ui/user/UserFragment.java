@@ -76,7 +76,9 @@ public class UserFragment extends Fragment {
                 TimerTask task = new TimerTask() {
                     @Override
                     public void run() {
-                        customProgressDialog.cancel();
+                        if (customProgressDialog.isShowing()) {
+                            customProgressDialog.cancel();
+                        }
                     }
                 };
                 Timer timer = new Timer();
@@ -131,6 +133,7 @@ public class UserFragment extends Fragment {
                     toast.cancel();
                     Toast.makeText(getContext(), "완료", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "onResponse: 성공, 결과 \n" + result.toString());
+                    customProgressDialog.cancel();
                 }else{
                     Log.d(TAG, "onResponse: 실패");
                 }

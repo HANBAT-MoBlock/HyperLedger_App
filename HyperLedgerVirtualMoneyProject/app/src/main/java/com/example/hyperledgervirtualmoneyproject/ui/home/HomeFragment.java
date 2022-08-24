@@ -92,11 +92,13 @@ public class HomeFragment extends Fragment {
                 TimerTask task = new TimerTask() {
                     @Override
                     public void run() {
-                        customProgressDialog.cancel();
+                        if (customProgressDialog.isShowing()) {
+                            customProgressDialog.cancel();
+                        }
                     }
                 };
                 Timer timer = new Timer();
-                timer.schedule(task, 3000);
+                timer.schedule(task, 10000);
             }
         });
         thread.start();
@@ -156,6 +158,7 @@ public class HomeFragment extends Fragment {
                     toast.cancel();
                     Toast.makeText(getContext(), "완료", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "onResponse: 성공, 결과 \n" + result.toString());
+                    customProgressDialog.cancel();
                 }else{
                     Toast.makeText(getContext(), "불러오기 실패", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "onResponse: 실패");
