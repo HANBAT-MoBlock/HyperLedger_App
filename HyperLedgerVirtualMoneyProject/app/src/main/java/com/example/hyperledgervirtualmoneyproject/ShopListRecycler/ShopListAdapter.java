@@ -75,7 +75,6 @@ public class ShopListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
-
         if(viewHolder instanceof ItemViewHolder){
             populateItemRows((ItemViewHolder) viewHolder, position);
         }else if (viewHolder instanceof LoadingViewHolder){
