@@ -3,7 +3,9 @@ package com.example.hyperledgervirtualmoneyproject.ui.shopList;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,6 +19,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -82,7 +86,7 @@ public class ShopListFragment extends Fragment {
         btnSearch = (Button) root.findViewById(R.id.shopListSearchBtn);
         etSearch = (EditText) root.findViewById(R.id.shopListSearchText);
 
-        populateData();
+        getShopList(page);
         initAdapter();
         initScrollListener();
 
@@ -127,14 +131,10 @@ public class ShopListFragment extends Fragment {
         return root;
     }
 
-    public void Web(String param){
+    public void Web(String URL){
         Intent browserIntent = new Intent(Intent.ACTION_VIEW);
         browserIntent.setData(Uri.parse("https://naver.me/x50GB74V"));
         startActivity(browserIntent);
-    }
-
-    private void populateData() {
-        getShopList(page);
     }
 
     private void initAdapter() {
@@ -170,9 +170,7 @@ public class ShopListFragment extends Fragment {
     }
 
     private void loadMore(){
-        myDataset.add(null);
-        mAdapter.notifyItemInserted(myDataset.size() - 1);
-
+        customProgressDialog.show();
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -190,16 +188,14 @@ public class ShopListFragment extends Fragment {
         });
         thread.start();
 
-        getShopList(page);
-//
-//        Handler handler = new Handler();
-//        handler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                getShopList(page);
-//                isLoading = false;
-//            }
-//        }, 2000);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getShopList(page);
+                isLoading = false;
+            }
+        }, 2000);
     }
 
     public void getShopList(int pageInit){
@@ -221,14 +217,22 @@ public class ShopListFragment extends Fragment {
             public void onResponse(Call<UserShopListResponseDTO> call, Response<UserShopListResponseDTO> response) {
                 if(response.isSuccessful()){
                     System.out.println(page + "------");
-//                    if(page > 1){
-//                        myDataset.remove(myDataset.size() - 1);
-//                        mAdapter.notifyItemRemoved(myDataset.size());
-//                    }
 
                     UserShopListResponseDTO result = response.body();
                     List<UserShopListDTO> storeResponseList = result.getStoreResponseList();
                     System.out.println("storeResponseList = " + storeResponseList);
+
+
+                    //test데이터
+                    for (int i = 0; i < 4; i++) {
+                        myDataset.add(new ShopListPaintTitle
+                                (
+                                        BitmapFactory.decodeResource(getResources(), R.drawable.test), "이름",
+                                        "010-1234-5678", "대전 광역시"
+                                )
+                        );
+                    }
+
                     if(result.toString() == "[]"){
                         System.out.println("끝");
                     }else{
@@ -247,7 +251,7 @@ public class ShopListFragment extends Fragment {
                             if (bitmap == null) {
                                 myDataset.add(new ShopListPaintTitle
                                         (
-                                                BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_baseline_qr_code_24), userShopListDTO.getName(),
+                                                BitmapFactory.decodeResource(getResources(), R.drawable.test), userShopListDTO.getName(),
                                                 userShopListDTO.getPhoneNumber(), userShopListDTO.getAddress()
                                         )
                                 );

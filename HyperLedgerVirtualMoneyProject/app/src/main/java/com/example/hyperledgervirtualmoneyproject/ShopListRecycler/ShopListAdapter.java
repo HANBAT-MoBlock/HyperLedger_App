@@ -30,7 +30,7 @@ public class ShopListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private OnItemClickListener itemClickListener;
 
     public void setOnItemClickListener(OnItemClickListener listener) {
-        itemClickListener =listener;
+        itemClickListener = listener;
     }
 
     public ShopListAdapter(ArrayList<ShopListPaintTitle> myDataset) {
@@ -64,7 +64,7 @@ public class ShopListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     String data = "";
                     int position = itemViewHolder.getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
-                        data = itemViewHolder.getAddress().toString();
+                        data = itemViewHolder.getAddress();
                     }
                     itemClickListener.onItemClicked(position, data);
                 }
