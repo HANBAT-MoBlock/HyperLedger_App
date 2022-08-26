@@ -16,19 +16,19 @@ import retrofit2.http.QueryMap;
 
 public interface UserApi {
 
-    @GET("/user")
+    @GET("/user/user")
     Call<UserGetAssetDTO> getAsset(@Header("Authorization") String Authorization);
 
-    @POST("/user")
+    @POST("/user/user")
     Call<UserLoginDTO> join(@Body UserCreateBodyDTO userCreateBodyDTO);
 
-    @GET("/login")
+    @GET("/user/login")
     Call<UserLoginDTO> login(
             @Query("identifier") String identifier,
             @Query("password") String password
     );
 
-    @PATCH("/user")
+    @PATCH("/user/user")
     Call<Void> changePassword(
             @Header("Authorization") String authorization,
             @Query("newPassword") String newPassword

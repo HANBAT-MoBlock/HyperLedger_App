@@ -145,6 +145,7 @@ public class userTradeActivity extends AppCompatActivity {
         call.enqueue(new Callback<UserTradeHistoryResponseDTO>() {
             @Override
             public void onResponse(Call<UserTradeHistoryResponseDTO> call, Response<UserTradeHistoryResponseDTO> response) {
+                System.out.println("response = " + response.toString());
                 if(response.isSuccessful()){
                     System.out.println(page + "----------");
                     if(page > 1){

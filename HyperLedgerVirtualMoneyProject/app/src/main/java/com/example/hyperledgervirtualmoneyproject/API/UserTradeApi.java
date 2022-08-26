@@ -17,13 +17,13 @@ import retrofit2.http.Query;
 
 public interface UserTradeApi {
 
-    @POST("/trade")
+    @POST("/user/trade")
     Call<UserTransferDTO> transfer(
             @Header("Authorization") String Authorization,
             @Body UserTransferRequestDTO userTransferRequestDTO
     );
 
-    @GET("/trade")
+    @GET("/user/trade")
     Call<UserTradeHistoryResponseDTO>trade(
             @Header("Authorization") String Authorization,
             @Query("page") int page

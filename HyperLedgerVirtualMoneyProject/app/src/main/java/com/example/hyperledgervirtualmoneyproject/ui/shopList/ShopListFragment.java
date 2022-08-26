@@ -173,14 +173,33 @@ public class ShopListFragment extends Fragment {
         myDataset.add(null);
         mAdapter.notifyItemInserted(myDataset.size() - 1);
 
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
+        Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                getShopList(page);
-                isLoading = false;
+                TimerTask task = new TimerTask() {
+                    @Override
+                    public void run() {
+                        if (customProgressDialog.isShowing()) {
+                            customProgressDialog.cancel();
+                        }
+                    }
+                };
+                Timer timer = new Timer();
+                timer.schedule(task, 10000);
             }
-        }, 2000);
+        });
+        thread.start();
+
+        getShopList(page);
+//
+//        Handler handler = new Handler();
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                getShopList(page);
+//                isLoading = false;
+//            }
+//        }, 2000);
     }
 
     public void getShopList(int pageInit){
@@ -202,27 +221,24 @@ public class ShopListFragment extends Fragment {
             public void onResponse(Call<UserShopListResponseDTO> call, Response<UserShopListResponseDTO> response) {
                 if(response.isSuccessful()){
                     System.out.println(page + "------");
-                    if(page > 1){
-                        myDataset.remove(myDataset.size() - 1);
-                        mAdapter.notifyItemRemoved(myDataset.size());
-                    }
+//                    if(page > 1){
+//                        myDataset.remove(myDataset.size() - 1);
+//                        mAdapter.notifyItemRemoved(myDataset.size());
+//                    }
+
                     UserShopListResponseDTO result = response.body();
                     List<UserShopListDTO> storeResponseList = result.getStoreResponseList();
                     System.out.println("storeResponseList = " + storeResponseList);
-                    if(storeResponseList.isEmpty()){
+                    if(result.toString() == "[]"){
                         System.out.println("끝");
                     }else{
                         System.out.println("실행됨");
                         for (UserShopListDTO userShopListDTO : storeResponseList) {
 
                             Call<ResponseBody> call2 = service.getStoreImage(JwtToken.getJwt(), userShopListDTO.getStoreImageFileName());
-
                             Bitmap bitmap = null;
                             try {
                                 bitmap = new getImg().execute(call2).get();
-//                            if (bytes != null) {
-//                                bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length );
-//                            }
                             } catch (ExecutionException e) {
                                 e.printStackTrace();
                             } catch (InterruptedException e) {

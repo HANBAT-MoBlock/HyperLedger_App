@@ -77,9 +77,10 @@ public class ShopListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         if(viewHolder instanceof ItemViewHolder){
             populateItemRows((ItemViewHolder) viewHolder, position);
-        }else if (viewHolder instanceof LoadingViewHolder){
-            showLoadingView((LoadingViewHolder) viewHolder, position);
         }
+//        else if (viewHolder instanceof LoadingViewHolder){
+//            showLoadingView((LoadingViewHolder) viewHolder, position);
+//        }
     }
 
     public  int getItemCount(){
@@ -108,17 +109,17 @@ public class ShopListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             return address.getText().toString();
         }
     }
+//
+//    private class LoadingViewHolder extends RecyclerView.ViewHolder {
+//        private ProgressBar progressBar;
+//
+//        public LoadingViewHolder(@NonNull View itemView) {
+//            super(itemView);
+//            progressBar = itemView.findViewById(R.id.progressBar);
+//        }
+//    }
 
-    private class LoadingViewHolder extends RecyclerView.ViewHolder {
-        private ProgressBar progressBar;
-
-        public LoadingViewHolder(@NonNull View itemView) {
-            super(itemView);
-            progressBar = itemView.findViewById(R.id.progressBar);
-        }
-    }
-
-    private void showLoadingView(LoadingViewHolder viewHolder, int position){}
+//    private void showLoadingView(LoadingViewHolder viewHolder, int position){}
 
     private void populateItemRows(ItemViewHolder viewHolder, int position){
         ShopListPaintTitle item = mDataset.get(position);
