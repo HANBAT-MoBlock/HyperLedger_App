@@ -80,9 +80,9 @@ public class MainLoginActivity extends AppCompatActivity {
                     startActivity(intent);
                     Toast.makeText(getApplicationContext(), "로그인에 성공했습니다.", Toast.LENGTH_SHORT).show();
 
-                    Log.d(TAG, "onResponse: 성공, 결과 \n" + result.toString());
+                    Log.d(TAG, "onResponse: 성공\n결과" + result.toString());
                 }else{
-                    Log.d(TAG, "onResponse: 실패");
+                    Log.d(TAG, "onResponse: 실패\n에러메시지:" + response);
                     Toast.makeText(getApplicationContext(), "로그인에 실패했습니다.", Toast.LENGTH_SHORT).show();
                 }
             }

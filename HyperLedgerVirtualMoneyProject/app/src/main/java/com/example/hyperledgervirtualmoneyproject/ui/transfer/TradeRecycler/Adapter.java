@@ -1,4 +1,4 @@
-package com.example.hyperledgervirtualmoneyproject.TradeRecycler;
+package com.example.hyperledgervirtualmoneyproject.ui.transfer.TradeRecycler;
 
 import android.view.LayoutInflater;
 import android.view.View;

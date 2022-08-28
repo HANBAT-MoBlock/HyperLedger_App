@@ -3,9 +3,7 @@ package com.example.hyperledgervirtualmoneyproject.ui.shopList;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,11 +17,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,21 +28,17 @@ import com.example.hyperledgervirtualmoneyproject.DTO.UserShopListDTO;
 import com.example.hyperledgervirtualmoneyproject.DTO.UserShopListResponseDTO;
 import com.example.hyperledgervirtualmoneyproject.LoadingDialog;
 import com.example.hyperledgervirtualmoneyproject.R;
-import com.example.hyperledgervirtualmoneyproject.ShopListRecycler.ShopListAdapter;
-import com.example.hyperledgervirtualmoneyproject.ShopListRecycler.ShopListPaintTitle;
+import com.example.hyperledgervirtualmoneyproject.ui.shopList.ShopListRecycler.ShopListAdapter;
+import com.example.hyperledgervirtualmoneyproject.ui.shopList.ShopListRecycler.ShopListPaintTitle;
 import com.example.hyperledgervirtualmoneyproject.databinding.FragmentShoplistBinding;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
-import io.reactivex.rxjava3.core.Scheduler;
-import io.reactivex.rxjava3.schedulers.Schedulers;
-import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -133,7 +124,7 @@ public class ShopListFragment extends Fragment {
 
     public void Web(String URL){
         Intent browserIntent = new Intent(Intent.ACTION_VIEW);
-        browserIntent.setData(Uri.parse("https://naver.me/x50GB74V"));
+        browserIntent.setData(Uri.parse(URL));
         startActivity(browserIntent);
     }
 
@@ -223,16 +214,6 @@ public class ShopListFragment extends Fragment {
                     System.out.println("storeResponseList = " + storeResponseList);
 
 
-                    //test데이터
-                    for (int i = 0; i < 4; i++) {
-                        myDataset.add(new ShopListPaintTitle
-                                (
-                                        BitmapFactory.decodeResource(getResources(), R.drawable.test), "이름",
-                                        "010-1234-5678", "대전 광역시"
-                                )
-                        );
-                    }
-
                     if(result.toString() == "[]"){
                         System.out.println("끝");
                     }else{
@@ -267,10 +248,10 @@ public class ShopListFragment extends Fragment {
                     mAdapter.notifyDataSetChanged();
                     page++;
                     loadingToast.cancel();
-                    Log.d(TAG, "onResponse: 성공, 결과 \n" + result.toString());
+                    Log.d(TAG, "onResponse: 성공\n결과:" + result);
                     customProgressDialog.cancel();
                 }else{
-                    Log.d(TAG, "onResponse: 실패");
+                    Log.d(TAG, "onResponse: 실패\n에러메시지:" + response);
                 }
             }
 

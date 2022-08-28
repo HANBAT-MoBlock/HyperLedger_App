@@ -18,8 +18,8 @@ import com.example.hyperledgervirtualmoneyproject.DTO.UserTradeHistoryResponseDT
 import com.example.hyperledgervirtualmoneyproject.DTO.UserTradeResponseDTO;
 import com.example.hyperledgervirtualmoneyproject.LoadingDialog;
 import com.example.hyperledgervirtualmoneyproject.R;
-import com.example.hyperledgervirtualmoneyproject.TradeRecycler.Adapter;
-import com.example.hyperledgervirtualmoneyproject.TradeRecycler.PaintTitle;
+import com.example.hyperledgervirtualmoneyproject.ui.transfer.TradeRecycler.Adapter;
+import com.example.hyperledgervirtualmoneyproject.ui.transfer.TradeRecycler.PaintTitle;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

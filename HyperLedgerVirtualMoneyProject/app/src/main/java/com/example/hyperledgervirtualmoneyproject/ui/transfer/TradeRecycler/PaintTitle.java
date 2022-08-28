@@ -1,4 +1,4 @@
-package com.example.hyperledgervirtualmoneyproject.TradeRecycler;
+package com.example.hyperledgervirtualmoneyproject.ui.transfer.TradeRecycler;
 
 public class PaintTitle {
 

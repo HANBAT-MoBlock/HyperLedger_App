@@ -1,4 +1,4 @@
-package com.example.hyperledgervirtualmoneyproject.ShopListRecycler;
+package com.example.hyperledgervirtualmoneyproject.ui.shopList.ShopListRecycler;
 
 import android.media.Image;
 import android.view.View;

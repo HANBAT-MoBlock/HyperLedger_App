@@ -10,24 +10,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hyperledgervirtualmoneyproject.API.UserTradeApi;
 import com.example.hyperledgervirtualmoneyproject.DTO.JwtToken;
 import com.example.hyperledgervirtualmoneyproject.DTO.QrCreateDTO;
-import com.example.hyperledgervirtualmoneyproject.DTO.UserTradeResponseDTO;
 import com.example.hyperledgervirtualmoneyproject.DTO.UserTransferDTO;
 import com.example.hyperledgervirtualmoneyproject.DTO.UserTransferRequestDTO;
 import com.example.hyperledgervirtualmoneyproject.R;
-import com.example.hyperledgervirtualmoneyproject.TradeRecycler.Adapter;
-import com.example.hyperledgervirtualmoneyproject.TradeRecycler.PaintTitle;
 import com.example.hyperledgervirtualmoneyproject.databinding.FragmentTransferBinding;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.material.snackbar.Snackbar;
@@ -35,10 +29,6 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
