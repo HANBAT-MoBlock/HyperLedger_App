@@ -216,7 +216,7 @@ public class HomeFragment extends Fragment {
                             System.out.println("dateTime = " + dateTime);
                             myDataset.add(new PaintTitle
                                     (
-                                            userTradeResponseDTO.getReceiverIdentifier().toString(), userTradeResponseDTO.getReceiverName(),
+                                            userTradeResponseDTO.getReceiverIdentifier(), userTradeResponseDTO.getReceiverName(),
                                             userTradeResponseDTO.getCoinName(), "-" + userTradeResponseDTO.getAmount().toString(),
                                             yyMd, dateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
                                     )
@@ -225,7 +225,7 @@ public class HomeFragment extends Fragment {
                         }else{
                             myDataset.add(new PaintTitle
                                     (
-                                            userTradeResponseDTO.getSenderIdentifier().toString(), userTradeResponseDTO.getSenderName(),
+                                            userTradeResponseDTO.getSenderIdentifier(), userTradeResponseDTO.getSenderName(),
                                             userTradeResponseDTO.getCoinName(), userTradeResponseDTO.getAmount().toString(),
                                             yyMd, dateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
                                     )
