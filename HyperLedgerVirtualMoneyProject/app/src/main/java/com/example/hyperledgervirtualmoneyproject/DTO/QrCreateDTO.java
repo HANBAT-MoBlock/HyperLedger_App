@@ -2,17 +2,16 @@ package com.example.hyperledgervirtualmoneyproject.DTO;
 
 import java.util.Objects;
 
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
 @EqualsAndHashCode
 public class QrCreateDTO {
-    public Long receiverId;
-    public String coinName;
-    public Long amount;
+    private Long receiverId;
+    private String coinName;
+    private Long amount;
 }

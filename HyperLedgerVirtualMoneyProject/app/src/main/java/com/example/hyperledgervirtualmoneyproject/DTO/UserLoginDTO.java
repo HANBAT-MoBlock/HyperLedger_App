@@ -7,17 +7,12 @@ package com.example.hyperledgervirtualmoneyproject.DTO;
     .ZUzqUXOfVkukkFfsXMKbi4iSTWZXjvs8KdQhAVBm3B4
 }
  */
+
+import lombok.Getter;
+import lombok.ToString;
+
+@Getter
+@ToString
 public class UserLoginDTO {
     private String accessToken;
-
-    public String getAccessToken() {
-        return accessToken;
-    }
-
-    @Override
-    public String toString() {
-        return "UserCreateDTO{" +
-                "accessToken='" + accessToken + '\'' +
-                '}';
-    }
 }
