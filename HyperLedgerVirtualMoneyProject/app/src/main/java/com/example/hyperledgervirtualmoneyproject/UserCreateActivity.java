@@ -28,8 +28,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class UserCreateActivity extends AppCompatActivity {
 
     EditText studentId, password, name;
-    TextView resultText;
-    Button confirm;
+    Button confirm, cancel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,12 +39,19 @@ public class UserCreateActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.password);
         name = (EditText) findViewById(R.id.name);
         confirm = (Button) findViewById(R.id.userCreateConfirm);
-        resultText = (TextView) findViewById(R.id.userCreateResult);
+        cancel = (Button) findViewById(R.id.userCreateCancel);
 
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 createUser(studentId.getText().toString(), password.getText().toString(), name.getText().toString(), "ROLE_STUDENT");
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 
@@ -69,19 +75,19 @@ public class UserCreateActivity extends AppCompatActivity {
                 if(response.isSuccessful()){
                     System.out.println("response.body(); = " + response.body().toString());
                     UserLoginDTO result = response.body();
-                    resultText.setText("회원가입에 성공했습니다.");
+                    Toast.makeText(getApplicationContext(), "회원가입에 성공했습니다.", Toast.LENGTH_SHORT).show();
                     JwtToken.setToken(result.getAccessToken());
                     Log.d(TAG, "onResponse: 성공, 결과 \n" + result.toString());
                     finish();
                 }else{
-                    resultText.setText("회원가입에 실패했습니다.");
+                    Toast.makeText(getApplicationContext(), "회원가입에 실패했습니다.", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "onResponse: 실패");
                 }
             }
 
             @Override
             public void onFailure(Call<UserLoginDTO> call, Throwable t) {
-                resultText.setText("서버 연결에 실패했습니다.");
+                Toast.makeText(getApplicationContext(), "서버 연결에  실패했습니다.", Toast.LENGTH_SHORT).show();
                 Log.d(TAG,"onFailure" + t.getMessage());
             }
         });
