@@ -19,6 +19,9 @@ import com.example.hyperledgervirtualmoneyproject.DTO.JwtToken;
 import com.example.hyperledgervirtualmoneyproject.DTO.UserCreateBodyDTO;
 import com.example.hyperledgervirtualmoneyproject.DTO.UserLoginDTO;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -44,7 +47,14 @@ public class UserCreateActivity extends AppCompatActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createUser(studentId.getText().toString(), password.getText().toString(), name.getText().toString(), "ROLE_STUDENT");
+                String password = UserCreateActivity.this.password.getText().toString();
+                //최소 하나의 숫자 및 하나의 특수문자 입력, 전체 8글자 이상 입력
+                Pattern pattern = Pattern.compile("^(?=.*d)(?=.*[$@$!%*#?&])[d$@$!%*#?&]{8,}$");
+                if(pattern.matcher(password).find()){
+                    createUser(studentId.getText().toString(), password, name.getText().toString(), "ROLE_STUDENT");
+                }else {
+                    Toast.makeText(getApplicationContext(), "비밀번호 형식에 맞춰주세요", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
