@@ -14,8 +14,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hyperledgervirtualmoneyproject.API.UserApi;
+import com.example.hyperledgervirtualmoneyproject.DTO.ErrorBody;
 import com.example.hyperledgervirtualmoneyproject.DTO.JwtToken;
 import com.example.hyperledgervirtualmoneyproject.DTO.UserLoginDTO;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -82,7 +86,15 @@ public class MainLoginActivity extends AppCompatActivity {
 
                     Log.d(TAG, "onResponse: 성공\n결과" + result.toString());
                 }else{
-                    Log.d(TAG, "onResponse: 실패\n에러메시지:" + response);
+                    try {
+                        String errorMessage = response.errorBody().string();
+                        Log.d(TAG, "onResponse: 실패\n에러메시지:" + errorMessage);
+                        ObjectMapper objectMapper = new ObjectMapper();
+                        ErrorBody errorBody = objectMapper.readValue(errorMessage, ErrorBody.class);
+                        Log.d(TAG, errorBody.toString());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     Toast.makeText(getApplicationContext(), "로그인에 실패했습니다.", Toast.LENGTH_SHORT).show();
                 }
             }

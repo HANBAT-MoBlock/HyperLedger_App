@@ -8,18 +8,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.hyperledgervirtualmoneyproject.API.UserApi;
 import com.example.hyperledgervirtualmoneyproject.API.UserTradeApi;
+import com.example.hyperledgervirtualmoneyproject.DTO.ErrorBody;
 import com.example.hyperledgervirtualmoneyproject.DTO.JwtToken;
 import com.example.hyperledgervirtualmoneyproject.DTO.UserGetAssetDTO;
 import com.example.hyperledgervirtualmoneyproject.DTO.UserTradeHistoryResponseDTO;
@@ -32,7 +36,9 @@ import com.example.hyperledgervirtualmoneyproject.databinding.FragmentHomeBindin
 import com.example.hyperledgervirtualmoneyproject.ui.home.CoinListView.CoinData;
 import com.example.hyperledgervirtualmoneyproject.ui.home.CoinListView.CoinLIstAdapter;
 import com.example.hyperledgervirtualmoneyproject.ui.transfer.userTradeActivity;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -59,6 +65,8 @@ public class HomeFragment extends Fragment {
     private int page = 1;
     ArrayList<PaintTitle> myDataset = new ArrayList<>();
     LoadingDialog customProgressDialog;
+    ConstraintLayout tradeLayout;
+    ImageView coinImg;
 
     ListView coinListView;
     ArrayList<CoinData> movieDataList;
@@ -75,9 +83,13 @@ public class HomeFragment extends Fragment {
         amount = (TextView) root.findViewById(R.id.home_amount);
         mRecyclerView = (RecyclerView) root.findViewById(R.id.home_tradeList);
         coinListView = (ListView) root.findViewById(R.id.coinListView);
+        tradeLayout = (ConstraintLayout) root.findViewById(R.id.trade_list_layout);
+
+
+        coinImg = (ImageView) root.findViewById(R.id.coinGif);
+        Glide.with(this).load(R.drawable.coin).into(coinImg);
 
         getAssetService();
-
         populateData();
         initAdapter();
 
@@ -103,11 +115,9 @@ public class HomeFragment extends Fragment {
         });
         thread.start();
 
-
-        btnTradeListShow = (Button) root.findViewById(R.id.home_tradeButton);
-        btnTradeListShow.setOnClickListener(new View.OnClickListener() {
+        tradeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), userTradeActivity.class);
                 startActivity(intent);
             }
@@ -162,6 +172,17 @@ public class HomeFragment extends Fragment {
                 }else{
                     Toast.makeText(getContext(), "불러오기 실패", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "onResponse: 실패");
+                    try {
+                        String errorMessage = response.errorBody().string();
+                        ObjectMapper objectMapper = new ObjectMapper();
+                        ErrorBody errorBody = objectMapper.readValue(errorMessage, ErrorBody.class);
+                        if (errorBody.getMessage().equals("잘못된 식별 번호로 요청했습니다")) {
+                            Toast.makeText(getContext(), "다시 로그인 해주세요", Toast.LENGTH_SHORT).show();
+                            getActivity().finish();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
@@ -254,6 +275,17 @@ public class HomeFragment extends Fragment {
                     Log.d(TAG, "onResponse: 성공, 결과 \n" + result.toString());
                 }else{
                     Log.d(TAG, "onResponse: 실패");
+                    try {
+                        String errorMessage = response.errorBody().string();
+                        ObjectMapper objectMapper = new ObjectMapper();
+                        ErrorBody errorBody = objectMapper.readValue(errorMessage, ErrorBody.class);
+                        if (errorBody.getMessage().equals("잘못된 식별 번호로 요청했습니다")) {
+                            Toast.makeText(getContext(), "다시 로그인 해주세요", Toast.LENGTH_SHORT).show();
+                            getActivity().finish();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 

@@ -90,6 +90,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/btn_color_blue"
                 android:text="로그인"
+                android:textStyle="bold"
                 android:textColor="@color/white"
                 android:textSize="18dp" />
 
@@ -99,6 +100,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:background="#00ff0000"
+                android:textStyle="bold"
                 android:text="회원가입"
                 android:textColor="#4881F2"
                 android:textSize="18dp" />

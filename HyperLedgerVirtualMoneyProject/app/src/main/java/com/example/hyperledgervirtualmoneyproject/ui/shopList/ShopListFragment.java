@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hyperledgervirtualmoneyproject.API.ShopListApi;
+import com.example.hyperledgervirtualmoneyproject.DTO.ErrorBody;
 import com.example.hyperledgervirtualmoneyproject.DTO.JwtToken;
 import com.example.hyperledgervirtualmoneyproject.DTO.UserShopListDTO;
 import com.example.hyperledgervirtualmoneyproject.DTO.UserShopListResponseDTO;
@@ -31,6 +32,7 @@ import com.example.hyperledgervirtualmoneyproject.R;
 import com.example.hyperledgervirtualmoneyproject.ui.shopList.ShopListRecycler.ShopListAdapter;
 import com.example.hyperledgervirtualmoneyproject.ui.shopList.ShopListRecycler.ShopListPaintTitle;
 import com.example.hyperledgervirtualmoneyproject.databinding.FragmentShoplistBinding;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -252,6 +254,17 @@ public class ShopListFragment extends Fragment {
                     customProgressDialog.cancel();
                 }else{
                     Log.d(TAG, "onResponse: 실패\n에러메시지:" + response);
+                    try {
+                        String errorMessage = response.errorBody().string();
+                        ObjectMapper objectMapper = new ObjectMapper();
+                        ErrorBody errorBody = objectMapper.readValue(errorMessage, ErrorBody.class);
+                        if (errorBody.getMessage().equals("잘못된 식별 번호로 요청했습니다")) {
+                            Toast.makeText(getContext(), "다시 로그인 해주세요", Toast.LENGTH_SHORT).show();
+                            getActivity().finish();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 

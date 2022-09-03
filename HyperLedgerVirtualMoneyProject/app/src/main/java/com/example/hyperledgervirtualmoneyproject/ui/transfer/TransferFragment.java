@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.hyperledgervirtualmoneyproject.API.UserTradeApi;
+import com.example.hyperledgervirtualmoneyproject.DTO.ErrorBody;
 import com.example.hyperledgervirtualmoneyproject.DTO.JwtToken;
 import com.example.hyperledgervirtualmoneyproject.DTO.QrCreateDTO;
 import com.example.hyperledgervirtualmoneyproject.DTO.UserTransferDTO;
@@ -111,6 +112,17 @@ public class TransferFragment extends Fragment {
                     snackbar.dismiss();
                     Snackbar.make(v, "전송에 살패했습니다.", 2000).show();
                     Log.d(TAG, "onResponse: 실패");
+                    try {
+                        String errorMessage = response.errorBody().string();
+                        ObjectMapper objectMapper = new ObjectMapper();
+                        ErrorBody errorBody = objectMapper.readValue(errorMessage, ErrorBody.class);
+                        if (errorBody.getMessage().equals("잘못된 식별 번호로 요청했습니다")) {
+                            Toast.makeText(getContext(), "다시 로그인 해주세요", Toast.LENGTH_SHORT).show();
+                            getActivity().finish();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 

@@ -9,18 +9,23 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hyperledgervirtualmoneyproject.API.UserTradeApi;
+import com.example.hyperledgervirtualmoneyproject.DTO.ErrorBody;
 import com.example.hyperledgervirtualmoneyproject.DTO.JwtToken;
 import com.example.hyperledgervirtualmoneyproject.DTO.UserTradeHistoryResponseDTO;
 import com.example.hyperledgervirtualmoneyproject.DTO.UserTradeResponseDTO;
 import com.example.hyperledgervirtualmoneyproject.LoadingDialog;
+import com.example.hyperledgervirtualmoneyproject.MainActivity;
 import com.example.hyperledgervirtualmoneyproject.R;
 import com.example.hyperledgervirtualmoneyproject.ui.transfer.TradeRecycler.Adapter;
 import com.example.hyperledgervirtualmoneyproject.ui.transfer.TradeRecycler.PaintTitle;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -56,6 +61,7 @@ public class userTradeActivity extends AppCompatActivity {
         populateData();
         initAdapter();
         initScrollListener();
+
 
         customProgressDialog = new LoadingDialog(userTradeActivity.this);
         //로딩창을 투명하게
@@ -197,6 +203,17 @@ public class userTradeActivity extends AppCompatActivity {
                     customProgressDialog.cancel();
                 }else{
                     Log.d(TAG, "onResponse: 실패");
+                    try {
+                        String errorMessage = response.errorBody().string();
+                        ObjectMapper objectMapper = new ObjectMapper();
+                        ErrorBody errorBody = objectMapper.readValue(errorMessage, ErrorBody.class);
+                        if (errorBody.getMessage().equals("잘못된 식별 번호로 요청했습니다")) {
+                            Toast.makeText(getApplicationContext(), "다시 로그인 해주세요", Toast.LENGTH_SHORT).show();
+                            ActivityCompat.finishAffinity(userTradeActivity.this);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 

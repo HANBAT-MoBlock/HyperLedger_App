@@ -49,7 +49,7 @@ public class UserCreateActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String password = UserCreateActivity.this.password.getText().toString();
                 //최소 하나의 숫자 및 하나의 특수문자 입력, 전체 8글자 이상 입력
-                Pattern pattern = Pattern.compile("^(?=.*d)(?=.*[$@$!%*#?&])[d$@$!%*#?&]{8,}$");
+                Pattern pattern = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$");
                 if(pattern.matcher(password).find()){
                     createUser(studentId.getText().toString(), password, name.getText().toString(), "ROLE_STUDENT");
                 }else {
