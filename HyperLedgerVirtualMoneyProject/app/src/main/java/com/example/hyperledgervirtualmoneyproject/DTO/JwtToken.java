@@ -1,5 +1,11 @@
 package com.example.hyperledgervirtualmoneyproject.DTO;
 
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class JwtToken {
     private static String jwt;
     private static String Id;

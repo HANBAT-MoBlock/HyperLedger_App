@@ -1,5 +1,12 @@
 package com.example.hyperledgervirtualmoneyproject.DTO;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
 public class UserTradeResponseDTO {
 
     private String senderIdentifier;
@@ -15,73 +22,4 @@ public class UserTradeResponseDTO {
     private Long amount;
 
     private String dateCreated;
-
-    @Override
-    public String toString() {
-        return "UserTradeResponseDTO{" +
-                "senderStudentId=" + senderIdentifier +
-                ", receiverStudentIdOrPhoneNumber=" + receiverIdentifier +
-                ", senderName='" + senderName + '\'' +
-                ", receiverName='" + receiverName + '\'' +
-                ", coinName='" + coinName + '\'' +
-                ", amount=" + amount +
-                ", dateCreated=" + dateCreated +
-                '}';
-    }
-
-    public String getSenderIdentifier() {
-        return senderIdentifier;
-    }
-
-    public void setSenderIdentifier(String senderIdentifier) {
-        this.senderIdentifier = senderIdentifier;
-    }
-
-    public String getReceiverIdentifier() {
-        return receiverIdentifier;
-    }
-
-    public void setReceiverIdentifier(String receiverIdentifier) {
-        this.receiverIdentifier = receiverIdentifier;
-    }
-
-    public String getSenderName() {
-        return senderName;
-    }
-
-    public void setSenderName(String senderName) {
-        this.senderName = senderName;
-    }
-
-    public String getReceiverName() {
-        return receiverName;
-    }
-
-    public void setReceiverName(String receiverName) {
-        this.receiverName = receiverName;
-    }
-
-    public String getCoinName() {
-        return coinName;
-    }
-
-    public void setCoinName(String coinName) {
-        this.coinName = coinName;
-    }
-
-    public Long getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Long amount) {
-        this.amount = amount;
-    }
-
-    public String getDateCreated() {
-        return dateCreated;
-    }
-
-    public void setDateCreated(String dateCreated) {
-        this.dateCreated = dateCreated;
-    }
 }

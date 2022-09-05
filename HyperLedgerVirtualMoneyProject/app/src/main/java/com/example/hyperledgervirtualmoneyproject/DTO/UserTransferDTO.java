@@ -1,5 +1,9 @@
 package com.example.hyperledgervirtualmoneyproject.DTO;
 
+
+import lombok.ToString;
+
+@ToString
 public class UserTransferDTO {
 
     private Long senderIdentifier;
@@ -15,15 +19,4 @@ public class UserTransferDTO {
     private Long amount;
 
     private String dateCreated;
-
-    @Override
-    public String toString() {
-        return "UserTransferDTO{" +
-                "senderStudentId=" + senderName +
-                ", receiverStudentIdOrPhoneNumber=" + receiverIdentifier +
-                ", coinName='" + coinName + '\'' +
-                ", amount=" + amount +
-                ", dateCreated=" + dateCreated +
-                '}';
-    }
 }

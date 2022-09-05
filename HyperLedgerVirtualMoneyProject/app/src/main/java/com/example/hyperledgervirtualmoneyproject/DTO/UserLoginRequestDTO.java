@@ -1,19 +1,11 @@
 package com.example.hyperledgervirtualmoneyproject.DTO;
 
+
+import lombok.AllArgsConstructor;
+import lombok.ToString;
+@AllArgsConstructor
+@ToString
 public class UserLoginRequestDTO {
     private Long id;
     private String password;
-
-    public UserLoginRequestDTO(Long id, String password) {
-        this.id = id;
-        this.password = password;
-    }
-
-    @Override
-    public String toString() {
-        return "UserLoginRequestDTO{" +
-                "id=" + id +
-                ", password='" + password + '\'' +
-                '}';
-    }
 }
