@@ -9,7 +9,7 @@
     <LinearLayout
         android:id="@+id/shopSearchBar"
         android:background="@drawable/layout_shape"
-        android:elevation="20dp"
+        android:elevation="3dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -36,18 +36,16 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/shopList_recycler"
-        android:layout_width="373dp"
-        android:layout_height="500dp"
+        android:layout_width="match_parent"
+        android:layout_height="550dp"
         android:layout_margin="20dp"
-        android:orientation="vertical"
         android:background="@drawable/layout_shape"
-        android:elevation="20dp"
+        android:elevation="3dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.578"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/shopSearchBar"
-        app:layout_constraintVertical_bias="0.088">
+        app:layout_constraintTop_toBottomOf="@+id/shopSearchBar">
 
     </androidx.recyclerview.widget.RecyclerView>
 
