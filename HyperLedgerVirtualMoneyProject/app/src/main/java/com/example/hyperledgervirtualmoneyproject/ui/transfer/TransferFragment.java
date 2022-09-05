@@ -44,6 +44,8 @@ public class TransferFragment extends Fragment {
 
     private FragmentTransferBinding binding;
 
+    private IntentIntegrator qrScan;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         TransferViewModel dashboardViewModel =
@@ -74,7 +76,9 @@ public class TransferFragment extends Fragment {
         qrRead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                IntentIntegrator.forSupportFragment(TransferFragment.this).initiateScan();
+                qrScan = IntentIntegrator.forSupportFragment(TransferFragment.this);
+                qrScan.setOrientationLocked(false);
+                qrScan.initiateScan();
             }
         });
 
