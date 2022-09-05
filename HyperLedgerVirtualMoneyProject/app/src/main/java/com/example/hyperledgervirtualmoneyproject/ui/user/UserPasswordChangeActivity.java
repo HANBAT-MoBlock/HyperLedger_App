@@ -14,11 +14,15 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hyperledgervirtualmoneyproject.API.UserApi;
+import com.example.hyperledgervirtualmoneyproject.DTO.ErrorBody;
 import com.example.hyperledgervirtualmoneyproject.DTO.JwtToken;
 import com.example.hyperledgervirtualmoneyproject.DTO.UserLoginDTO;
 import com.example.hyperledgervirtualmoneyproject.MainActivity;
 import com.example.hyperledgervirtualmoneyproject.R;
 import com.example.hyperledgervirtualmoneyproject.UserCreateActivity;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -83,7 +87,18 @@ public class UserPasswordChangeActivity extends AppCompatActivity {
                     Log.d(TAG, "onResponse: 성공, 결과 \n");
                 }else{
                     Log.d(TAG, "onResponse: 실패");
-                    Toast.makeText(getApplicationContext(), "로그인에 실패했습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "비밀번호 수정에 실패했습니다.", Toast.LENGTH_SHORT).show();
+                    try {
+                        String errorMessage = response.errorBody().string();
+                        ObjectMapper objectMapper = new ObjectMapper();
+                        ErrorBody errorBody = objectMapper.readValue(errorMessage, ErrorBody.class);
+                        if (errorBody.getMessage().equals("잘못된 식별 번호로 요청했습니다")) {
+                            Toast.makeText(getApplicationContext(), "다시 로그인 해주세요", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 

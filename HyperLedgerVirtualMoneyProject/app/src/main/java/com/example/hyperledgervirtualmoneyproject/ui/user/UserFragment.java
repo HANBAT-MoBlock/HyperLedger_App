@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.hyperledgervirtualmoneyproject.API.UserApi;
+import com.example.hyperledgervirtualmoneyproject.DTO.ErrorBody;
 import com.example.hyperledgervirtualmoneyproject.DTO.JwtToken;
 import com.example.hyperledgervirtualmoneyproject.DTO.UserGetAssetDTO;
 import com.example.hyperledgervirtualmoneyproject.LoadingDialog;
@@ -28,7 +29,9 @@ import com.example.hyperledgervirtualmoneyproject.MainLoginActivity;
 import com.example.hyperledgervirtualmoneyproject.R;
 import com.example.hyperledgervirtualmoneyproject.databinding.FragmentUserBinding;
 import com.example.hyperledgervirtualmoneyproject.ui.transfer.userTradeActivity;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -136,6 +139,17 @@ public class UserFragment extends Fragment {
                     customProgressDialog.cancel();
                 }else{
                     Log.d(TAG, "onResponse: 실패");
+                    try {
+                        String errorMessage = response.errorBody().string();
+                        ObjectMapper objectMapper = new ObjectMapper();
+                        ErrorBody errorBody = objectMapper.readValue(errorMessage, ErrorBody.class);
+                        if (errorBody.getMessage().equals("잘못된 식별 번호로 요청했습니다")) {
+                            Toast.makeText(getContext(), "다시 로그인 해주세요", Toast.LENGTH_SHORT).show();
+                            getActivity().finish();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
