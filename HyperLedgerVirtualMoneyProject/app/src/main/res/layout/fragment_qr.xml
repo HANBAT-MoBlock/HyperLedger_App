@@ -8,9 +8,11 @@
 
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="392dp"
-        android:layout_height="225dp"
-        android:layout_marginTop="92dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:background="@drawable/layout_shape"
         android:elevation="20dp"
         android:orientation="vertical"
@@ -19,29 +21,38 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
-            android:id="@+id/QrReceiverId"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="받는 이" />
+            android:orientation="vertical"
+            android:layout_margin="10dp">
 
-        <EditText
-            android:id="@+id/QrCoinName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="코인 이름" />
+            <EditText
+                android:id="@+id/QrReceiverId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="받는 이" />
 
-        <EditText
-            android:id="@+id/QrAmount"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="받을 양" />
+            <EditText
+                android:id="@+id/QrCoinName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="코인 이름" />
+
+            <EditText
+                android:id="@+id/QrAmount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="받을 양" />
+
+        </LinearLayout>
 
         <Button
             android:id="@+id/QrCreate"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_gravity="right"
+            android:layout_margin="20dp"
             android:background="@drawable/btn_shape"
             android:text="QR 코드 생성"
             android:textColor="@color/black" />

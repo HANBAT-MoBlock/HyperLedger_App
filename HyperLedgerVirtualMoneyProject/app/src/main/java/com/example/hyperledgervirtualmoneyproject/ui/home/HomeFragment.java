@@ -97,7 +97,9 @@ public class HomeFragment extends Fragment {
         //로딩창을 투명하게
         customProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         customProgressDialog.setCancelable(false);
+
         customProgressDialog.show();
+
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -142,9 +144,6 @@ public class HomeFragment extends Fragment {
 
         System.out.println("jwtToken = " + JwtToken.getJwt());
         Call<UserGetAssetDTO> call = service.getAsset(JwtToken.getJwt());
-
-        StringBuilder coinNameList = new StringBuilder();
-        StringBuilder coinAmountList = new StringBuilder();
 
         Toast toast = Toast.makeText(getContext(), "자산 정보를 불러오는 중...", Toast.LENGTH_LONG);
         toast.show();
