@@ -3,33 +3,47 @@ package com.example.hyperledgervirtualmoneyproject.ui.transfer;
 import static android.content.ContentValues.TAG;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.hyperledgervirtualmoneyproject.API.UserApi;
 import com.example.hyperledgervirtualmoneyproject.API.UserTradeApi;
 import com.example.hyperledgervirtualmoneyproject.DTO.ErrorBody;
 import com.example.hyperledgervirtualmoneyproject.DTO.JwtToken;
 import com.example.hyperledgervirtualmoneyproject.DTO.QrCreateDTO;
+import com.example.hyperledgervirtualmoneyproject.DTO.UserGetAssetDTO;
 import com.example.hyperledgervirtualmoneyproject.DTO.UserTransferDTO;
 import com.example.hyperledgervirtualmoneyproject.DTO.UserTransferRequestDTO;
+import com.example.hyperledgervirtualmoneyproject.LoadingDialog;
 import com.example.hyperledgervirtualmoneyproject.R;
 import com.example.hyperledgervirtualmoneyproject.databinding.FragmentTransferBinding;
+import com.example.hyperledgervirtualmoneyproject.ui.home.CoinListView.CoinData;
+import com.example.hyperledgervirtualmoneyproject.ui.home.CoinListView.CoinLIstAdapter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,11 +54,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class TransferFragment extends Fragment {
 
     EditText receiver, coin, amount;
+    TextView coinSpinnerName, coinSpinnerValue;
     Button confirm, qrRead;
+    Spinner coinSpinner;
+    String[] coinList;
+    HashMap<String, String> coinMap;
 
+    private String[] coinSpinner_list;
     private FragmentTransferBinding binding;
-
     private IntentIntegrator qrScan;
+    private LoadingDialog customProgressDialog;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -59,6 +78,50 @@ public class TransferFragment extends Fragment {
         amount = (EditText) root.findViewById(R.id.amount);
         confirm = (Button) root.findViewById(R.id.userTransferConfirm);
         qrRead = (Button) root.findViewById(R.id.userTransferReadQr);
+        coinSpinner = (Spinner) root.findViewById(R.id.spinner_coin);
+        coinSpinnerName = (TextView) root.findViewById(R.id.spinner_coinName);
+        coinSpinnerValue = (TextView) root.findViewById(R.id.spinner_coinValue);
+
+        getAssetService();
+
+        customProgressDialog = new LoadingDialog(getContext());
+        //로딩창을 투명하게
+        customProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        customProgressDialog.setCancelable(false);
+
+        customProgressDialog.show();
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                TimerTask task = new TimerTask() {
+                    @Override
+                    public void run() {
+                        if (customProgressDialog.isShowing()) {
+                            customProgressDialog.cancel();
+                        }
+                    }
+                };
+                Timer timer = new Timer();
+                timer.schedule(task, 10000);
+            }
+        });
+        thread.start();
+
+        coinSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                coinMap.get(coinList[i]);
+                coin.setText(coinList[i]);
+                coinSpinnerName.setText(coinList[i]);
+                coinSpinnerValue.setText(coinMap.get(coinList[i]));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                coin.setText("코인을 선택해 주세요");
+            }
+        });
 
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,5 +233,56 @@ public class TransferFragment extends Fragment {
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    public void getAssetService(){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(getString(R.string.localhost))
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        UserApi service = retrofit.create(UserApi.class);
+
+        System.out.println("jwtToken = " + JwtToken.getJwt());
+        Call<UserGetAssetDTO> call = service.getAsset(JwtToken.getJwt());
+
+        Toast toast = Toast.makeText(getContext(), "자산 정보를 불러오는 중...", Toast.LENGTH_LONG);
+        toast.show();
+
+        call.enqueue(new Callback<UserGetAssetDTO>() {
+            @Override
+            public void onResponse(Call<UserGetAssetDTO> call, Response<UserGetAssetDTO> response) {
+                if(response.isSuccessful()){
+                    UserGetAssetDTO result = response.body();
+                    coinMap = result.getCoin();
+                    coinList = coinMap.keySet().toArray(new String[coinMap.size()]);
+
+                    ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, coinList);
+                    coinSpinner.setAdapter(spinnerAdapter);
+
+                    customProgressDialog.cancel();
+                }else{
+                    Toast.makeText(getContext(), "불러오기 실패", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "onResponse: 실패");
+                    try {
+                        String errorMessage = response.errorBody().string();
+                        ObjectMapper objectMapper = new ObjectMapper();
+                        ErrorBody errorBody = objectMapper.readValue(errorMessage, ErrorBody.class);
+                        if (errorBody.getMessage().equals("잘못된 식별 번호로 요청했습니다")) {
+                            Toast.makeText(getContext(), "다시 로그인 해주세요", Toast.LENGTH_SHORT).show();
+                            getActivity().finish();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserGetAssetDTO> call, Throwable t) {
+                Toast.makeText(getContext(), "서버 연결 실패", Toast.LENGTH_SHORT).show();
+                Log.d(TAG,"onFailure" + t.getMessage());
+            }
+        });
     }
 }
