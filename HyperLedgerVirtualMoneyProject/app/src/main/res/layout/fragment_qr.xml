@@ -4,17 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".ui.transfer.TransferFragment">
 
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="140dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:background="@drawable/layout_shape"
-        android:elevation="20dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.473"
@@ -27,53 +26,94 @@
             android:orientation="vertical"
             android:layout_margin="10dp">
 
-            <EditText
-                android:id="@+id/QrReceiverId"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/QrReceiverId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:inputType="number"
+                    android:layout_marginBottom="30dp"
+                    android:hint="받는 사람" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="님에게"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="받는 이" />
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/QrCoinName"
+                <EditText
+                    android:id="@+id/QrCoinName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="30dp"
+                    android:textSize="20dp"
+                    android:hint="화폐 이름" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="을"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="코인 이름" />
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/QrAmount"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="받을 양" />
+                <EditText
+                    android:id="@+id/QrAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:layout_marginBottom="30dp"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:hint="00000" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="원"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
         </LinearLayout>
 
-        <Button
-            android:id="@+id/QrCreate"
-            android:layout_width="100dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_margin="20dp"
-            android:background="@drawable/btn_shape"
-            android:text="QR 코드 생성"
-            android:textColor="@color/black" />
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:orientation="horizontal">
 
-    </LinearLayout>
+            <Button
+                android:id="@+id/QrCreate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_color_blue"
+                android:text="QR 생성"
+                android:textColor="@color/white" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-        app:layout_constraintVertical_bias="0.2">
-
-        <ImageView
-            android:id="@+id/QrCodeImage"
-            android:layout_width="300dp"
-            android:layout_height="300dp"/>
+        </LinearLayout>
 
     </LinearLayout>
 

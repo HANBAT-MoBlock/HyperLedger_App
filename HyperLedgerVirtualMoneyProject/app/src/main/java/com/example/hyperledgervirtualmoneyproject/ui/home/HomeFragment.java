@@ -97,7 +97,6 @@ public class HomeFragment extends Fragment {
         //로딩창을 투명하게
         customProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         customProgressDialog.setCancelable(false);
-
         customProgressDialog.show();
 
         Thread thread = new Thread(new Runnable() {

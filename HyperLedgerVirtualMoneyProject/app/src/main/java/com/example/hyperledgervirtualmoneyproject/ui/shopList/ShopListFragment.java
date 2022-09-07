@@ -116,7 +116,6 @@ public class ShopListFragment extends Fragment {
         mAdapter.setOnItemClickListener(new ShopListAdapter.OnItemClickListener() {
             @Override
             public void onItemClicked(int position, String data) {
-                Toast.makeText(getContext(), data, Toast.LENGTH_SHORT).show();
                 Web(data);
             }
         });
@@ -234,7 +233,7 @@ public class ShopListFragment extends Fragment {
                             if (bitmap == null) {
                                 myDataset.add(new ShopListPaintTitle
                                         (
-                                                BitmapFactory.decodeResource(getResources(), R.drawable.test), userShopListDTO.getName(),
+                                                BitmapFactory.decodeResource(getResources(), R.drawable.scan_qr), userShopListDTO.getName(),
                                                 userShopListDTO.getPhoneNumber(), userShopListDTO.getAddress()
                                         )
                                 );

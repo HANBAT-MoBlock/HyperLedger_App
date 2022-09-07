@@ -5,6 +5,8 @@ import static android.content.ContentValues.TAG;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +41,8 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,14 +57,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class TransferFragment extends Fragment {
 
+    TextView amountHint;
     EditText receiver, coin, amount;
-    TextView coinSpinnerName, coinSpinnerValue;
     Button confirm, qrRead;
     Spinner coinSpinner;
     String[] coinList;
     HashMap<String, String> coinMap;
+    String[] coinValues;
 
-    private String[] coinSpinner_list;
+
     private FragmentTransferBinding binding;
     private IntentIntegrator qrScan;
     private LoadingDialog customProgressDialog;
@@ -79,8 +84,7 @@ public class TransferFragment extends Fragment {
         confirm = (Button) root.findViewById(R.id.userTransferConfirm);
         qrRead = (Button) root.findViewById(R.id.userTransferReadQr);
         coinSpinner = (Spinner) root.findViewById(R.id.spinner_coin);
-        coinSpinnerName = (TextView) root.findViewById(R.id.spinner_coinName);
-        coinSpinnerValue = (TextView) root.findViewById(R.id.spinner_coinValue);
+        amountHint = (TextView) root.findViewById(R.id.amountHint);
 
         getAssetService();
 
@@ -88,7 +92,6 @@ public class TransferFragment extends Fragment {
         //로딩창을 투명하게
         customProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         customProgressDialog.setCancelable(false);
-
         customProgressDialog.show();
 
         Thread thread = new Thread(new Runnable() {
@@ -113,8 +116,7 @@ public class TransferFragment extends Fragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 coinMap.get(coinList[i]);
                 coin.setText(coinList[i]);
-                coinSpinnerName.setText(coinList[i]);
-                coinSpinnerValue.setText(coinMap.get(coinList[i]));
+                amountHint.setHint("잔액: "+ coinValues[i] + "원");
             }
 
             @Override
@@ -134,7 +136,6 @@ public class TransferFragment extends Fragment {
                 coinTransferService(v, JwtToken.getJwt(), userTransferRequestDTO);
             }
         });
-
 
         qrRead.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -225,6 +226,11 @@ public class TransferFragment extends Fragment {
                     amount.setText(qrCreateDTO.getAmount().toString());
                     System.out.println("qrCreateDTO.getAmount() = " + qrCreateDTO.getAmount());
 
+                    for (int i = 0; i < coinList.length; i++) {
+                        if (coinList[i].equals(coin)) {
+                            //coinSpinner.set(i);
+                        }
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -256,8 +262,9 @@ public class TransferFragment extends Fragment {
                     UserGetAssetDTO result = response.body();
                     coinMap = result.getCoin();
                     coinList = coinMap.keySet().toArray(new String[coinMap.size()]);
+                    coinValues = coinMap.values().toArray(new String[coinMap.size()]);
 
-                    ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, coinList);
+                    ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_layout, coinList);
                     coinSpinner.setAdapter(spinnerAdapter);
 
                     customProgressDialog.cancel();
