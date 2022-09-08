@@ -228,7 +228,7 @@ public class TransferFragment extends Fragment {
 
                     for (int i = 0; i < coinList.length; i++) {
                         if (coinList[i].equals(coin)) {
-                            //coinSpinner.set(i);
+                            coinSpinner.setSelection(i);
                         }
                     }
                 } catch (IOException e) {
