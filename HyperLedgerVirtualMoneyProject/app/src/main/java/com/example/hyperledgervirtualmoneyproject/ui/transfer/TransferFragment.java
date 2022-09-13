@@ -227,7 +227,7 @@ public class TransferFragment extends Fragment {
                     System.out.println("qrCreateDTO.getAmount() = " + qrCreateDTO.getAmount());
 
                     for (int i = 0; i < coinList.length; i++) {
-                        if (coinList[i].equals(coin)) {
+                        if (coinList[i].equals(qrCreateDTO.getCoinName())) {
                             coinSpinner.setSelection(i);
                         }
                     }
