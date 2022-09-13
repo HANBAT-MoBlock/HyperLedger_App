@@ -166,7 +166,6 @@ public class HomeFragment extends Fragment {
                     toast.cancel();
                     Toast.makeText(getContext(), "완료", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "onResponse: 성공, 결과 \n" + result.toString());
-                    customProgressDialog.cancel();
                 }else{
                     Toast.makeText(getContext(), "불러오기 실패", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "onResponse: 실패");
@@ -256,17 +255,10 @@ public class HomeFragment extends Fragment {
                     mAdapter.notifyDataSetChanged();
                     System.out.println("page: " + page);
                     loadingToast.cancel();
+                    customProgressDialog.cancel();
                     if(result.toString() == "[]"){
                         Toast.makeText(getContext(), "더 이상 기록이 없습니다.", Toast.LENGTH_SHORT).show();
 
-                        //test용 더미 기록
-                        myDataset.add(new PaintTitle
-                                (
-                                        "studentId", "senderName",
-                                        "coin", "1000",
-                                        "yyMd", "HH:MM"
-                                )
-                        );
                     } else{
                         Toast.makeText(getContext(), "완료", Toast.LENGTH_SHORT).show();
                     }
