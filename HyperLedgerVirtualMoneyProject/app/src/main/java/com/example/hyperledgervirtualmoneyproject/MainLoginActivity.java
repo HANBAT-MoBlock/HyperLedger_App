@@ -60,7 +60,20 @@ public class MainLoginActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * User login service.
+     * 
+     * step1: retrofit 설정
+     * step2: API 요청
+     * step3: API 요청의 결과에 따라 JWT 토큰 메모리 저장 후 로그인 처리
+     *
+     * exception: jwt토큰이 만료되거나 잘못되었을 경우 액티비티 종료
+     * 
+     * @param identifier the identifier
+     * @param password   the password
+     */
     public void userLoginService(String identifier, String password){
+        //step1
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.localhost))
                 .addConverterFactory(GsonConverterFactory.create())
@@ -72,10 +85,13 @@ public class MainLoginActivity extends AppCompatActivity {
         System.out.println("identifier = " + identifier);
         System.out.println("password = " + password);
 
+        //step2
         call.enqueue(new Callback<UserLoginDTO>() {
             @Override
             public void onResponse(Call<UserLoginDTO> call, Response<UserLoginDTO> response) {
                 if(response.isSuccessful()){
+                    
+                    //step3
                     UserLoginDTO result = response.body();
                     JwtToken.setToken(result.getAccessToken());
                     JwtToken.setId(id.getText().toString());
@@ -87,6 +103,7 @@ public class MainLoginActivity extends AppCompatActivity {
                     Log.d(TAG, "onResponse: 성공\n결과" + result.toString());
                 }else{
                     try {
+                        //exception
                         String errorMessage = response.errorBody().string();
                         Log.d(TAG, "onResponse: 실패\n에러메시지:" + errorMessage);
                         ObjectMapper objectMapper = new ObjectMapper();

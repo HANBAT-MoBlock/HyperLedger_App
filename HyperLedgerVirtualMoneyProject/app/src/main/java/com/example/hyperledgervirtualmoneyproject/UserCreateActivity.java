@@ -28,6 +28,9 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * The type User create activity.
+ */
 public class UserCreateActivity extends AppCompatActivity {
 
     EditText studentId, password, name;
@@ -48,7 +51,7 @@ public class UserCreateActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String password = UserCreateActivity.this.password.getText().toString();
-                //최소 하나의 숫자와 문자, 최소 8글자 이상 입력
+                //비밀번호 정규식 패턴, 최소 하나의 숫자와 문자, 최소 8글자 이상 입력
                 Pattern pattern = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$");
                 if(pattern.matcher(password).find()){
                     createUser(studentId.getText().toString(), password, name.getText().toString(), "ROLE_STUDENT");
@@ -67,7 +70,21 @@ public class UserCreateActivity extends AppCompatActivity {
 
     }
 
+
+    /**
+     * Create user.
+     *
+     * step1: retrofit 설정
+     * step2: API 요청
+     * step3: response 데이터를 받아 메모리에 저장
+     *
+     * @param identifier the identifier
+     * @param password   the password
+     * @param name       the name
+     * @param role       the role
+     */
     public void createUser(String identifier, String password, String name, String role){
+        //step1
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.localhost))
                 .addConverterFactory(GsonConverterFactory.create())
@@ -79,10 +96,12 @@ public class UserCreateActivity extends AppCompatActivity {
 
         Call<UserLoginDTO> call = service.join(userCreateBodyDTO);
 
+        //step2
         call.enqueue(new Callback<UserLoginDTO>() {
             @Override
             public void onResponse(Call<UserLoginDTO> call, Response<UserLoginDTO> response) {
                 if(response.isSuccessful()){
+                    //step3
                     System.out.println("response.body(); = " + response.body().toString());
                     UserLoginDTO result = response.body();
                     Toast.makeText(getApplicationContext(), "회원가입에 성공했습니다.", Toast.LENGTH_SHORT).show();

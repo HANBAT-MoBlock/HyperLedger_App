@@ -9,24 +9,25 @@
 
     <LinearLayout
         android:id="@+id/shopSearchBar"
-        android:background="@drawable/layout_shape"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@drawable/layout_shape"
         android:gravity="center"
-        android:padding="2dp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="20dp">
+        android:padding="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <Button
             android:id="@+id/shopListSearchBtn"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginRight="10dp"
-            android:background="@drawable/search_ico"/>
+            android:background="@drawable/search_ico" />
 
         <EditText
             android:id="@+id/shopListSearchText"
