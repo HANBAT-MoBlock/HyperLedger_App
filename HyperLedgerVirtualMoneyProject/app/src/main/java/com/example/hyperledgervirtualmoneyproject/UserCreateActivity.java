@@ -3,7 +3,6 @@ package com.example.hyperledgervirtualmoneyproject;
 import static android.content.ContentValues.TAG;
 
 import android.os.Bundle;
-import android.security.identity.IdentityCredentialStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -15,7 +14,6 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import com.example.hyperledgervirtualmoneyproject.API.UserApi;
 import com.example.hyperledgervirtualmoneyproject.DTO.JwtToken;
@@ -25,14 +23,15 @@ import com.example.hyperledgervirtualmoneyproject.DTO.UserLoginDTO;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import lombok.extern.slf4j.Slf4j;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-
+/**
+ * The type User create activity.
+ */
 public class UserCreateActivity extends AppCompatActivity {
 
     LinearLayout passwordLayout, idLayout;
@@ -96,7 +95,21 @@ public class UserCreateActivity extends AppCompatActivity {
 
     }
 
+
+    /**
+     * Create user.
+     *
+     * step1: retrofit 설정
+     * step2: API 요청
+     * step3: response 데이터를 받아 메모리에 저장
+     *
+     * @param identifier the identifier
+     * @param password   the password
+     * @param name       the name
+     * @param role       the role
+     */
     public void createUser(String identifier, String password, String name, String role){
+        //step1
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.localhost))
                 .addConverterFactory(GsonConverterFactory.create())
@@ -108,10 +121,12 @@ public class UserCreateActivity extends AppCompatActivity {
 
         Call<UserLoginDTO> call = service.join(userCreateBodyDTO);
 
+        //step2
         call.enqueue(new Callback<UserLoginDTO>() {
             @Override
             public void onResponse(Call<UserLoginDTO> call, Response<UserLoginDTO> response) {
                 if(response.isSuccessful()){
+                    //step3
                     System.out.println("response.body(); = " + response.body().toString());
                     UserLoginDTO result = response.body();
                     Toast.makeText(getApplicationContext(), "회원가입에 성공했습니다.", Toast.LENGTH_SHORT).show();

@@ -155,10 +155,24 @@ public class TransferFragment extends Fragment {
         binding = null;
     }
 
+    /**
+     * Coin transfer service.
+     *
+     * step1: retrofit 설정
+     * step2: API 요청
+     * step3: API 요청의 결과에 따라 스낵바 출력
+     *
+     * exception: jwt토큰이 만료되거나 잘못되었을 경우 액티비티 종료
+     *
+     * @param v                      the v
+     * @param jwt                    the jwt
+     * @param userTransferRequestDTO the user transfer request dto
+     */
     public void coinTransferService(View v, String jwt, UserTransferRequestDTO userTransferRequestDTO){
         Snackbar snackbar = Snackbar.make(v, "전송중...", 10000000);
         snackbar.show();
 
+        //step1
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.localhost))
                 .addConverterFactory(GsonConverterFactory.create())
@@ -168,9 +182,11 @@ public class TransferFragment extends Fragment {
 
         Call<UserTransferDTO> call = service.transfer(jwt, userTransferRequestDTO);
 
+        //step2
         call.enqueue(new Callback<UserTransferDTO>() {
             @Override
             public void onResponse(Call<UserTransferDTO> call, Response<UserTransferDTO> response) {
+                //step3
                 if(response.isSuccessful()){
                     UserTransferDTO result = response.body();
                     snackbar.dismiss();
@@ -181,6 +197,7 @@ public class TransferFragment extends Fragment {
                     Snackbar.make(v, "전송에 살패했습니다.", 2000).show();
                     Log.d(TAG, "onResponse: 실패");
                     try {
+                        //exception
                         String errorMessage = response.errorBody().string();
                         ObjectMapper objectMapper = new ObjectMapper();
                         ErrorBody errorBody = objectMapper.readValue(errorMessage, ErrorBody.class);
@@ -203,29 +220,34 @@ public class TransferFragment extends Fragment {
         });
     }
 
+
+    /**
+     * QR Code Scan
+     *
+     * step1: QR 코드 스캔
+     * step2: 스캔결과를 ObjectMapper를 사용하여 DTO로 매핑
+     * step3: Coin 종류에 따라 스피너 Selection 설정
+     *
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //step1
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if(result != null) {
             if(result.getContents() == null) {
                 Toast.makeText(getActivity(), "Cancelled", Toast.LENGTH_LONG).show();
             } else {
-                //result.getContents 를 이용 데이터 재가공
+                //result.getContents로 결과 출력
                 Toast.makeText(getContext(), "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
-                System.out.println("result.getContents() = " + result.getContents());
-                System.out.println("result = " + result);
-                System.out.println("----------------------------------------------");
                 try {
-                    // JSONParser로 JSONObject로 변환
+                    // JSONParser로 JSONObject로 변환, step2
                     ObjectMapper objectMapper = new ObjectMapper();
-                    QrCreateDTO qrCreateDTO = objectMapper.readValue(result.getContents().toString(), QrCreateDTO.class);
+                    QrCreateDTO qrCreateDTO = objectMapper.readValue(result.getContents(), QrCreateDTO.class);
                     receiver.setText(qrCreateDTO.getReceiverId().toString());
-                    System.out.println("qrCreateDTO.getReceiverId() = " + qrCreateDTO.getReceiverId());
                     coin.setText(qrCreateDTO.getCoinName());
-                    System.out.println("qrCreateDTO.getCoinName() = " + qrCreateDTO.getCoinName());
                     amount.setText(qrCreateDTO.getAmount().toString());
-                    System.out.println("qrCreateDTO.getAmount() = " + qrCreateDTO.getAmount());
 
+                    //step3
                     for (int i = 0; i < coinList.length; i++) {
                         if (coinList[i].equals(qrCreateDTO.getCoinName())) {
                             coinSpinner.setSelection(i);
@@ -241,7 +263,18 @@ public class TransferFragment extends Fragment {
         }
     }
 
+    /**
+     * Get asset service.
+     *
+     * step1: 레트로핏 설정
+     * step2: API 요청
+     * step3: response 결과에서 코인 리스트를 가져와 스피너를 설정
+     *
+     * exception: jwt토큰이 만료되거나 잘못되었을 경우 액티비티 종료
+     *
+     */
     public void getAssetService(){
+        //step1
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.localhost))
                 .addConverterFactory(GsonConverterFactory.create())
@@ -255,10 +288,12 @@ public class TransferFragment extends Fragment {
         Toast toast = Toast.makeText(getContext(), "자산 정보를 불러오는 중...", Toast.LENGTH_LONG);
         toast.show();
 
+        //step2
         call.enqueue(new Callback<UserGetAssetDTO>() {
             @Override
             public void onResponse(Call<UserGetAssetDTO> call, Response<UserGetAssetDTO> response) {
                 if(response.isSuccessful()){
+                    //step3
                     UserGetAssetDTO result = response.body();
                     coinMap = result.getCoin();
                     coinList = coinMap.keySet().toArray(new String[coinMap.size()]);
@@ -272,6 +307,7 @@ public class TransferFragment extends Fragment {
                     Toast.makeText(getContext(), "불러오기 실패", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "onResponse: 실패");
                     try {
+                        //exception
                         String errorMessage = response.errorBody().string();
                         ObjectMapper objectMapper = new ObjectMapper();
                         ErrorBody errorBody = objectMapper.readValue(errorMessage, ErrorBody.class);
