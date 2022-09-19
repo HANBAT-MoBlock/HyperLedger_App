@@ -69,6 +69,8 @@ public class UserCreateActivity extends AppCompatActivity {
                 Log.d(TAG,IdString + String.valueOf(idCheck));
 
                 if (passwordCheck && idCheck) {
+                    passwordLayout.setBackground(getDrawable(R.drawable.text_view_shape));
+                    idLayout.setBackground(getDrawable(R.drawable.text_view_shape));
                     createUser(IdString, passwordString, name.getText().toString(), "ROLE_STUDENT");
                 }else{
                     if(!passwordCheck) {
