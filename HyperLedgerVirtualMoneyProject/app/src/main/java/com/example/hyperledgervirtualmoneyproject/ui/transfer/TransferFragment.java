@@ -198,13 +198,13 @@ public class TransferFragment extends Fragment {
                     Log.d(TAG, "onResponse: 성공, 결과 \n" + result.toString());
 
                     AlertDialog.Builder successDialog = new AlertDialog.Builder(getContext());
-                    successDialog.setMessage("전송이 완료되었습니다. 홈 화면으로 돌아갑니다.")
+                    successDialog.setMessage("전송이 완료되었습니다.")
                             .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    MainActivity mainActivity = (MainActivity) getActivity();
-                                    mainActivity.getSupportFragmentManager().beginTransaction()
-                                            .replace(R.id.container, new HomeFragment()).commit();
+//                                    MainActivity mainActivity = (MainActivity) getActivity();
+//                                    mainActivity.getSupportFragmentManager().beginTransaction()
+//                                            .replace(R.id.container, new HomeFragment()).commit();
                                 }
                             }).create().show();
                 }else{
