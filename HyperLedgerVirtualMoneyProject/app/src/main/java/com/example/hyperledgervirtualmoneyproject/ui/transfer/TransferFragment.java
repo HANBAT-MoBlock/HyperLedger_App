@@ -177,7 +177,6 @@ public class TransferFragment extends Fragment {
         progressDialog.setMessage("전송중입니다..");
         progressDialog.show();
 
-
         //step1
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(getString(R.string.localhost))
@@ -186,6 +185,7 @@ public class TransferFragment extends Fragment {
 
         UserTradeApi service = retrofit.create(UserTradeApi.class);
         Call<UserTransferDTO> call = service.transfer(jwt, userTransferRequestDTO);
+
 
         //step2
         call.enqueue(new Callback<UserTransferDTO>() {
@@ -211,13 +211,13 @@ public class TransferFragment extends Fragment {
                     progressDialog.dismiss();
                     Log.d(TAG, "onResponse: 실패");
                     AlertDialog.Builder successDialog = new AlertDialog.Builder(getContext());
-                    successDialog.setMessage("전송에 실패했습니다. 홈 화면으로 돌아갑니다.")
+                    successDialog.setMessage("전송에 실패했습니다.")
                             .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    MainActivity mainActivity = (MainActivity) getActivity();
-                                    mainActivity.getSupportFragmentManager().beginTransaction()
-                                            .replace(R.id.container, new HomeFragment()).commit();
+//                                    MainActivity mainActivity = (MainActivity) getActivity();
+//                                    mainActivity.getSupportFragmentManager().beginTransaction()
+//                                            .replace(R.id.container, new HomeFragment()).commit();
                                 }
                             }).create().show();
                     try {
